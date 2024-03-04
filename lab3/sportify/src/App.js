@@ -19,7 +19,6 @@ function App() {
       </header>
       <body>
         <p>Sportify</p>
-        <div className="map"></div>
       </body>
 
     </div>
