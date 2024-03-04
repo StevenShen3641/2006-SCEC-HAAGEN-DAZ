@@ -1,4 +1,4 @@
-
+import logo from './images/logo.png'
 import './App.css';
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
         </a>
       </header>
       <body>
+        <img className="logo" src={logo} alt="logo" />
         <p>Sportify</p>
         <div className="map"></div>
       </body>
