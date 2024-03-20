@@ -4,8 +4,17 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
+      <header>
+        <div className="logo-container">
+          <img align="left" className="logo" src={logo} alt="logo" />
+        </div>
+        <div className="menu-container">
+          <button onClick="" className="menu">Home</button>
+          <button onClick="" className="menu">English</button>
+          <button onClick="" className="menu">Help</button>
+          <button onClick="" className="menu">Contact Us</button>
+        </div>
+        {/* <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
@@ -15,11 +24,12 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
       </header>
+
       <body>
-        <img className="logo" src={logo} alt="logo" />
-        <p>Sportify</p>
+        {/* <img className="App-header" src={logo} alt="logo" /> */}
+        {/* <p>Sportify</p> */}
       </body>
 
     </div>
