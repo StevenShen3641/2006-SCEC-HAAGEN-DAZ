@@ -76,3 +76,23 @@
     transform: rotate(360deg);
   }
 }
+
+.map {
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: auto;
+  width: 50%;
+  /* border: 3px solid black; */
+  outline: 3px solid black;
+}
+
+#map {
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: auto;
+  width: 50%;
+  /* border: 3px solid black; */
+  outline: 3px solid black;
+}
