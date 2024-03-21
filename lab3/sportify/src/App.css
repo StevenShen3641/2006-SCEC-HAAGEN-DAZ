@@ -40,6 +40,38 @@
   }
 }
 
+.search {
+  width: 50%; /* You can adjust the width as needed */
+  margin: 2rem auto; /* Center the search bar horizontally and provide top and bottom margin */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.0rem 1.0rem;
+  border-radius: 3rem;
+  background: #e6e9ed;
+}
+
+.search input {
+  flex: 1;
+  border: none;
+  font-size: 1.0rem;
+  font-family: var(--font-raleway);
+  font-weight: 500;
+  padding-right: 1rem;
+
+  outline: none;
+  color: #141313;
+  background: #e8ebee;
+}
+
+.search img {
+  width: 20px;
+  height: 20px;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;

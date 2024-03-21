@@ -1,8 +1,8 @@
 import logo from "./images/logo.png";
 import "./App.css";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
-
-
+import SearchIcon from './search.svg'
+import FilterIcon from './filter-.svg'
 
 (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
   key: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
@@ -12,8 +12,6 @@ import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 });
 
 const google = window.google
-
-
 
 // set map style
 const mapContainerStyle = {
@@ -62,7 +60,7 @@ function App() {
   } else if (!isLoaded) {
     return <div>Loading maps</div>;
   }
-
+  let address;
   return (
     <div className="App">
       <header>
@@ -74,14 +72,13 @@ function App() {
             Home
           </button>
           <button onClick="" className="menu">
-            English
-          </button>
-          <button onClick="" className="menu">
             Help
           </button>
-          <button onClick="" className="menu">
-            Contact Us
-          </button>
+        </div>
+        <div className = 'search'>
+                <input value = {address} placeholder = "Search for address"></input>
+                <img src ={FilterIcon} alt = "filter"></img>
+                <img src={SearchIcon} alt="search"></img>
         </div>
         {/* <p>
           Edit <code>src/App.js</code> and save to reload.
