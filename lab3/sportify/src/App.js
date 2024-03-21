@@ -3,8 +3,10 @@ import "./App.css";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import SearchIcon from './search.svg'
 import FilterIcon from './filter-.svg'
+import React, { useState } from "react";
 
-(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+
+(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
   key: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
   v: "weekly",
   // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
@@ -16,7 +18,7 @@ const google = window.google
 // set map style
 const mapContainerStyle = {
   width: "50vw",
-  height: "300px",
+  height: "500px",
 };
 
 // set map center
@@ -55,12 +57,23 @@ function App() {
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
   });
 
+  //inital value for showFilter and sliderValue
+  const [showFilter, setShowFilter] = useState(false);
+  const [sliderValue, setSliderValue] = useState(2);
+
   if (loadError) {
     return <div>Error loading maps</div>;
   } else if (!isLoaded) {
     return <div>Loading maps</div>;
   }
   let address;
+
+
+
+  const filterToggle = () => {
+    setShowFilter(!showFilter);
+  };
+
   return (
     <div className="App">
       <header>
@@ -72,37 +85,35 @@ function App() {
             Home
           </button>
           <button onClick="" className="menu">
-            Help
+            Contact Us
           </button>
         </div>
-        <div className = 'search'>
-                <input value = {address} placeholder = "Search for address"></input>
-                <img src ={FilterIcon} alt = "filter"></img>
-                <img src={SearchIcon} alt="search"></img>
+        <div className='search'>
+          <input value={address} placeholder="Search for address"></input>
+          <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
+          <img src={SearchIcon} alt="search"></img>
         </div>
-        {/* <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
+        {showFilter && //if showFilter == true, show filter options
+          <div className="filter-popup">
+            <p align="left">Radius: {sliderValue}Km</p>
+            <div className="slidecontainer">
+              {/* onChange={(e) => setSliderValue(e.target.value)} : the event that trigger onChange will update the slidervalue with the current slider value */}
+              <input type="range" min="1" max="50" value={sliderValue} className="slider" onChange={(e) => setSliderValue(e.target.value)} />
+            </div>
+            <p align="left">Mode Of Transport:</p>
+          </div>
+        }
       </header>
 
       <body>
-        {/* <img className="App-header" src={logo} alt="logo" /> */}
-        {/* <p>Sportify</p> */}
+
         <div className="map">
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             zoom={13}
             center={center}
           >
-            <MarkerF position={center} label={'Nanyang Technological University'}/>
+            <MarkerF position={center} label={'Nanyang Technological University'} />
           </GoogleMap>
         </div>
       </body>

@@ -20,16 +20,21 @@
   height: 30px;
   padding: 5px;
   background-color: #333333;
-
+  display: flex;
+  /* Aligns items with space between them */
+  justify-content: space-between;
+  /* Centers items vertically */
+  align-items: center;
 }
 
 .menu {
   color: #ffffff;
-  background-color: transparent;
+  font-family: var(--font-raleway);
   /* Set background color to transparent */
-  border: none;
+  background-color: transparent;
   /* Remove border */
-  margin-right: 150px;
+  border: none;
+  cursor: pointer;
 }
 
 /*Adjust website for smaller screen*/
@@ -41,8 +46,10 @@
 }
 
 .search {
-  width: 50%; /* You can adjust the width as needed */
-  margin: 2rem auto; /* Center the search bar horizontally and provide top and bottom margin */
+  width: 50%;
+  /* You can adjust the width as needed */
+  margin: 2rem auto;
+  /* Center the search bar horizontally and provide top and bottom margin */
 
   display: flex;
   align-items: center;
@@ -72,6 +79,65 @@
   margin: 0 0.5rem;
   cursor: pointer;
 }
+
+.filter-popup {
+  width: 30%;
+  height: 15%;
+  position: fixed;
+  top: 30%;
+  /*move the left position of element 50% of the containing element  */
+  left: 60%;
+  /*-50% means moving the element to the left and up 50% of its container*/
+  transform: translate(-50%, -50%);
+  background-color: #F1EBE5;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  /* Ensure the popup is on top of other content, high z index value are display on top of elements with low z index value */
+  z-index: 999;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+
+.slider {
+  /*remove default styling property*/
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #000000;
+  outline: none;
+  opacity: 0.7;
+  /*transistion effect*/
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -110,7 +176,7 @@
 }
 
 .map {
-  height: 300px;
+  height: 500px;
   border-radius: 10px;
   overflow: hidden;
   margin: auto;
@@ -120,7 +186,7 @@
 }
 
 #map {
-  height: 300px;
+  height: 500px;
   border-radius: 10px;
   overflow: hidden;
   margin: auto;
