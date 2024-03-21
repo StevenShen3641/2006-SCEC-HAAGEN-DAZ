@@ -99,6 +99,8 @@ function Home() {
     setShowFilter(!showFilter);
   };
 
+  const address = '';
+
   return (
     <div className="App">
       <header>
@@ -142,9 +144,12 @@ function Home() {
 
       <body>
         {/* map */}
-        {!isLoaded && <div>Loading maps</div>} ||
-        {loadError && <div>Error loading maps</div>} ||
-        {
+
+        {!isLoaded ? (
+          <div>Loading maps</div>
+        ) : loadError ? (
+          <div>Error loading maps</div>
+        ) : (
           <div className="map">
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
@@ -157,7 +162,7 @@ function Home() {
               />
             </GoogleMap>
           </div>
-        }
+        )}
       </body>
     </div>
   );
