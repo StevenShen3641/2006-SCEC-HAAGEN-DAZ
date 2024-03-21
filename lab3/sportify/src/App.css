@@ -29,6 +29,7 @@
 
 .menu {
   color: #ffffff;
+  text-decoration: none;
   font-family: var(--font-raleway);
   /* Set background color to transparent */
   background-color: transparent;
