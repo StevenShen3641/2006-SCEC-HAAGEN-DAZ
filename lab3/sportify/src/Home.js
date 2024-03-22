@@ -91,9 +91,13 @@ function Home() {
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
   });
 
-  // initial value for showFilter and sliderValue
+  // initial value 
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
+  const [PTvalue, setPTvalue] = useState(true);
+  const [Walkvalue, setWalkvalue] = useState(true);
+  const [Carvalue, setCarvalue] = useState(true);
+  const [MBvalue, setMBvalue] = useState(true);
 
   const filterToggle = () => {
     setShowFilter(!showFilter);
@@ -136,15 +140,26 @@ function Home() {
                 className="slider"
                 onChange={(e) => setSliderValue(e.target.value)}
               />
+              <p align="left">Mode Of Transport:</p>
+              <div className="buttonContainer">
+                <input className="filterbutton" type="checkbox" checked={Walkvalue} onChange={(e) => setWalkvalue(e.target.checked)} />
+                <label>Walk</label>
+
+                <input className="filterbutton" type="checkbox" checked={Carvalue} onChange={(e) => setCarvalue(e.target.checked)} />
+                <label>Car</label>
+
+                <input className="filterbutton" type="checkbox" checked={MBvalue} onChange={(e) => setMBvalue(e.target.checked)} />
+                <label>Motorbike</label>
+
+                <input className="filterbutton" type="checkbox" checked={PTvalue} onChange={(e) => setPTvalue(e.target.checked)} />
+                <label>Public Transport</label>
+              </div>
             </div>
-            <p align="left">Mode Of Transport:</p>
           </div>
         )}
       </header>
-
       <body>
         {/* map */}
-
         {!isLoaded ? (
           <div>Loading maps</div>
         ) : loadError ? (

@@ -17,6 +17,7 @@ function Contact() {
             </header>
             <body>
                 <h1>Contact us</h1>
+                hello
             </body>
         </div>
     );
