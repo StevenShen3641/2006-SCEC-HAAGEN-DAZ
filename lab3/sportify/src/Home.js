@@ -5,7 +5,7 @@ import SearchIcon from "./search.svg";
 import FilterIcon from "./filter-.svg";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import Popup from "./Popup";
 ((g) => {
   var h,
     a,
@@ -91,20 +91,18 @@ function Home() {
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
   });
 
-  // initial value 
+  // initial value
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [PTvalue, setPTvalue] = useState(true);
   const [Walkvalue, setWalkvalue] = useState(true);
   const [Carvalue, setCarvalue] = useState(true);
   const [MBvalue, setMBvalue] = useState(true);
-
+  const [buttonPopup, setButtonPopup] = useState(false);
   const filterToggle = () => {
     setShowFilter(!showFilter);
   };
-
-  const address = '';
-
+  let address;
   return (
     <div className="App">
       <header>
@@ -118,10 +116,18 @@ function Home() {
             Home{" "}
           </Link>
           {/* contact us will lead us to contact page*/}
-          <Link to="/Contact" className="menu">
+          {/*<Link to="/Contact" className="menu">
             {" "}
             Contact Us{" "}
-          </Link>
+  </Link>*/}
+          <button className="contact-us" onClick={() => setButtonPopup(true)}>
+            Contact Us
+          </button>
+          <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+            <h1>Having Trouble?</h1>
+            <h2>Contact us through GitHub:</h2>
+            <h3>@randallctc</h3>
+          </Popup>
         </div>
         <div className="search">
           <input value={address} placeholder="Search for address"></input>
@@ -142,16 +148,36 @@ function Home() {
               />
               <p align="left">Mode Of Transport:</p>
               <div className="buttonContainer">
-                <input className="filterbutton" type="checkbox" checked={Walkvalue} onChange={(e) => setWalkvalue(e.target.checked)} />
+                <input
+                  className="filterbutton"
+                  type="checkbox"
+                  checked={Walkvalue}
+                  onChange={(e) => setWalkvalue(e.target.checked)}
+                />
                 <label>Walk</label>
 
-                <input className="filterbutton" type="checkbox" checked={Carvalue} onChange={(e) => setCarvalue(e.target.checked)} />
+                <input
+                  className="filterbutton"
+                  type="checkbox"
+                  checked={Carvalue}
+                  onChange={(e) => setCarvalue(e.target.checked)}
+                />
                 <label>Car</label>
 
-                <input className="filterbutton" type="checkbox" checked={MBvalue} onChange={(e) => setMBvalue(e.target.checked)} />
+                <input
+                  className="filterbutton"
+                  type="checkbox"
+                  checked={MBvalue}
+                  onChange={(e) => setMBvalue(e.target.checked)}
+                />
                 <label>Motorbike</label>
 
-                <input className="filterbutton" type="checkbox" checked={PTvalue} onChange={(e) => setPTvalue(e.target.checked)} />
+                <input
+                  className="filterbutton"
+                  type="checkbox"
+                  checked={PTvalue}
+                  onChange={(e) => setPTvalue(e.target.checked)}
+                />
                 <label>Public Transport</label>
               </div>
             </div>
