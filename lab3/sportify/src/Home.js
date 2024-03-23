@@ -31,7 +31,7 @@ const mapContainerStyle = {
 };
 
 // set map center
-const PlacesAutocomplete = ({ setAddr, setCenter }) => {
+const PlacesAutocomplete = ({ setAddress, setCenter }) => {
   const {
     ready,
     value,
@@ -46,7 +46,7 @@ const PlacesAutocomplete = ({ setAddr, setCenter }) => {
     clearSuggestions();
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
-    setAddr(address);
+    setAddress(address);
     setCenter({ lat: lat, lng: lng });
     setComboboxList(false);
   };
@@ -91,7 +91,7 @@ function Home() {
   // set map values
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [addr, setAddr] = useState('Nanyang Technological University')
+  const [address, setAddress] = useState('Nanyang Technological University')
   const [center, setCenter] = useState({
     lat: 1.348610224209925,
     lng: 103.68319907301334,
@@ -129,8 +129,6 @@ function Home() {
     setShowFilter(!showFilter);
   };
 
-  let address;
-
   return (
     <div className="App">
       <header>
@@ -155,13 +153,13 @@ function Home() {
         <div className={`search gradual ${isVisible ? "visible" : ""}`}>
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
-            {isLoaded ? <PlacesAutocomplete setAddr={setAddr} setCenter={setCenter} /> : null}
+            {isLoaded ? <PlacesAutocomplete setAddress={setAddress} setCenter={setCenter} /> : null}
           </div>
 
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
           <img src={SearchIcon} alt="search"></img>
         </div>
-        <Searchfilter
+        <Searchfilter 
           sliderValue={sliderValue}
           setSliderValue={setSliderValue}
           showFilter={showFilter}
@@ -197,7 +195,6 @@ function Home() {
                   options={{
                     boxStyle: {
                       width: "30%",
-                      height: "auto",
                       borderRadius: "6px",
                       fontSize: "15px",
                       backgroundColor: "white",
@@ -206,7 +203,7 @@ function Home() {
                   }}
                 >
                   <div>
-                    <p>{addr}</p>
+                    <p>{address}</p>
                     <button
                       className="close-button"
                       onClick={() => {
