@@ -14,6 +14,17 @@ import {
   InfoWindow,
 } from "@vis.gl/react-google-maps";
 
+// set map style
+const mapContainerStyle = {
+  width: "50vw",
+  height: "500px",
+};
+
+// set map center
+const center = {
+  lat: 1.348610224209925,
+  lng: 103.68319907301334,
+};
 
 function Home() {
 
@@ -28,11 +39,6 @@ function Home() {
   const filterToggle = () => {
     setShowFilter(!showFilter);
   };
-
-  // set map initialized information
-  const position = { lat: 1.3493824645163768, lng: 103.68300588667157 };
-  const [open, setOpen]= useState(false)
-
   let address;
 
   return (
@@ -57,8 +63,9 @@ function Home() {
           </Popup>
         </div>
         <div className="search">
+          <Autocomplete>
             <input value={address} placeholder="Search for address"></input>
-
+          </Autocomplete>
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
           <img src={SearchIcon} alt="search"></img>
         </div>
@@ -93,12 +100,7 @@ function Home() {
             >
               <AdvancedMarker
                 position={{ lat: 1.3493824645163768, lng: 103.68300588667157 }}
-                onClick={() => setOpen(true)}
               />
-              {open && <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-                <p>Nanyang Technological University</p>
-                </InfoWindow>}
-
             </Map>
           </APIProvider>
         </div>

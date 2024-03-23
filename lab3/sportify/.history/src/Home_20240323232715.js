@@ -95,9 +95,7 @@ function Home() {
                 position={{ lat: 1.3493824645163768, lng: 103.68300588667157 }}
                 onClick={() => setOpen(true)}
               />
-              {open && <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-                <p>Nanyang Technological University</p>
-                </InfoWindow>}
+              
 
             </Map>
           </APIProvider>

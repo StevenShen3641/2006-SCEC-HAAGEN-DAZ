@@ -29,9 +29,9 @@ function Home() {
     setShowFilter(!showFilter);
   };
 
-  // set map initialized information
+// set map center
+
   const position = { lat: 1.3493824645163768, lng: 103.68300588667157 };
-  const [open, setOpen]= useState(false)
 
   let address;
 
@@ -93,12 +93,7 @@ function Home() {
             >
               <AdvancedMarker
                 position={{ lat: 1.3493824645163768, lng: 103.68300588667157 }}
-                onClick={() => setOpen(true)}
               />
-              {open && <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-                <p>Nanyang Technological University</p>
-                </InfoWindow>}
-
             </Map>
           </APIProvider>
         </div>

@@ -1,21 +1,33 @@
 import logo from "./images/logo.png";
 import "./App.css";
+import { GoogleMap, MarkerF, useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 import SearchIcon from "./search.svg";
 import FilterIcon from "./filter-.svg";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Popup from "./Popup";
 import Searchfilter from "./Searchfilter";
-import {
-  APIProvider,
-  Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
-} from "@vis.gl/react-google-maps";
+
+// set map style
+const mapContainerStyle = {
+  width: "50vw",
+  height: "500px",
+};
+
+// set map center
+const center = {
+  lat: 1.348610224209925,
+  lng: 103.68319907301334,
+};
 
 
 function Home() {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
+    libraries: ['places'],
+  })
+
+
 
   // initial value
   const [showFilter, setShowFilter] = useState(false);
@@ -28,13 +40,12 @@ function Home() {
   const filterToggle = () => {
     setShowFilter(!showFilter);
   };
-
-  // set map initialized information
-  const position = { lat: 1.3493824645163768, lng: 103.68300588667157 };
-  const [open, setOpen]= useState(false)
-
   let address;
 
+  if (!isLoaded) {
+    return <div></div>
+  }
+  
   return (
     <div className="App">
       <header>
@@ -57,8 +68,9 @@ function Home() {
           </Popup>
         </div>
         <div className="search">
+          <Autocomplete>
             <input value={address} placeholder="Search for address"></input>
-
+          </Autocomplete>
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
           <img src={SearchIcon} alt="search"></img>
         </div>
@@ -76,34 +88,26 @@ function Home() {
           MBvalue={MBvalue}
           setMBvalue={setMBvalue}
         />
-      </header>
+      </header >
       <body>
-        <div className="map">
-          <APIProvider apiKey={"AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg"}>
-            <Map
-              style={{ width: "100%", height: "500px" }}
-              defaultCenter={{
-                lat: 1.3493824645163768,
-                lng: 103.68300588667157,
-              }}
-              defaultZoom={13}
-              gestureHandling={"auto"}
-              disableDefaultUI={true}
-              mapId={"e6103122d831e416"}
+        {/* map */}
+        {isLoaded && (
+          <div className="map">
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              zoom={13}
+              center={center}
+              
             >
-              <AdvancedMarker
-                position={{ lat: 1.3493824645163768, lng: 103.68300588667157 }}
-                onClick={() => setOpen(true)}
+              <MarkerF
+                position={center}
+                label={"Nanyang Technological University"}
               />
-              {open && <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-                <p>Nanyang Technological University</p>
-                </InfoWindow>}
-
-            </Map>
-          </APIProvider>
-        </div>
+            </GoogleMap>
+          </div>
+        )}
       </body>
-    </div>
+    </div >
   );
 }
 
