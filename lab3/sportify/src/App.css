@@ -80,76 +80,6 @@
   cursor: pointer;
 }
 
-.filter-popup {
-  width: 30%;
-  height: 19%;
-  position: fixed;
-  top: 33%;
-  /*move the left position of element 50% of the containing element  */
-  left: 60%;
-  /*-50% means moving the element to the left and up 50% of its container*/
-  transform: translate(-50%, -50%);
-  background-color: #f1ebe5;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 5px;
-  /* Ensure the popup is on top of other content, high z index value are display on top of elements with low z index value */
-  z-index: 999;
-}
-
-.slidecontainer {
-  width: 100%;
-}
-
-.slider {
-  /*remove default styling property*/
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 15px;
-  border-radius: 5px;
-  background: #000000;
-  outline: none;
-  opacity: 0.7;
-  /*transistion effect*/
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-.buttonContainer {
-  text-align: left, center;
-  font-family: var(--font-raleway);
-  display: flex;
-  align-items: center;
-  /* Align items vertically center */
-}
-
-.filterbutton {
-  cursor: pointer;
-  margin-right: 5px;
-}
-
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -213,8 +143,10 @@
   outline: none;
   cursor: pointer;
   color: #fff;
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+  padding: 0;
+  /* Remove padding */
+  margin: 0;
+  /* Remove margin */
   font-size: inherit;
   font-family: inherit;
 }
