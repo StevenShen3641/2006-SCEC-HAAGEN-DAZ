@@ -1,5 +1,15 @@
+.gradual {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.gradual.visible {
+  opacity: 1;
+}
+
 .App {
   text-align: center;
+  
 }
 
 .logo {
@@ -64,6 +74,7 @@
 
 
 .search input {
+  width: 100%;
   flex: 1;
   border: none;
   font-size: 1rem;
@@ -133,17 +144,18 @@
   outline: 3px solid black;
 }
 
-#map {
-  height: 500px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  /* border: 3px solid black; */
-  outline: 3px solid black;
+.close-button {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  color: #fff;
+  background-color: grey;
+  border: 2px solid grey;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  cursor: pointer;
 }
 
 .contact-us {

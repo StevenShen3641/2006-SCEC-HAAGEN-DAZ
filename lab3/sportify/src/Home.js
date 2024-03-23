@@ -2,20 +2,120 @@ import logo from "./images/logo.png";
 import "./App.css";
 import SearchIcon from "./search.svg";
 import FilterIcon from "./filter-.svg";
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Popup from "./Popup";
 import Searchfilter from "./Searchfilter";
 import {
-  APIProvider,
-  Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
-} from "@vis.gl/react-google-maps";
+  GoogleMap,
+  useLoadScript,
+  MarkerF,
+  InfoBox,
+} from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
+// set map style
+const mapContainerStyle = {
+  width: "50vw",
+  height: "500px",
+};
 
+// set map center
+const PlacesAutocomplete = ({ setAddr, setCenter }) => {
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+  const [comboboxList, setComboboxList] = useState(true);
+
+  const handleSelect = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    setAddr(address);
+    setCenter({ lat: lat, lng: lng });
+    setComboboxList(false);
+  };
+
+  return (
+    <Combobox onSelect={handleSelect}>
+      <ComboboxInput
+        placeholder={"Search for address"}
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          setComboboxList(true);
+        }}
+        disabled={!ready}
+      />
+      {comboboxList && (
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      )}
+    </Combobox>
+  );
+};
 
 function Home() {
+  // set init effect
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    // set the visibility to true after a delay to trigger the transition
+    const timeout = setTimeout(() => {
+      setIsVisible(true);
+    }, 80);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // set map values
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [addr, setAddr] = useState('Nanyang Technological University')
+  const [center, setCenter] = useState({
+    lat: 1.348610224209925,
+    lng: 103.68319907301334,
+  });
+
+  const { isLoaded, loadError } = useLoadScript({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
+    libraries: ["places"],
+  });
+
+  let mapMessage;
+
+  if (loadError) {
+    mapMessage = (
+      <div style={{ fontSize: "20px", textAlign: "center" }}>
+        Error loading maps
+      </div>
+    );
+  } else if (!isLoaded) {
+    mapMessage = (
+      <div style={{ fontSize: "20px", textAlign: "center" }}>Loading maps</div>
+    );
+  }
 
   // initial value
   const [showFilter, setShowFilter] = useState(false);
@@ -28,10 +128,6 @@ function Home() {
   const filterToggle = () => {
     setShowFilter(!showFilter);
   };
-
-  // set map initialized information
-  const position = { lat: 1.3493824645163768, lng: 103.68300588667157 };
-  const [open, setOpen]= useState(false)
 
   let address;
 
@@ -56,8 +152,11 @@ function Home() {
             <h3>@randallctc</h3>
           </Popup>
         </div>
-        <div className="search">
-            <input value={address} placeholder="Search for address"></input>
+        <div className={`search gradual ${isVisible ? "visible" : ""}`}>
+          <div style={{ width: "100%" }}>
+            {/* lazy initialization */}
+            {isLoaded ? <PlacesAutocomplete setAddr={setAddr} setCenter={setCenter} /> : null}
+          </div>
 
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
           <img src={SearchIcon} alt="search"></img>
@@ -78,29 +177,49 @@ function Home() {
         />
       </header>
       <body>
-        <div className="map">
-          <APIProvider apiKey={"AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg"}>
-            <Map
-              style={{ width: "100%", height: "500px" }}
-              defaultCenter={{
-                lat: 1.3493824645163768,
-                lng: 103.68300588667157,
-              }}
-              defaultZoom={13}
-              gestureHandling={"auto"}
-              disableDefaultUI={true}
-              mapId={"e6103122d831e416"}
+        <div className={`map gradual ${isVisible ? "visible" : ""}`}>
+          {mapMessage || (
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              zoom={13}
+              center={center}
+              clickableIcons={false}
             >
-              <AdvancedMarker
-                position={{ lat: 1.3493824645163768, lng: 103.68300588667157 }}
-                onClick={() => setOpen(true)}
+              <MarkerF
+                position={center}
+                onClick={() => {
+                  setOpen(true);
+                }}
               />
-              {open && <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-                <p>Nanyang Technological University</p>
-                </InfoWindow>}
-
-            </Map>
-          </APIProvider>
+              {open && (
+                <InfoBox
+                  position={center}
+                  options={{
+                    boxStyle: {
+                      width: "30%",
+                      height: "auto",
+                      borderRadius: "6px",
+                      fontSize: "15px",
+                      backgroundColor: "white",
+                    },
+                    closeBoxURL: "",
+                  }}
+                >
+                  <div>
+                    <p>{addr}</p>
+                    <button
+                      className="close-button"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </InfoBox>
+              )}
+            </GoogleMap>
+          )}
         </div>
       </body>
     </div>
