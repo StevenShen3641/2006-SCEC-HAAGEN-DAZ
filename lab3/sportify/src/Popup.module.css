@@ -12,7 +12,7 @@
   z-index: 9999;
 }
 
-.popup-inner {
+.popupInner {
   position: relative;
   padding: 32px;
   width: 300px; /* Adjust width as needed */
@@ -21,7 +21,7 @@
   border-radius: 10px; /* Add border-radius to make it a square box */
 }
 
-.popup-inner .close-btn {
+.popupInner .closeBtn {
   position: absolute;
   top: 16px;
   right: 16px;

@@ -1,17 +1,18 @@
 import React from "react";
-import "./Popup.css";
+import styles from "./Popup.module.css";
 function Popup(props) {
   return props.trigger ? (
-    <div className="popup">
-      <div className="popup-inner">
-        <button className="close-btn" onClick={() => props.setTrigger(false)}>
+    <div className={styles.popup}>
+      <div className={styles.popupInner}>
+        <button className={styles.closeBtn} onClick={() => props.setTrigger(false)}>
           Exit
         </button>
-        <div className="content">{props.children}</div>
+        <div className={styles.content}>{props.children}</div>
       </div>
     </div>
   ) : (
     ""
   );
 }
+
 export default Popup;

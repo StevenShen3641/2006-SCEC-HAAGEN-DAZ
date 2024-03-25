@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Searchfilter.css";
+import styles from "./SearchFilter.module.css";
 
 function SearchFilter(props) {
   const [isVisible, setIsVisible] = useState(false);
@@ -10,29 +10,29 @@ function SearchFilter(props) {
   }, [props.showFilter]);
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
-    if (isVisible === false) {
+    if (isVisible === false && props.showFilter === true) {
         const timeout = setTimeout(() => {
         setIsVisible(true);
-        }, 80);
+        }, );
         return () => clearTimeout(timeout);
     }
   }, [props.showFilter]);
   return props.showFilter ? (
-    <div className={`filter-popup gradual ${isVisible ? "visible" : ""}`}>
+    <div className={`${styles.filterPopup} ${styles.gradual} ${isVisible ? styles.visible : ""}`}>
       <p align="left">Radius: {props.sliderValue}Km</p>
-      <div className="slidecontainer">
+      <div className={styles.slideContainer}>
         <input
           type="range"
           min="1"
           max="50"
           value={props.sliderValue}
-          className="slider"
+          className={styles.slider}
           onChange={(e) => props.setSliderValue(e.target.value)}
         />
         <p align="left">Mode Of Transport:</p>
-        <div className="buttonContainer">
+        <div className={styles.buttonContainer}>
           <input
-            className="filterbutton"
+            className={styles.filterButton}
             type="checkbox"
             checked={props.Walkvalue}
             onChange={(e) => props.setWalkvalue(e.target.checked)}
@@ -40,15 +40,15 @@ function SearchFilter(props) {
           <label>Walk</label>
 
           <input
-            className="filterbutton"
+            className={styles.filterButton}
             type="checkbox"
             checked={props.Carvalue}
             onChange={(e) => props.setCarvalue(e.target.checked)}
           />
-          <label className="Buttonlabel">Car</label>
+          <label className={styles.Buttonlabel}>Car</label>
 
           <input
-            className="filterbutton"
+            className={styles.filterButton}
             type="checkbox"
             checked={props.MBvalue}
             onChange={(e) => props.setMBvalue(e.target.checked)}
@@ -56,7 +56,7 @@ function SearchFilter(props) {
           <label>Motorbike</label>
 
           <input
-            className="filterbutton"
+            className={styles.filterButton}
             type="checkbox"
             checked={props.PTvalue}
             onChange={(e) => props.setPTvalue(e.target.checked)}

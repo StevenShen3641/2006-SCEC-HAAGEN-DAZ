@@ -5,7 +5,7 @@ import FilterIcon from "./filter-.svg";
 import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Popup from "./Popup";
-import Searchfilter from "./Searchfilter";
+import SearchFilter from "./SearchFilter";
 import {
   GoogleMap,
   useLoadScript,
@@ -24,13 +24,14 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+
+
 // set map style
 const mapContainerStyle = {
   width: "50vw",
   height: "500px",
 };
 
-// set map center
 const PlacesAutocomplete = ({ setAddress, setCenter }) => {
   const {
     ready,
@@ -64,7 +65,7 @@ const PlacesAutocomplete = ({ setAddress, setCenter }) => {
       />
       {comboboxList && (
         <ComboboxPopover>
-          <ComboboxList>
+          <ComboboxList className="">
             {status === "OK" &&
               data.map(({ place_id, description }) => (
                 <ComboboxOption key={place_id} value={description} />
@@ -83,16 +84,15 @@ function Home() {
     // set the visibility to true after a delay to trigger the transition
     const timeout = setTimeout(() => {
       setIsVisible(true);
-    }, 80);
+    }, );
 
     return () => clearTimeout(timeout);
   }, []);
 
   // set map values
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
   const [address, setAddress] = useState('Nanyang Technological University')
-  const [center, setCenter] = useState({
+  const [center, setCenter] = useState({  // set map center
     lat: 1.348610224209925,
     lng: 103.68319907301334,
   });
@@ -159,7 +159,7 @@ function Home() {
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
           <img src={SearchIcon} alt="search"></img>
         </div>
-        <Searchfilter 
+        <SearchFilter 
           sliderValue={sliderValue}
           setSliderValue={setSliderValue}
           showFilter={showFilter}
@@ -217,6 +217,7 @@ function Home() {
               )}
             </GoogleMap>
           )}
+          <div className="slider"> </div>
         </div>
       </body>
     </div>
