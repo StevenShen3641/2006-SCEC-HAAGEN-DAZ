@@ -6,75 +6,18 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Popup from "./Popup";
 import SearchFilter from "./SearchFilter";
+import SearchBar from "./SearchBar"
 import {
   GoogleMap,
   useLoadScript,
   MarkerF,
   InfoBox,
 } from "@react-google-maps/api";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
-
 
 // set map style
 const mapContainerStyle = {
   width: "50vw",
   height: "500px",
-};
-
-const PlacesAutocomplete = ({ setAddress, setCenter }) => {
-  const {
-    ready,
-    value,
-    setValue,
-    suggestions: { status, data },
-    clearSuggestions,
-  } = usePlacesAutocomplete();
-  const [comboboxList, setComboboxList] = useState(true);
-
-  const handleSelect = async (address) => {
-    setValue(address, false);
-    clearSuggestions();
-    const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
-    setAddress(address);
-    setCenter({ lat: lat, lng: lng });
-    setComboboxList(false);
-  };
-
-  return (
-    <Combobox onSelect={handleSelect}>
-      <ComboboxInput
-        placeholder={"Search for address"}
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-          setComboboxList(true);
-        }}
-        disabled={!ready}
-      />
-      {comboboxList && (
-        <ComboboxPopover>
-          <ComboboxList className="">
-            {status === "OK" &&
-              data.map(({ place_id, description }) => (
-                <ComboboxOption key={place_id} value={description} />
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      )}
-    </Combobox>
-  );
 };
 
 function Home() {
@@ -153,7 +96,7 @@ function Home() {
         <div className={`search gradual ${isVisible ? "visible" : ""}`}>
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
-            {isLoaded ? <PlacesAutocomplete setAddress={setAddress} setCenter={setCenter} /> : null}
+            {isLoaded ? <SearchBar setAddress={setAddress} setCenter={setCenter} /> : null}
           </div>
 
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
