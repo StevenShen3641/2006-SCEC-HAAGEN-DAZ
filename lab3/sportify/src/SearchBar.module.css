@@ -1,0 +1,21 @@
+
+
+[data-reach-combobox-popover] {
+    /* position: relative; */
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-reach-combobox-list] li {
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+[data-reach-combobox-list] li:hover {
+    border-radius: 8px;
+    padding: 10px;
+}

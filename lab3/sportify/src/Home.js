@@ -2,7 +2,7 @@ import logo from "./images/logo.png";
 import "./App.css";
 import SearchIcon from "./search.svg";
 import FilterIcon from "./filter-.svg";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Popup from "./Popup";
 import SearchFilter from "./SearchFilter";
