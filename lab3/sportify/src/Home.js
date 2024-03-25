@@ -13,7 +13,6 @@ import {
   MarkerF,
   InfoBox,
   CircleF,
-  Circle,
 } from "@react-google-maps/api";
 
 // set map style
@@ -35,8 +34,8 @@ function Home() {
   }, []);
 
   // set map values
-  const [open, setOpen] = useState(false);
-  const [address, setAddress] = useState("Nanyang Technological University");
+  const [infoBox, setInfoBox] = useState(true);
+  const [address, setAddress] = useState("");
   const [center, setCenter] = useState({
     // set map center
     lat: 1.348610224209925,
@@ -71,23 +70,41 @@ function Home() {
   const [Carvalue, setCarvalue] = useState(true);
   const [MBvalue, setMBvalue] = useState(true);
   const [buttonPopup, setButtonPopup] = useState(false);
+
   const filterToggle = () => {
-    setShowFilter(!showFilter);
+    if (address) {
+      setSliderValue(2)
+      setShowFilter(!showFilter);
+      setInfoBox(false);
+    }
   };
+  useEffect(() => {
+    if (!address) {
+      setInfoBox(true);
+      setShowFilter(false);
+    }
+    return;
+  }, [address]);
 
   // auto zoom
   useEffect(() => {
+    let newCenter = { lat: center.lat, lng: center.lng };
+    setCenter(newCenter);
     if (showFilter) {
-      if (sliderValue < 2) {
-        setZoom(15) 
+      if (sliderValue < 1) {
+        setZoom(16)
+      } else if (sliderValue < 2) {
+        setZoom(15);
+      } else if (sliderValue < 3) {
+        setZoom(14);
       } else if (sliderValue < 5) {
-        setZoom(13) 
+        setZoom(13);
       } else if (sliderValue < 8) {
-        setZoom(12)
+        setZoom(12);
       } else if (sliderValue < 18) {
-        setZoom(11)
+        setZoom(11);
       } else {
-        setZoom(10)
+        setZoom(10);
       }
     } else {
       setZoom(15);
@@ -120,7 +137,11 @@ function Home() {
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
             {isLoaded ? (
-              <SearchBar setAddress={setAddress} setCenter={setCenter} />
+              <SearchBar
+                address={address}
+                setAddress={setAddress}
+                setCenter={setCenter}
+              />
             ) : null}
           </div>
 
@@ -150,32 +171,37 @@ function Home() {
               zoom={zoom}
               center={center}
               clickableIcons={false}
+              options={{
+                disableDefaultUI: true,
+                scrollwheel: true,
+              }}
             >
-              <MarkerF
-                position={center}
-                onClick={() => {
-                  setOpen(true);
-                }}
-              />
-              {showFilter && (
+              {address && (
+                <MarkerF
+                  position={center}
+                  onClick={() => {
+                    setInfoBox(true);
+                  }}
+                />
+              )}
+              {address && showFilter && (
                 <CircleF
                   center={center}
                   radius={sliderValue * 1000}
                   options={{
                     strokeOpacity: 0.5,
-
                     strokeWeight: 1,
                     clickable: false,
                     draggable: false,
                     editable: false,
                     visible: true,
-                    fillOpacity: 0.05,
+                    fillOpacity: 0.1,
                     strokeColor: "red",
                     fillColor: "red",
                   }}
                 />
               )}
-              {open && (
+              {address && infoBox && (
                 <InfoBox
                   position={center}
                   options={{
@@ -193,7 +219,7 @@ function Home() {
                     <button
                       className="close-button"
                       onClick={() => {
-                        setOpen(false);
+                        setInfoBox(false);
                       }}
                     >
                       Close

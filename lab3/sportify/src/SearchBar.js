@@ -3,7 +3,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import styles from "./SearchBar.module.css"
+import styles from "./SearchBar.module.css";
 import {
   Combobox,
   ComboboxInput,
@@ -13,7 +13,7 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-const SearchBar = ({ setAddress, setCenter }) => {
+const SearchBar = ({ address, setAddress, setCenter }) => {
   const {
     ready,
     value,
@@ -34,19 +34,21 @@ const SearchBar = ({ setAddress, setCenter }) => {
   };
 
   return (
-    <Combobox onSelect={handleSelect}>
+    <Combobox onSelect={handleSelect} >
       <ComboboxInput
         placeholder={"Search for address"}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
-          setComboboxList(true);
+          setComboboxList(true)
+          setAddress('')
         }}
+        
         disabled={!ready}
       />
       {comboboxList && (
-        <ComboboxPopover >
-          <ComboboxList >
+        <ComboboxPopover>
+          <ComboboxList>
             {status === "OK" &&
               data.map(({ place_id, description }) => (
                 <ComboboxOption key={place_id} value={description} />

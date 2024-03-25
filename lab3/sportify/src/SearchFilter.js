@@ -11,23 +11,34 @@ function SearchFilter(props) {
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
     if (isVisible === false && props.showFilter === true) {
-        const timeout = setTimeout(() => {
+      const timeout = setTimeout(() => {
         setIsVisible(true);
-        }, );
-        return () => clearTimeout(timeout);
+      });
+      return () => clearTimeout(timeout);
     }
   }, [props.showFilter]);
   return props.showFilter ? (
-    <div className={`${styles.filterPopup} ${styles.gradual} ${isVisible ? styles.visible : ""}`}>
+    <div
+      className={`${styles.filterPopup} ${styles.gradual} ${
+        isVisible ? styles.visible : ""
+      }`}
+    >
       <p align="left">Radius: {props.sliderValue}Km</p>
       <div className={styles.slideContainer}>
         <input
           type="range"
-          min="1"
+          min="0"
           max="50"
-          value={props.sliderValue}
+          step={1}
+          value={props.sliderValue === 0.5 ? 0 : props.sliderValue}
           className={styles.slider}
-          onChange={(e) => props.setSliderValue(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value < 1) {
+              props.setSliderValue(0.5);
+            } else {
+              props.setSliderValue(e.target.value);
+            }
+          }}
         />
         <p align="left">Mode Of Transport:</p>
         <div className={styles.buttonContainer}>
