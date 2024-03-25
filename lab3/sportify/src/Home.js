@@ -7,6 +7,7 @@ import { Link, createMemoryRouter } from "react-router-dom";
 import Popup from "./Popup";
 import SearchFilter from "./SearchFilter";
 import SearchBar from "./SearchBar";
+import PopupComponent from './PopupComponent';
 import {
   GoogleMap,
   useLoadScript,
@@ -110,11 +111,7 @@ function Home() {
           <button className="contact-us" onClick={() => setButtonPopup(true)}>
             Contact Us
           </button>
-          <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-            <h1>Having Trouble?</h1>
-            <h2>Contact us through GitHub:</h2>
-            <h3>@randallctc</h3>
-          </Popup>
+          <PopupComponent buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
         </div>
         <div className={`search gradual ${isVisible ? "visible" : ""}`}>
           <div style={{ width: "100%" }}>
