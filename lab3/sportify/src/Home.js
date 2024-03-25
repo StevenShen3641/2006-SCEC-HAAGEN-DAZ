@@ -3,15 +3,17 @@ import "./App.css";
 import SearchIcon from "./search.svg";
 import FilterIcon from "./filter-.svg";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, createMemoryRouter } from "react-router-dom";
 import Popup from "./Popup";
 import SearchFilter from "./SearchFilter";
-import SearchBar from "./SearchBar"
+import SearchBar from "./SearchBar";
 import {
   GoogleMap,
   useLoadScript,
   MarkerF,
   InfoBox,
+  CircleF,
+  Circle,
 } from "@react-google-maps/api";
 
 // set map style
@@ -27,19 +29,20 @@ function Home() {
     // set the visibility to true after a delay to trigger the transition
     const timeout = setTimeout(() => {
       setIsVisible(true);
-    }, );
+    });
 
     return () => clearTimeout(timeout);
   }, []);
 
   // set map values
   const [open, setOpen] = useState(false);
-  const [address, setAddress] = useState('Nanyang Technological University')
-  const [center, setCenter] = useState({  // set map center
+  const [address, setAddress] = useState("Nanyang Technological University");
+  const [center, setCenter] = useState({
+    // set map center
     lat: 1.348610224209925,
     lng: 103.68319907301334,
   });
-
+  const [zoom, setZoom] = useState(15);
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
@@ -72,6 +75,26 @@ function Home() {
     setShowFilter(!showFilter);
   };
 
+  // auto zoom
+  useEffect(() => {
+    if (showFilter) {
+      if (sliderValue < 2) {
+        setZoom(15) 
+      } else if (sliderValue < 5) {
+        setZoom(13) 
+      } else if (sliderValue < 8) {
+        setZoom(12)
+      } else if (sliderValue < 18) {
+        setZoom(11)
+      } else {
+        setZoom(10)
+      }
+    } else {
+      setZoom(15);
+    }
+    return;
+  }, [showFilter, sliderValue]);
+
   return (
     <div className="App">
       <header>
@@ -96,13 +119,15 @@ function Home() {
         <div className={`search gradual ${isVisible ? "visible" : ""}`}>
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
-            {isLoaded ? <SearchBar setAddress={setAddress} setCenter={setCenter} /> : null}
+            {isLoaded ? (
+              <SearchBar setAddress={setAddress} setCenter={setCenter} />
+            ) : null}
           </div>
 
           <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
           <img src={SearchIcon} alt="search"></img>
         </div>
-        <SearchFilter 
+        <SearchFilter
           sliderValue={sliderValue}
           setSliderValue={setSliderValue}
           showFilter={showFilter}
@@ -122,7 +147,7 @@ function Home() {
           {mapMessage || (
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
-              zoom={13}
+              zoom={zoom}
               center={center}
               clickableIcons={false}
             >
@@ -132,6 +157,24 @@ function Home() {
                   setOpen(true);
                 }}
               />
+              {showFilter && (
+                <CircleF
+                  center={center}
+                  radius={sliderValue * 1000}
+                  options={{
+                    strokeOpacity: 0.5,
+
+                    strokeWeight: 1,
+                    clickable: false,
+                    draggable: false,
+                    editable: false,
+                    visible: true,
+                    fillOpacity: 0.05,
+                    strokeColor: "red",
+                    fillColor: "red",
+                  }}
+                />
+              )}
               {open && (
                 <InfoBox
                   position={center}
