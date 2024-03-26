@@ -23,8 +23,8 @@ function SearchFilter(props) {
         isVisible ? styles.visible : ""
       }`}
     >
-      <p align="left">Radius: {props.sliderValue}Km</p>
       <div className={styles.slideContainer}>
+      <p align="left">Radius: {props.sliderValue}Km</p>
         <input
           type="range"
           min="0"
@@ -42,36 +42,44 @@ function SearchFilter(props) {
         />
         <p align="left">Mode Of Transport:</p>
         <div className={styles.buttonContainer}>
+          <div>
           <input
             className={styles.filterButton}
             type="checkbox"
             checked={props.Walkvalue}
             onChange={(e) => props.setWalkvalue(e.target.checked)}
           />
+          </div>
           <label>Walk</label>
 
+          <div>
           <input
             className={styles.filterButton}
             type="checkbox"
             checked={props.Carvalue}
             onChange={(e) => props.setCarvalue(e.target.checked)}
           />
+          </div>
           <label className={styles.Buttonlabel}>Car</label>
 
+          <div>
           <input
             className={styles.filterButton}
             type="checkbox"
             checked={props.MBvalue}
             onChange={(e) => props.setMBvalue(e.target.checked)}
           />
+          </div>
           <label>Motorbike</label>
 
+          <div>
           <input
             className={styles.filterButton}
             type="checkbox"
             checked={props.PTvalue}
             onChange={(e) => props.setPTvalue(e.target.checked)}
           />
+          </div>
           <label>Public Transport</label>
         </div>
       </div>
