@@ -1,10 +1,10 @@
 import logo from "./images/logo.png";
 import "./App.css";
+import Data from './data1.csv';
 import SearchIcon from "./search.svg";
 import FilterIcon from "./filter-.svg";
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter } from "react-router-dom";
-import Popup from "./Popup";
 import SearchFilter from "./SearchFilter";
 import SearchBar from "./SearchBar";
 import PopupComponent from './PopupComponent';
@@ -15,15 +15,29 @@ import {
   InfoBox,
   CircleF,
 } from "@react-google-maps/api";
-
+import Papa from 'papaparse';
 // set map style
 const mapContainerStyle = {
   width: "50vw",
   height: "500px",
 };
-
 function Home() {
-  // set init effect
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(Data);
+      const reader = response.body.getReader();
+      const result = await reader.read();
+      const decoder = new TextDecoder("utf-8");
+      const csvData = decoder.decode(result.value);
+      const parsedData = Papa.parse(csvData,{
+        header: true,
+        skipEmptyLines:true
+      }).data;
+      setData(parsedData);
+    };
+    fetchData();
+  }, []);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
@@ -33,7 +47,6 @@ function Home() {
 
     return () => clearTimeout(timeout);
   }, []);
-
   // set map values
   const [infoBox, setInfoBox] = useState(true);
   const [address, setAddress] = useState("");
@@ -133,7 +146,6 @@ function Home() {
     }, 2);
     return () => clearInterval(interval);
   }, [sliderValue]);
-
   return (
     <div className="App">
       <header>
