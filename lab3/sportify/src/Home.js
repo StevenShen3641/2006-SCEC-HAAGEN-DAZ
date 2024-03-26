@@ -66,6 +66,7 @@ function Home() {
   // initial value
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
+  const [circleRadius, setCircleRadius] = useState(0);
   const [PTvalue, setPTvalue] = useState(true);
   const [Walkvalue, setWalkvalue] = useState(true);
   const [Carvalue, setCarvalue] = useState(true);
@@ -74,7 +75,7 @@ function Home() {
 
   const filterToggle = () => {
     if (address) {
-      setSliderValue(2)
+      setSliderValue(2);
       setShowFilter(!showFilter);
       setInfoBox(false);
     }
@@ -93,13 +94,13 @@ function Home() {
     setCenter(newCenter);
     if (showFilter) {
       if (sliderValue < 1) {
-        setZoom(16)
-      } else if (sliderValue < 2) {
-        setZoom(15);
+        setZoom(16);
+        // } else if (sliderValue < 2) {
+        //   setZoom(15);
       } else if (sliderValue < 3) {
         setZoom(14);
-      } else if (sliderValue < 5) {
-        setZoom(13);
+        // } else if (sliderValue < 5) {
+        //   setZoom(13);
       } else if (sliderValue < 8) {
         setZoom(12);
       } else if (sliderValue < 18) {
@@ -112,6 +113,26 @@ function Home() {
     }
     return;
   }, [showFilter, sliderValue]);
+
+  useEffect(() => {
+    let startRadius = circleRadius;
+    let endRadius = sliderValue * 1000;
+    let step = (endRadius - startRadius) / 120; // Adjust 20 to control the speed
+    let currentRadius = startRadius;
+
+    const interval = setInterval(() => {
+      currentRadius += step;
+      if (Math.abs(currentRadius - endRadius) <= Math.abs(step)) {
+        // If close enough to the end radius, set it exactly and clear the interval
+        setCircleRadius(endRadius);
+        clearInterval(interval);
+      } else {
+        // Otherwise, continue updating the radius
+        setCircleRadius(currentRadius);
+      }
+    }, 2);
+    return () => clearInterval(interval);
+  }, [sliderValue]);
 
   return (
     <div className="App">
@@ -128,7 +149,10 @@ function Home() {
           <button className="contact-us" onClick={() => setButtonPopup(true)}>
             Contact Us
           </button>
-          <PopupComponent buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
+          <PopupComponent
+            buttonPopup={buttonPopup}
+            setButtonPopup={setButtonPopup}
+          />
         </div>
         <div className={`search gradual ${isVisible ? "visible" : ""}`}>
           <div style={{ width: "100%" }}>
@@ -141,9 +165,12 @@ function Home() {
               />
             ) : null}
           </div>
-
-          <img onClick={filterToggle} src={FilterIcon} alt="filter"></img>
-          <img src={SearchIcon} alt="search"></img>
+          <div className="search-button" onClick={filterToggle}>
+            <img src={FilterIcon} alt="filter"></img>
+          </div>
+          <div className="search-button">
+            <img src={SearchIcon} alt="search"></img>
+          </div>
         </div>
         <SearchFilter
           sliderValue={sliderValue}
@@ -184,10 +211,10 @@ function Home() {
               {address && showFilter && (
                 <CircleF
                   center={center}
-                  radius={sliderValue * 1000}
+                  radius={circleRadius}
                   options={{
                     strokeOpacity: 0.5,
-                    strokeWeight: 1,
+                    strokeWeight: 2,
                     clickable: false,
                     draggable: false,
                     editable: false,
@@ -203,24 +230,36 @@ function Home() {
                   position={center}
                   options={{
                     boxStyle: {
-                      width: "30%",
+                      width: "40%",
                       borderRadius: "6px",
                       fontSize: "15px",
-                      backgroundColor: "white",
+                      backgroundColor: "#fffffa",
                     },
                     closeBoxURL: "",
                   }}
                 >
                   <div>
-                    <p>{address}</p>
-                    <button
-                      className="close-button"
-                      onClick={() => {
-                        setInfoBox(false);
+                    <p
+                      style={{
+                        padding: "7px",
                       }}
                     >
-                      Close
-                    </button>
+                      {address}
+                    </p>
+                    <div
+                      style={{
+                        padding: "7px",
+                      }}
+                    >
+                      <button
+                        className="close-button"
+                        onClick={() => {
+                          setInfoBox(false);
+                        }}
+                      >
+                        Close
+                      </button>
+                    </div>
                   </div>
                 </InfoBox>
               )}
