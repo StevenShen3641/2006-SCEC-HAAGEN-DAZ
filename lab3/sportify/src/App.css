@@ -69,16 +69,14 @@
   margin-left: auto;
   margin-right: auto;
   /* Center the search bar horizontally and provide top and bottom margin */
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 1rem 1rem;
   border-radius: 3rem;
-  background: hsl(214, 16%, 92%);
+  background-color: hsl(214, 16%, 92%);
+  outline: 10px red;
 }
-
 
 .search input {
   width: 100%;
@@ -112,6 +110,11 @@
 
 .search-button:hover {
   background-color: #c6c6c6;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.warning {
+
 }
 
 /* .App-logo {
@@ -152,6 +155,7 @@
 }
 
 .map {
+  user-select: none;
   height: 500px;
   border-radius: 10px;
   overflow: hidden;
@@ -160,23 +164,35 @@
   margin-left: auto;
   margin-right: auto;
   width: 50%;
-  /* border: 3px solid black; */
-  outline: 3px solid black;
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+
+  /* outline: 3px solid black; */
 }
 
+.map:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
 
 .close-button {
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
   border-radius: 3px;
   color: #fff;
-  background-color: grey;
-  border: 1px grey;
+  background-color: #c5c5c5;
+  border: 1px ;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #a5a5a5;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
 }
 
 

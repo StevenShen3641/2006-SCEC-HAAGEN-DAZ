@@ -7,7 +7,7 @@ import { Link, createMemoryRouter } from "react-router-dom";
 import Popup from "./Popup";
 import SearchFilter from "./SearchFilter";
 import SearchBar from "./SearchBar";
-import PopupComponent from './PopupComponent';
+import PopupComponent from "./PopupComponent";
 import {
   GoogleMap,
   useLoadScript,
@@ -154,7 +154,9 @@ function Home() {
             setButtonPopup={setButtonPopup}
           />
         </div>
-        <div className={`search gradual ${isVisible ? "visible" : ""}`}>
+        <div
+          className={`search gradual ${isVisible ? "visible" : ""} warning`}
+        >
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
             {isLoaded ? (
@@ -225,6 +227,7 @@ function Home() {
                   }}
                 />
               )}
+
               {address && infoBox && (
                 <InfoBox
                   position={center}
