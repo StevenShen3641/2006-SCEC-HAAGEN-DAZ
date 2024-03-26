@@ -1,4 +1,4 @@
-import logo from "./images/logo.png";
+import logo from "./static/images/logo.png";
 import "./App.css";
 import Data from './data1.csv';
 import SearchIcon from "./search.svg";
