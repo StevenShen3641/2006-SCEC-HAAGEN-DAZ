@@ -3,7 +3,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import styles from "./SearchBar.module.css";
+import styles from "./static/SearchBar.module.css";
 import {
   Combobox,
   ComboboxInput,

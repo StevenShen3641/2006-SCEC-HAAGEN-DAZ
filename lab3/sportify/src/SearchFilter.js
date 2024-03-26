@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./SearchFilter.module.css";
+import styles from "./static/SearchFilter.module.css";
 
 function SearchFilter(props) {
   const [isVisible, setIsVisible] = useState(false);
