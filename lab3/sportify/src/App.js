@@ -1,9 +1,9 @@
-import Contact from "./Contact";
+import API from "./API";
 import Home from "./pages/Home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  
+
   return (
     <div className="App">
       {/*set up routing to navigate between the different pages*/}
@@ -12,7 +12,7 @@ function App() {
           {/* for home page */}
           <Route path="/" element={<Home />} />
           {/* for contact us page */}
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/API" element={<API />} />
         </Routes>
       </Router>
     </div>

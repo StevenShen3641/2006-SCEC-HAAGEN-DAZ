@@ -4,7 +4,7 @@ import Data from '../../data/data1.csv';
 import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 import React, { useState, useEffect } from "react";
-import { Link, createMemoryRouter } from "react-router-dom";
+import { Link, createMemoryRouter, useNavigate } from "react-router-dom";
 import SearchFilter from "./SearchFilter";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
@@ -25,9 +25,8 @@ const mapContainerStyle = {
   height: "500px",
 };
 
-
-
 function Home() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -174,7 +173,7 @@ function Home() {
           <div className="search-button" onClick={filterToggle}>
             <img src={FilterIcon} alt="filter"></img>
           </div>
-          <div className="search-button">
+          <div className="search-button" onClick={() => { navigate("/API") }}>
             <img src={SearchIcon} alt="search"></img>
           </div>
         </div>
