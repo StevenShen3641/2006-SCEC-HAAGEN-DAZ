@@ -1,13 +1,15 @@
-import logo from "../../assets/images/logo.png";
+
 import "../../assets/App.css";
 import Data from '../../data/data1.csv';
 import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter } from "react-router-dom";
-import SearchFilter from "../../SearchFilter";
+import SearchFilter from "./SearchFilter";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import PopupComponent from "../Contact/PopupComponent";
+import TopNavBar from "../../components/TopNavBar/TopNavbar";
+
+
 import {
   GoogleMap,
   useLoadScript,
@@ -17,11 +19,14 @@ import {
 } from "@react-google-maps/api";
 import Papa from 'papaparse';
 
-// set map style
+// set map style object
 const mapContainerStyle = {
   width: "50vw",
   height: "500px",
 };
+
+
+
 function Home() {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -85,6 +90,8 @@ function Home() {
   const [Walkvalue, setWalkvalue] = useState(true);
   const [Carvalue, setCarvalue] = useState(true);
   const [MBvalue, setMBvalue] = useState(true);
+
+  //for popup
   const [buttonPopup, setButtonPopup] = useState(false);
 
   const filterToggle = () => {
@@ -150,23 +157,7 @@ function Home() {
   return (
     <div className="App">
       <header>
-        <div className="logo-container">
-          <img align="left" className="logo" src={logo} alt="logo" />
-        </div>
-        <div className="menu-container">
-          {/* Home will lead us to homepage */}
-          <Link to="/" className="menu">
-            {" "}
-            Home{" "}
-          </Link>
-          <button className="contact-us" onClick={() => setButtonPopup(true)}>
-            Contact Us
-          </button>
-          <PopupComponent
-            buttonPopup={buttonPopup}
-            setButtonPopup={setButtonPopup}
-          />
-        </div>
+        <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup}/>
         <div
           className={`search gradual ${isVisible ? "visible" : ""} warning`}
         >
