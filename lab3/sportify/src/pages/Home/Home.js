@@ -1,13 +1,13 @@
-import logo from "./static/images/logo.png";
-import "./App.css";
-import Data from './data1.csv';
-import SearchIcon from "./search.svg";
-import FilterIcon from "./filter-.svg";
+import logo from "../../assets/images/logo.png";
+import "../../assets/App.css";
+import Data from '../../data/data1.csv';
+import SearchIcon from "../../assets/search.svg";
+import FilterIcon from "../../assets/filter-.svg";
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter } from "react-router-dom";
-import SearchFilter from "./SearchFilter";
-import SearchBar from "./SearchBar";
-import PopupComponent from "./PopupComponent";
+import SearchFilter from "../../SearchFilter";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import PopupComponent from "../Contact/PopupComponent";
 import {
   GoogleMap,
   useLoadScript,
@@ -16,6 +16,7 @@ import {
   CircleF,
 } from "@react-google-maps/api";
 import Papa from 'papaparse';
+
 // set map style
 const mapContainerStyle = {
   width: "50vw",
