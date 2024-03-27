@@ -36,9 +36,9 @@ function Home() {
       const result = await reader.read();
       const decoder = new TextDecoder("utf-8");
       const csvData = decoder.decode(result.value);
-      const parsedData = Papa.parse(csvData,{
+      const parsedData = Papa.parse(csvData, {
         header: true,
-        skipEmptyLines:true
+        skipEmptyLines: true
       }).data;
       setData(parsedData);
     };
@@ -96,7 +96,7 @@ function Home() {
 
   const filterToggle = () => {
     if (address) {
-      setSliderValue(2);
+      setSliderValue(sliderValue);
       setShowFilter(!showFilter);
       setInfoBox(false);
     }
@@ -157,7 +157,7 @@ function Home() {
   return (
     <div className="App">
       <header>
-        <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup}/>
+        <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
         <div
           className={`search gradual ${isVisible ? "visible" : ""} warning`}
         >
