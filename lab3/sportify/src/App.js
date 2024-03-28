@@ -1,6 +1,6 @@
-import API from "./API";
 import Home from "./pages/Home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import API from "./pages/Home/API";
 
 function App() {
 
