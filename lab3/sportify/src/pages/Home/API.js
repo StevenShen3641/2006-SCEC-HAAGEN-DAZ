@@ -57,8 +57,8 @@ console.log('Fromatted Current Date:', currentDateFormatted);
 
 
 fetchRainfallReadings(currentDateTimeFormatted, currentDateFormatted)
-  .then(rain => {
-    console.log('Rainfall readings:', rain);
+  .then(data => {
+    console.log('Rainfall readings:', data);
   })
   .catch(error => {
     console.error('Error:', error);
