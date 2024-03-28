@@ -1,6 +1,5 @@
-
 import "../../assets/App.css";
-import Data from '../../data/data1.csv';
+import Data from "../../data/data2.csv";
 import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 import React, { useState, useEffect } from "react";
@@ -8,8 +7,8 @@ import { Link, createMemoryRouter, useNavigate } from "react-router-dom";
 import SearchFilter from "./SearchFilter";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-
-
+import useCSVData from "../../data/csvData.js";
+import calculateDistance from "./distanceCalculator.js";
 import {
   GoogleMap,
   useLoadScript,
@@ -17,32 +16,16 @@ import {
   InfoBox,
   CircleF,
 } from "@react-google-maps/api";
-import Papa from 'papaparse';
 
 // set map style object
 const mapContainerStyle = {
   width: "50vw",
   height: "500px",
 };
-
+const libraries = ["places"];
 function Home() {
+  const csvData = useCSVData();
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(Data);
-      const reader = response.body.getReader();
-      const result = await reader.read();
-      const decoder = new TextDecoder("utf-8");
-      const csvData = decoder.decode(result.value);
-      const parsedData = Papa.parse(csvData, {
-        header: true,
-        skipEmptyLines: true
-      }).data;
-      setData(parsedData);
-    };
-    fetchData();
-  }, []);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
@@ -64,7 +47,7 @@ function Home() {
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   let mapMessage;
@@ -153,13 +136,29 @@ function Home() {
     }, 2);
     return () => clearInterval(interval);
   }, [sliderValue]);
+  //Filter locations in radius
+  const [filteredData, setFilteredData] = useState([]);
+  {
+    /*
+  useEffect(() => {
+    if (center && center.lat && center.lng) {
+      const filtered = csvData.filter(
+        (item) => calculateDistance(center, item) <= sliderValue
+      );
+      setFilteredData(filtered);
+    }
+  }, [sliderValue, center]);
+  useEffect(() => {
+    console.log(filteredData[0]);
+  }, [filteredData]);
+*/
+  }
+  console.log(csvData[0]);
   return (
     <div className="App">
       <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
-        <div
-          className={`search gradual ${isVisible ? "visible" : ""} warning`}
-        >
+        <div className={`search gradual ${isVisible ? "visible" : ""} warning`}>
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
             {isLoaded ? (
@@ -173,7 +172,12 @@ function Home() {
           <div className="search-button" onClick={filterToggle}>
             <img src={FilterIcon} alt="filter"></img>
           </div>
-          <div className="search-button" onClick={() => { navigate("/API") }}>
+          <div
+            className="search-button"
+            onClick={() => {
+              navigate("/API");
+            }}
+          >
             <img src={SearchIcon} alt="search"></img>
           </div>
         </div>
