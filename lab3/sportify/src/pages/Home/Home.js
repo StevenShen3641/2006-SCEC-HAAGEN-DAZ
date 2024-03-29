@@ -14,7 +14,7 @@ import { useLoadScript } from "@react-google-maps/api";
 
 const libraries = ["places"];
 
-function Home() {
+function Home({buttonPopup, setButtonPopup}) {
   const csvData = useCSVData();
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
@@ -50,8 +50,7 @@ function Home() {
   const [Carvalue, setCarvalue] = useState(true);
   const [MBvalue, setMBvalue] = useState(true);
 
-  //for popup
-  const [buttonPopup, setButtonPopup] = useState(false);
+
 
   const filterToggle = () => {
     if (address) {
