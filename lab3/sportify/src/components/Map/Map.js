@@ -1,7 +1,6 @@
 import "../../assets/App.css";
 import {
   GoogleMap,
-  useLoadScript,
   MarkerF,
   InfoBox,
   CircleF,
@@ -18,14 +17,16 @@ const Map = ({
   address,
   center,
   infoBox,
+  isLoaded,
+  loadError,
   setInfoBox,
   sliderValue,
   showFilter,
-  mapMessage,
   zoom,
   circleRadius,
   setZoom,
   setCenter,
+  setCircleRadius,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -36,6 +37,21 @@ const Map = ({
 
     return () => clearTimeout(timeout);
   }, []);
+
+  let mapMessage;
+
+  if (loadError) {
+    mapMessage = (
+      <div style={{ fontSize: "20px", textAlign: "center" }}>
+        Error loading maps
+      </div>
+    );
+  } else if (!isLoaded) {
+    mapMessage = (
+      <div style={{ fontSize: "20px", textAlign: "center" }}>Loading maps</div>
+    );
+  }
+
   // auto zoom
   useEffect(() => {
     let newCenter = { lat: center.lat, lng: center.lng };
@@ -49,7 +65,7 @@ const Map = ({
         setZoom(14);
         // } else if (sliderValue < 5) {
         //   setZoom(13);
-      } else if (sliderValue < 8) {
+      } else if (sliderValue < 9) {
         setZoom(12);
       } else if (sliderValue < 18) {
         setZoom(11);
@@ -61,6 +77,27 @@ const Map = ({
     }
     return;
   }, [showFilter, sliderValue]);
+
+  // gradual circle change
+  useEffect(() => {
+    let startRadius = circleRadius;
+    let endRadius = sliderValue * 1000;
+    let step = (endRadius - startRadius) / 120; // Adjust 20 to control the speed
+    let currentRadius = startRadius;
+
+    const interval = setInterval(() => {
+      currentRadius += step;
+      if (Math.abs(currentRadius - endRadius) <= Math.abs(step)) {
+        // If close enough to the end radius, set it exactly and clear the interval
+        setCircleRadius(endRadius);
+        clearInterval(interval);
+      } else {
+        // Otherwise, continue updating the radius
+        setCircleRadius(currentRadius);
+      }
+    }, 2);
+    return () => clearInterval(interval);
+  }, [sliderValue]);
   return (
     <div className={`map gradual ${isVisible ? "visible" : ""}`}>
       {mapMessage || (

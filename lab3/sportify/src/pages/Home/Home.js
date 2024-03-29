@@ -11,12 +11,11 @@ import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import useCSVData from "../../data/csvData.js";
 import calculateDistance from "./distanceCalculator.js";
 import {
-  GoogleMap,
   useLoadScript,
-  MarkerF,
-  InfoBox,
-  CircleF,
 } from "@react-google-maps/api";
+
+
+const libraries = ["places"]
 
 function Home() {
   const csvData = useCSVData();
@@ -42,22 +41,10 @@ function Home() {
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-    libraries: ["places"],
+    libraries: libraries,
   });
 
-  let mapMessage;
 
-  if (loadError) {
-    mapMessage = (
-      <div style={{ fontSize: "20px", textAlign: "center" }}>
-        Error loading maps
-      </div>
-    );
-  } else if (!isLoaded) {
-    mapMessage = (
-      <div style={{ fontSize: "20px", textAlign: "center" }}>Loading maps</div>
-    );
-  }
 
   // initial value
   const [showFilter, setShowFilter] = useState(false);
@@ -86,25 +73,6 @@ function Home() {
     return;
   }, [address]);
 
-  useEffect(() => {
-    let startRadius = circleRadius;
-    let endRadius = sliderValue * 1000;
-    let step = (endRadius - startRadius) / 120; // Adjust 20 to control the speed
-    let currentRadius = startRadius;
-
-    const interval = setInterval(() => {
-      currentRadius += step;
-      if (Math.abs(currentRadius - endRadius) <= Math.abs(step)) {
-        // If close enough to the end radius, set it exactly and clear the interval
-        setCircleRadius(endRadius);
-        clearInterval(interval);
-      } else {
-        // Otherwise, continue updating the radius
-        setCircleRadius(currentRadius);
-      }
-    }, 2);
-    return () => clearInterval(interval);
-  }, [sliderValue]);
   //Filter locations in radius
   const [filteredData, setFilteredData] = useState([]);
   {
@@ -171,14 +139,16 @@ function Home() {
             address={address}
             center={center}
             infoBox={infoBox}
+            isLoaded={isLoaded}
+            loadError={loadError}
             setInfoBox={setInfoBox}
             sliderValue={sliderValue}
             showFilter={showFilter}
-            mapMessage={mapMessage}
             zoom={zoom}
             circleRadius={circleRadius}
             setZoom={setZoom}
             setCenter={setCenter}
+            setCircleRadius={setCircleRadius}
           />
         ) : null}
       </body>
