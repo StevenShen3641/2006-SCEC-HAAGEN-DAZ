@@ -1,7 +1,5 @@
 import "../../assets/App.css";
 import Data from "../../data/data2.csv";
-import SearchIcon from "../../assets/search.svg";
-import FilterIcon from "../../assets/filter-.svg";
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter, useNavigate } from "react-router-dom";
 import SearchFilter from "./SearchFilter";
@@ -93,7 +91,7 @@ function Home({buttonPopup, setButtonPopup}) {
     <div className="App">
       <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
-        <div className={`search gradual ${isVisible ? "visible" : ""} warning`}>
+        <div className={` ${isVisible ? "visible" : ""} warning`}>
           <div style={{ width: "100%" }}>
             {/* lazy initialization */}
             {isLoaded ? (
@@ -101,20 +99,14 @@ function Home({buttonPopup, setButtonPopup}) {
                 address={address}
                 setAddress={setAddress}
                 setCenter={setCenter}
+                filterToggle={()=>filterToggle()}
+                searchAction={() => {
+                  navigate("/SearchResults");
+                }}
               />
             ) : null}
           </div>
-          <div className="search-button" onClick={filterToggle}>
-            <img src={FilterIcon} alt="filter"></img>
-          </div>
-          <div
-            className="search-button"
-            onClick={() => {
-              navigate("/SearchResults");
-            }}
-          >
-            <img src={SearchIcon} alt="search"></img>
-          </div>
+
         </div>
         <SearchFilter
           sliderValue={sliderValue}

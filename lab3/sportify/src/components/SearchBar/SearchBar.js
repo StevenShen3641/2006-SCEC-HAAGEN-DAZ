@@ -12,8 +12,10 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+import SearchIcon from "../../assets/search.svg";
+import FilterIcon from "../../assets/filter-.svg";
 
-const SearchBar = ({ address, setAddress, setCenter }) => {
+const SearchBar = ({ address, setAddress, setCenter, searchAction, filterToggle }) => {
   const {
     ready,
     value,
@@ -34,7 +36,8 @@ const SearchBar = ({ address, setAddress, setCenter }) => {
   };
 
   return (
-    <Combobox onSelect={handleSelect} >
+    <div className={`${styles.search} ${styles.gradual}`}>
+    <Combobox  onSelect={handleSelect} >
       <ComboboxInput
         placeholder={"Search for address"}
         value={value}
@@ -57,6 +60,15 @@ const SearchBar = ({ address, setAddress, setCenter }) => {
         </ComboboxPopover>
       )}
     </Combobox>
+    <div className={styles.button} onClick={filterToggle}>
+          <img src={FilterIcon} alt="filter"></img>
+    </div>
+      <div
+          className={styles.button}
+          onClick={searchAction}>
+        <img src={SearchIcon} alt="search"></img>
+      </div>
+      </div>
   );
 };
 
