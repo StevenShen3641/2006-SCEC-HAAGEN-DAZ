@@ -1,4 +1,4 @@
-.SearchEntry{
+.SearchEntry {
     display: flex;
 }
 
@@ -8,8 +8,9 @@
 }
 */
 
-.side{
-    height: 200px;
+.side {
+    height: 300px;
+    width: 100%;
     border: 1px solid #000;
     margin: 10px;
 }
