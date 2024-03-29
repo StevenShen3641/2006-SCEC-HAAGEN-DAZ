@@ -1,8 +1,4 @@
-export function calculateDistance(center, item) {
-  const lat1 = center.lat;
-  const lon1 = center.lng;
-  const lat2 = item.x;
-  const lon2 = item.y;
+export function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // Radius of the Earth in km
   const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert degrees to radians
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -16,4 +12,5 @@ export function calculateDistance(center, item) {
   const distance = R * c; // Distance in km
   return distance;
 }
+
 export default calculateDistance;

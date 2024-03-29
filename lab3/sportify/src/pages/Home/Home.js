@@ -138,22 +138,26 @@ function Home() {
   }, [sliderValue]);
   //Filter locations in radius
   const [filteredData, setFilteredData] = useState([]);
-  {
-    /*
   useEffect(() => {
-    if (center && center.lat && center.lng) {
+    if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
+      setFilteredData([]);
       const filtered = csvData.filter(
-        (item) => calculateDistance(center, item) <= sliderValue
+        (item) =>
+          calculateDistance(center.lat, center.lng, item.Y, item.X) <=
+          sliderValue
       );
       setFilteredData(filtered);
     }
-  }, [sliderValue, center]);
-  useEffect(() => {
-    console.log(filteredData[0]);
-  }, [filteredData]);
-*/
+  }, [sliderValue, center, csvData]);
+  {
+    /* Use to check if filtering locations is working
+    useEffect(() => {
+      if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
+        console.log(filteredData);
+      }
+    }, [filteredData, center, csvData]);
+  }*/
   }
-  console.log(csvData[0]);
   return (
     <div className="App">
       <header>
