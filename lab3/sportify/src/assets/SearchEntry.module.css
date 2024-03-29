@@ -1,0 +1,15 @@
+.SearchEntry{
+    display: flex;
+}
+
+/* .col{
+    flex: 1;
+    border: 2px solid;
+}
+*/
+
+.side{
+    height: 200px;
+    border: 1px solid #000;
+    margin: 10px;
+}

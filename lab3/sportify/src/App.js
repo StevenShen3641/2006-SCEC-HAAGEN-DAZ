@@ -1,6 +1,7 @@
 import Home from "./pages/Home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import API from "./pages/Home/API";
+import SearchResults from "./pages/SearchResults/SearchResults";
 
 function App() {
 
@@ -11,8 +12,8 @@ function App() {
         <Routes>
           {/* for home page */}
           <Route path="/" element={<Home />} />
-          {/* for contact us page */}
-          <Route path="/API" element={<API />} />
+          {/* for results page */}
+          <Route path="/SearchResults" element={<SearchResults />} />
         </Routes>
       </Router>
     </div>

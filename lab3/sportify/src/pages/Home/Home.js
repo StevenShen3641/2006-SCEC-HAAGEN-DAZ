@@ -175,7 +175,7 @@ function Home() {
           <div
             className="search-button"
             onClick={() => {
-              navigate("/API");
+              navigate("/SearchResults");
             }}
           >
             <img src={SearchIcon} alt="search"></img>
