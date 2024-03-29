@@ -5,6 +5,7 @@ import FilterIcon from "../../assets/filter-.svg";
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter, useNavigate } from "react-router-dom";
 import SearchFilter from "./SearchFilter";
+import Map from "../../components/Map/Map";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import useCSVData from "../../data/csvData.js";
@@ -17,12 +18,6 @@ import {
   CircleF,
 } from "@react-google-maps/api";
 
-// set map style object
-const mapContainerStyle = {
-  width: "50vw",
-  height: "500px",
-};
-const libraries = ["places"];
 function Home() {
   const csvData = useCSVData();
   const navigate = useNavigate();
@@ -47,7 +42,7 @@ function Home() {
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-    libraries: libraries,
+    libraries: ["places"],
   });
 
   let mapMessage;
@@ -91,32 +86,6 @@ function Home() {
     return;
   }, [address]);
 
-  // auto zoom
-  useEffect(() => {
-    let newCenter = { lat: center.lat, lng: center.lng };
-    setCenter(newCenter);
-    if (showFilter) {
-      if (sliderValue < 1) {
-        setZoom(16);
-        // } else if (sliderValue < 2) {
-        //   setZoom(15);
-      } else if (sliderValue < 3) {
-        setZoom(14);
-        // } else if (sliderValue < 5) {
-        //   setZoom(13);
-      } else if (sliderValue < 8) {
-        setZoom(12);
-      } else if (sliderValue < 18) {
-        setZoom(11);
-      } else {
-        setZoom(10);
-      }
-    } else {
-      setZoom(15);
-    }
-    return;
-  }, [showFilter, sliderValue]);
-
   useEffect(() => {
     let startRadius = circleRadius;
     let endRadius = sliderValue * 1000;
@@ -153,7 +122,7 @@ function Home() {
   }, [filteredData]);
 */
   }
-  console.log(csvData[0]);
+  // console.log(csvData[0]);
   return (
     <div className="App">
       <header>
@@ -197,86 +166,21 @@ function Home() {
         />
       </header>
       <body>
-        <div className={`map gradual ${isVisible ? "visible" : ""}`}>
-          {mapMessage || (
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              zoom={zoom}
-              center={center}
-              clickableIcons={false}
-              options={{
-                disableDefaultUI: true,
-                scrollwheel: true,
-              }}
-            >
-              {address && (
-                <MarkerF
-                  position={center}
-                  onClick={() => {
-                    setInfoBox(true);
-                  }}
-                />
-              )}
-              {address && showFilter && (
-                <CircleF
-                  center={center}
-                  radius={circleRadius}
-                  options={{
-                    strokeOpacity: 0.5,
-                    strokeWeight: 2,
-                    clickable: false,
-                    draggable: false,
-                    editable: false,
-                    visible: true,
-                    fillOpacity: 0.1,
-                    strokeColor: "red",
-                    fillColor: "red",
-                  }}
-                />
-              )}
-
-              {address && infoBox && (
-                <InfoBox
-                  position={center}
-                  options={{
-                    boxStyle: {
-                      width: "40%",
-                      borderRadius: "6px",
-                      fontSize: "15px",
-                      backgroundColor: "#fffffa",
-                    },
-                    closeBoxURL: "",
-                  }}
-                >
-                  <div>
-                    <p
-                      style={{
-                        padding: "7px",
-                      }}
-                    >
-                      {address}
-                    </p>
-                    <div
-                      style={{
-                        padding: "7px",
-                      }}
-                    >
-                      <button
-                        className="close-button"
-                        onClick={() => {
-                          setInfoBox(false);
-                        }}
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </InfoBox>
-              )}
-            </GoogleMap>
-          )}
-          <div className="slider"> </div>
-        </div>
+        {isLoaded ? (
+          <Map
+            address={address}
+            center={center}
+            infoBox={infoBox}
+            setInfoBox={setInfoBox}
+            sliderValue={sliderValue}
+            showFilter={showFilter}
+            mapMessage={mapMessage}
+            zoom={zoom}
+            circleRadius={circleRadius}
+            setZoom={setZoom}
+            setCenter={setCenter}
+          />
+        ) : null}
       </body>
     </div>
   );
