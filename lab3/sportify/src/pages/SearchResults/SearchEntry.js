@@ -1,7 +1,14 @@
 import styles from '../../assets/SearchEntry.module.css';
 import React, { useState, useEffect } from "react";
 
-const SearchEntry = function ({ imageLink, nameOfLocation, address, sports }) {
+const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports }) {
+
+    const [address, setAddress] = useState("");
+    useEffect(()=>{
+        (async function(){
+            setAddress(await addressGetter());
+        })()
+    },[])
 
     return (
         <div className={styles.SearchEntry}>
