@@ -95,6 +95,7 @@ function Home({buttonPopup, setButtonPopup}) {
                 address={address}
                 setAddress={setAddress}
                 setCenter={setCenter}
+                setShowFilter={setShowFilter}
                 filterToggle={filterToggle}
                 searchAction={() => {
                   if(filteredData.length !== 0) navigate("/SearchResults",{state:{displayData: filteredData}});

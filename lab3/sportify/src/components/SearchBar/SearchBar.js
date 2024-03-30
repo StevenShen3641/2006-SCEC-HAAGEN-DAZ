@@ -18,6 +18,7 @@ import FilterIcon from "../../assets/filter-.svg";
 const SearchBar = ({
   setAddress,
   setCenter,
+  setShowFilter,
   searchAction,
   filterToggle,
 }) => {
@@ -33,6 +34,7 @@ const SearchBar = ({
 
   function userLocationClick() {
     setValue('')
+    setShowFilter(false)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         setCenter({
