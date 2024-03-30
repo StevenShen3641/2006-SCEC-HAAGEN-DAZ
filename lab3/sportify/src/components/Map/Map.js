@@ -24,6 +24,7 @@ const Map = ({
   setZoom,
   setCenter,
   setCircleRadius,
+  setSliderValue
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -48,6 +49,9 @@ const Map = ({
       <div style={{ fontSize: "20px", textAlign: "center" }}>Loading maps</div>
     );
   }
+  useEffect(() => {
+    setSliderValue(2)
+  }, [showFilter]);
 
   // auto zoom
   useEffect(() => {
@@ -71,10 +75,7 @@ const Map = ({
       }
     } else if (address) {
       setZoom(15);
-    } else {
-      setZoom(11);
-    }
-
+    } 
     return;
   }, [address, showFilter, sliderValue]);
 

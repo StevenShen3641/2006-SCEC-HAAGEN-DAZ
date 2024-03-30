@@ -19,7 +19,7 @@ function Home({buttonPopup, setButtonPopup}) {
   
   const [infoBox, setInfoBox] = useState(true);
   const [address, setAddress] = useState("");
-  const [zoom, setZoom] = useState(5);
+  const [zoom, setZoom] = useState(11);
   const [center, setCenter] = useState({
     // set map center
     lat: 1.36,
@@ -130,6 +130,7 @@ function Home({buttonPopup, setButtonPopup}) {
             setZoom={setZoom}
             setCenter={setCenter}
             setCircleRadius={setCircleRadius}
+            setSliderValue={setSliderValue}
           />
         ) : null}
       </body>
