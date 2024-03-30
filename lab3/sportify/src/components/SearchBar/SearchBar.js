@@ -31,6 +31,20 @@ const SearchBar = ({
     return () => clearTimeout(timeout);
   }, []);
 
+  function userLocationClick() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        setCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        })
+        setAddress('Your Location')
+      });
+    } else {
+      console.log("Geolocation not supported");
+    }
+  }
+
   const {
     ready,
     value,
@@ -76,6 +90,9 @@ const SearchBar = ({
       </Combobox>
       <div className={styles.button} onClick={filterToggle}>
         <img src={FilterIcon} alt="filter"></img>
+      </div>
+      <div className={styles.button} onClick={userLocationClick}>
+        <img width="100" height="100" src="https://img.icons8.com/ios-filled/50/center-direction.png" alt="center-direction"/>
       </div>
       <div className={styles.button} onClick={searchAction}>
         <img src={SearchIcon} alt="search"></img>

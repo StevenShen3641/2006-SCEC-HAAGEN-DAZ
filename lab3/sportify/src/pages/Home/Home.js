@@ -69,7 +69,7 @@ function Home({buttonPopup, setButtonPopup}) {
         }
           
       );
-      console.log(filtered);
+      // console.log(filtered);
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);

@@ -106,9 +106,6 @@ const Map = ({
     return () => clearInterval(interval);
   }, [sliderValue]);
 
-  useEffect(() => {
-    console.log(filteredData);
-  }, [filteredData]);
   return (
     <div className={`map gradual ${isVisible ? "visible" : ""}`}>
       {mapMessage || (
@@ -127,6 +124,9 @@ const Map = ({
               position={center}
               onClick={() => {
                 setInfoWindow(true);
+              }}
+              icon={{
+                url: "https://img.icons8.com/fluency/48/000000/map-pin.png",
               }}
             />
           )}
@@ -190,18 +190,17 @@ const Map = ({
             />
           )}
 
-          {address && infoWindow && (
+          {address && address !== "Your Location" && infoWindow && (
             <InfoWindowF
               onCloseClick={() => {
                 setInfoWindow(false);
               }}
               position={{ lat: center.lat, lng: center.lng }}
               options={{
-                disableAutoPan: false
+                disableAutoPan: false,
               }}
             >
-              <div>{address}
-              </div>
+              <div>{address}</div>
             </InfoWindowF>
           )}
         </GoogleMap>
