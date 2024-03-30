@@ -24,3 +24,6 @@ yarn-error.log*
 
 # python_VE
 /python_VE
+
+# history
+/.history
