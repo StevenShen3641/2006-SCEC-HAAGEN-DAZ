@@ -1,10 +1,6 @@
+import calculateDistance from "../../pages/Home/distanceCalculator";
 import "../../assets/App.css";
-import {
-  GoogleMap,
-  MarkerF,
-  InfoBox,
-  CircleF,
-} from "@react-google-maps/api";
+import { GoogleMap, MarkerF, InfoBox, CircleF } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
 // set map style object
@@ -14,6 +10,7 @@ const mapContainerStyle = {
 };
 
 const Map = ({
+  filteredData,
   address,
   center,
   infoBox,
@@ -72,18 +69,21 @@ const Map = ({
       } else {
         setZoom(10);
       }
-    } else {
+    } else if (address) {
       setZoom(15);
+    } else {
+      setZoom(11);
     }
+
     return;
-  }, [showFilter, sliderValue]);
+  }, [address, showFilter, sliderValue]);
 
   // gradual circle change
+  let currentRadius = circleRadius;
   useEffect(() => {
-    let startRadius = circleRadius;
     let endRadius = sliderValue * 1000;
-    let step = (endRadius - startRadius) / 120; // Adjust 20 to control the speed
-    let currentRadius = startRadius;
+    let step = (endRadius - currentRadius) / 45; // Adjust 20 to control the speed
+    currentRadius = circleRadius;
 
     const interval = setInterval(() => {
       currentRadius += step;
@@ -95,9 +95,13 @@ const Map = ({
         // Otherwise, continue updating the radius
         setCircleRadius(currentRadius);
       }
-    }, 2);
+    }, 10);
     return () => clearInterval(interval);
   }, [sliderValue]);
+
+  useEffect(() => {
+    console.log(filteredData);
+  }, [filteredData]);
   return (
     <div className={`map gradual ${isVisible ? "visible" : ""}`}>
       {mapMessage || (
@@ -119,6 +123,28 @@ const Map = ({
               }}
             />
           )}
+          {address &&
+            showFilter &&
+            filteredData.length !== 0 &&
+            filteredData.map(({ X, Y }) => {
+              if (
+                calculateDistance(
+                  parseFloat(Y),
+                  parseFloat(X),
+                  center.lat,
+                  center.lng
+                ) < (circleRadius/1000)
+              ) {
+                return (
+                  <MarkerF
+                    position={{
+                      lat: parseFloat(Y),
+                      lng: parseFloat(X),
+                    }}
+                  />
+                );
+              }
+            })}
           {address && showFilter && (
             <CircleF
               center={center}

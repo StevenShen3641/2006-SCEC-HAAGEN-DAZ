@@ -19,11 +19,11 @@ function Home({buttonPopup, setButtonPopup}) {
   
   const [infoBox, setInfoBox] = useState(true);
   const [address, setAddress] = useState("");
-  const [zoom, setZoom] = useState(15);
+  const [zoom, setZoom] = useState(5);
   const [center, setCenter] = useState({
     // set map center
-    lat: 1.348610224209925,
-    lng: 103.68319907301334,
+    lat: 1.36,
+    lng: 103.8,
   });
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
@@ -116,6 +116,7 @@ function Home({buttonPopup, setButtonPopup}) {
       <body>
         {isLoaded ? (
           <Map
+            filteredData={filteredData}
             address={address}
             center={center}
             infoBox={infoBox}

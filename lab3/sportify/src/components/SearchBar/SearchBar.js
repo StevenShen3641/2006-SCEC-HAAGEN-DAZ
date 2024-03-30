@@ -16,7 +16,6 @@ import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 
 const SearchBar = ({
-  address,
   setAddress,
   setCenter,
   searchAction,
