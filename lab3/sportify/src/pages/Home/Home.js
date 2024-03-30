@@ -13,33 +13,24 @@ import { useLoadScript } from "@react-google-maps/api";
 const libraries = ["places"];
 
 function Home({buttonPopup, setButtonPopup}) {
+  // initial value
   const csvData = useCSVData();
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    // set the visibility to true after a delay to trigger the transition
-    const timeout = setTimeout(() => {
-      setIsVisible(true);
-    });
-
-    return () => clearTimeout(timeout);
-  }, []);
-  // set map values
+  
   const [infoBox, setInfoBox] = useState(true);
   const [address, setAddress] = useState("");
+  const [zoom, setZoom] = useState(15);
   const [center, setCenter] = useState({
     // set map center
     lat: 1.348610224209925,
     lng: 103.68319907301334,
   });
-  const [zoom, setZoom] = useState(15);
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
     libraries: libraries,
   });
 
-  // initial value
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [circleRadius, setCircleRadius] = useState(0);
@@ -98,7 +89,6 @@ function Home({buttonPopup, setButtonPopup}) {
             {/* lazy initialization */}
             {isLoaded ? (
               <SearchBar
-                isVisible = {isVisible}
                 address={address}
                 setAddress={setAddress}
                 setCenter={setCenter}
