@@ -15,7 +15,7 @@ import "@reach/combobox/styles.css";
 import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 
-const SearchBar = ({ address, setAddress, setCenter, searchAction, filterToggle }) => {
+const SearchBar = ({ isVisible, address, setAddress, setCenter, searchAction, filterToggle }) => {
   const {
     ready,
     value,
@@ -36,7 +36,7 @@ const SearchBar = ({ address, setAddress, setCenter, searchAction, filterToggle 
   };
 
   return (
-    <div className={`${styles.search} ${styles.gradual}`}>
+    <div className={`${styles.search} ${styles.gradual} ${isVisible ? styles.visible : ""} ${styles.warning}`}>
     <Combobox  onSelect={handleSelect} >
       <ComboboxInput
         placeholder={"Search for address"}

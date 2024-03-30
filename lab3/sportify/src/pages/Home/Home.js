@@ -91,23 +91,19 @@ function Home({buttonPopup, setButtonPopup}) {
     <div className="App">
       <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
-        <div className={` ${isVisible ? "visible" : ""} warning`}>
-          <div style={{ width: "100%" }}>
             {/* lazy initialization */}
             {isLoaded ? (
               <SearchBar
+                isVisible = {isVisible}
                 address={address}
                 setAddress={setAddress}
                 setCenter={setCenter}
-                filterToggle={()=>filterToggle()}
+                filterToggle={filterToggle}
                 searchAction={() => {
                   navigate("/SearchResults");
                 }}
               />
             ) : null}
-          </div>
-
-        </div>
         <SearchFilter
           sliderValue={sliderValue}
           setSliderValue={setSliderValue}
