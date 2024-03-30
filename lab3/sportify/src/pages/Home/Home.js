@@ -71,10 +71,14 @@ function Home({buttonPopup, setButtonPopup}) {
     if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
       setFilteredData([]);
       const filtered = csvData.filter(
-        (item) =>
-          calculateDistance(center.lat, center.lng, item.Y, item.X) <=
-          sliderValue
+        (item) =>{
+          const distanceFromCenter = calculateDistance(center.lat, center.lng, item.Y, item.X);
+          item['distanceFromCenter'] = distanceFromCenter;
+           return distanceFromCenter <=sliderValue;
+        }
+          
       );
+      console.log(filtered);
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
@@ -100,7 +104,7 @@ function Home({buttonPopup, setButtonPopup}) {
                 setCenter={setCenter}
                 filterToggle={filterToggle}
                 searchAction={() => {
-                  navigate("/SearchResults");
+                  if(filteredData.length !== 0) navigate("/SearchResults",{state:{displayData: filteredData}});
                 }}
               />
             ) : null}

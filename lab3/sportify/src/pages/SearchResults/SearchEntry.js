@@ -1,7 +1,7 @@
 import styles from '../../assets/SearchEntry.module.css';
 import React, { useState, useEffect } from "react";
 
-const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports }) {
+const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter }) {
 
     const [address, setAddress] = useState("");
     useEffect(()=>{
@@ -17,8 +17,8 @@ const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports
                 <div className={styles.infoBox}>
                     <p><span>Location: {nameOfLocation}</span></p>
                     <p><span>Address: {address}</span></p>
-                    <p><span>Activity: {sports}</span></p>
-                    <p><span>Distance: 1.4km from you</span></p>
+                    <p><span>Activities: {sports}</span></p>
+                    <p><span>Distance: {distanceFromCenter.toPrecision(4)}km from you</span></p>
                     <p><span>Type: Free</span></p>
                 </div>
                 <div className={styles.scorebox}>
