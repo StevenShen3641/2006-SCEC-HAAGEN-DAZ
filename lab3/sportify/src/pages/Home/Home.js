@@ -17,7 +17,7 @@ function Home({buttonPopup, setButtonPopup}) {
   const csvData = useCSVData();
   const navigate = useNavigate();
   
-  const [infoBox, setInfoBox] = useState(true);
+  const [infoWindow, setInfoWindow] = useState(true);
   const [address, setAddress] = useState("");
   const [zoom, setZoom] = useState(11);
   const [center, setCenter] = useState({
@@ -45,12 +45,12 @@ function Home({buttonPopup, setButtonPopup}) {
     if (address) {
       setSliderValue(sliderValue);
       setShowFilter(!showFilter);
-      setInfoBox(false);
+      setInfoWindow(false);
     }
   };
   useEffect(() => {
     if (!address) {
-      setInfoBox(true);
+      setInfoWindow(true);
       setShowFilter(false);
     }
     return;
@@ -119,10 +119,10 @@ function Home({buttonPopup, setButtonPopup}) {
             filteredData={filteredData}
             address={address}
             center={center}
-            infoBox={infoBox}
+            infoWindow={infoWindow}
             isLoaded={isLoaded}
             loadError={loadError}
-            setInfoBox={setInfoBox}
+            setInfoWindow={setInfoWindow}
             sliderValue={sliderValue}
             showFilter={showFilter}
             zoom={zoom}

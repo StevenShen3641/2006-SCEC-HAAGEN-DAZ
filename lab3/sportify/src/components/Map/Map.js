@@ -1,6 +1,11 @@
 import calculateDistance from "../../pages/Home/distanceCalculator";
 import "../../assets/App.css";
-import { GoogleMap, MarkerF, InfoBox, CircleF } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  MarkerF,
+  InfoWindowF,
+  CircleF,
+} from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
 // set map style object
@@ -13,10 +18,10 @@ const Map = ({
   filteredData,
   address,
   center,
-  infoBox,
+  infoWindow,
   isLoaded,
   loadError,
-  setInfoBox,
+  setInfoWindow,
   sliderValue,
   showFilter,
   zoom,
@@ -24,8 +29,9 @@ const Map = ({
   setZoom,
   setCenter,
   setCircleRadius,
-  setSliderValue
+  setSliderValue,
 }) => {
+  const [activeMarker, setActiveMarker] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
@@ -50,7 +56,7 @@ const Map = ({
     );
   }
   useEffect(() => {
-    setSliderValue(2)
+    setSliderValue(2);
   }, [showFilter]);
 
   // auto zoom
@@ -64,18 +70,18 @@ const Map = ({
         //   setZoom(15);
       } else if (sliderValue < 3) {
         setZoom(14);
-        // } else if (sliderValue < 5) {
-        //   setZoom(13);
+      } else if (sliderValue < 5) {
+        setZoom(13);
       } else if (sliderValue < 9) {
         setZoom(12);
-      } else if (sliderValue < 18) {
+      } else if (sliderValue < 20) {
         setZoom(11);
       } else {
         setZoom(10);
       }
     } else if (address) {
       setZoom(15);
-    } 
+    }
     return;
   }, [address, showFilter, sliderValue]);
 
@@ -120,21 +126,22 @@ const Map = ({
             <MarkerF
               position={center}
               onClick={() => {
-                setInfoBox(true);
+                setInfoWindow(true);
               }}
             />
           )}
           {address &&
             showFilter &&
             filteredData.length !== 0 &&
-            filteredData.map(({ X, Y }) => {
+            filteredData.map(({ Name, X, Y }) => {
               if (
                 calculateDistance(
                   parseFloat(Y),
                   parseFloat(X),
                   center.lat,
                   center.lng
-                ) < (circleRadius/1000)
+                ) <
+                circleRadius / 1000
               ) {
                 return (
                   <MarkerF
@@ -142,10 +149,29 @@ const Map = ({
                       lat: parseFloat(Y),
                       lng: parseFloat(X),
                     }}
-                  />
+                    onClick={() =>
+                      setActiveMarker({
+                        name: Name,
+                        X: X,
+                        Y: Y,
+                      })
+                    }
+                  ></MarkerF>
                 );
               }
             })}
+          {activeMarker && (
+            <InfoWindowF
+              position={{
+                lat: parseFloat(activeMarker.Y),
+                lng: parseFloat(activeMarker.X),
+              }}
+              onCloseClick={() => setActiveMarker(null)}
+            >
+              <div>{activeMarker.name}</div>
+            </InfoWindowF>
+          )}
+
           {address && showFilter && (
             <CircleF
               center={center}
@@ -164,43 +190,19 @@ const Map = ({
             />
           )}
 
-          {address && infoBox && (
-            <InfoBox
-              position={center}
+          {address && infoWindow && (
+            <InfoWindowF
+              onCloseClick={() => {
+                setInfoWindow(false);
+              }}
+              position={{ lat: center.lat, lng: center.lng }}
               options={{
-                boxStyle: {
-                  width: "40%",
-                  borderRadius: "6px",
-                  fontSize: "15px",
-                  backgroundColor: "#fffffa",
-                },
-                closeBoxURL: "",
+                disableAutoPan: false
               }}
             >
-              <div>
-                <p
-                  style={{
-                    padding: "7px",
-                  }}
-                >
-                  {address}
-                </p>
-                <div
-                  style={{
-                    padding: "7px",
-                  }}
-                >
-                  <button
-                    className="close-button"
-                    onClick={() => {
-                      setInfoBox(false);
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
+              <div>{address}
               </div>
-            </InfoBox>
+            </InfoWindowF>
           )}
         </GoogleMap>
       )}
