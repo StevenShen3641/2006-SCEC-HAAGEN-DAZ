@@ -42,6 +42,9 @@ function Home({buttonPopup, setButtonPopup}) {
 
 
   const filterToggle = () => {
+    if (address === "Your Location1") {
+      setAddress("Your Location")
+    }
     if (address) {
       setSliderValue(sliderValue);
       setShowFilter(!showFilter);

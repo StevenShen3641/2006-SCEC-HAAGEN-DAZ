@@ -32,13 +32,14 @@ const SearchBar = ({
   }, []);
 
   function userLocationClick() {
+    setValue('')
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         setCenter({
           lat: position.coords.latitude,
           lng: position.coords.longitude
         })
-        setAddress('Your Location')
+        setAddress('Your Location1')
       });
     } else {
       console.log("Geolocation not supported");

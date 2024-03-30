@@ -133,7 +133,7 @@ const Map = ({
           {address &&
             showFilter &&
             filteredData.length !== 0 &&
-            filteredData.map(({ Name, X, Y }) => {
+            filteredData.map(({ index, Name, X, Y }) => {
               if (
                 calculateDistance(
                   parseFloat(Y),
@@ -144,7 +144,7 @@ const Map = ({
                 circleRadius / 1000
               ) {
                 return (
-                  <MarkerF
+                  <MarkerF key={index}
                     position={{
                       lat: parseFloat(Y),
                       lng: parseFloat(X),
@@ -190,7 +190,7 @@ const Map = ({
             />
           )}
 
-          {address && address !== "Your Location" && infoWindow && (
+          {address && address !== "Your Location1" && infoWindow && (
             <InfoWindowF
               onCloseClick={() => {
                 setInfoWindow(false);
