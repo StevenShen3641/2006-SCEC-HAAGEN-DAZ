@@ -68,6 +68,7 @@ const SearchBar = ({
   };
 
   return (
+    <>
     <div className={`${styles.search} gradual ${isVisible ? "visible" : ""}`}>
       <Combobox onSelect={handleSelect} className={styles.combobox}>
         <ComboboxInput
@@ -101,6 +102,7 @@ const SearchBar = ({
         <img src={SearchIcon} alt="search"></img>
       </div>
     </div>
+    </>
   );
 };
 
