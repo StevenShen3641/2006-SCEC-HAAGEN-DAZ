@@ -36,12 +36,11 @@ const Map = ({
     height: "500px",
   };
   const [containerStyle, setContainerStyle] = useState(
-    window.innerWidth <= 768 ? mapContainerStyleMobile : mapContainerStyle
+    window.innerWidth <= 1000 ? mapContainerStyleMobile : mapContainerStyle
   );
   useEffect(() => {
     const handleResize = () => {
-      console.log(containerStyle);
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1000) {
         setContainerStyle(mapContainerStyleMobile);
       } else {
         setContainerStyle(mapContainerStyle);
