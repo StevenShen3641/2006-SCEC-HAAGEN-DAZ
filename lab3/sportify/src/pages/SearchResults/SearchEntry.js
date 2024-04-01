@@ -12,8 +12,8 @@ const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports
 
     return (
         <div className={styles.SearchEntry}>
-            <div className={styles.side}><img src={imageLink} alt='picture of location'></img></div>
-            <div className={styles.side}>
+            <div className={styles.sideLeft}><img src={imageLink} alt='picture of location'></img></div>
+            <div className={styles.sideRight}>
                 <div className={styles.infoBox}>
                     <p><span>Location: {nameOfLocation}</span></p>
                     <p><span>Address: {address}</span></p>
@@ -23,7 +23,7 @@ const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports
                 </div>
                 <div className={styles.scorebox}>
                     <span>
-                        <a href='#'>Find out more</a>
+                        <a className={styles.button} href='#'>Find out more</a>
                         <h3>Score: 90/100</h3>
                     </span>
                 </div>
