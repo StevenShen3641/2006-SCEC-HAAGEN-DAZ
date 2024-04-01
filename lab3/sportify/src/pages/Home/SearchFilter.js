@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../assets/SearchFilter.module.css";
 
-
 function SearchFilter(props) {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -25,7 +24,7 @@ function SearchFilter(props) {
       }`}
     >
       <div className={styles.slideContainer}>
-      <p align="left">Radius: {props.sliderValue}Km</p>
+        <p align="left">Radius: {props.sliderValue}Km</p>
         <input
           type="range"
           min="0"
@@ -44,44 +43,58 @@ function SearchFilter(props) {
         <p align="left">Mode Of Transport:</p>
         <div className={styles.buttonContainer}>
           <div>
-          <input
-            className={styles.filterButton}
-            type="checkbox"
-            checked={props.Walkvalue}
-            onChange={(e) => props.setWalkvalue(e.target.checked)}
-          />
+            <input
+              className={styles.filterButton}
+              type="checkbox"
+              checked={props.Walkvalue}
+              onChange={(e) => props.setWalkvalue(e.target.checked)}
+            />
           </div>
           <label>Walk</label>
 
           <div>
-          <input
-            className={styles.filterButton}
-            type="checkbox"
-            checked={props.Carvalue}
-            onChange={(e) => props.setCarvalue(e.target.checked)}
-          />
+            <input
+              className={styles.filterButton}
+              type="checkbox"
+              checked={props.Carvalue}
+              onChange={(e) => props.setCarvalue(e.target.checked)}
+            />
           </div>
           <label className={styles.Buttonlabel}>Car</label>
 
           <div>
-          <input
-            className={styles.filterButton}
-            type="checkbox"
-            checked={props.MBvalue}
-            onChange={(e) => props.setMBvalue(e.target.checked)}
-          />
+            <input
+              className={styles.filterButton}
+              type="checkbox"
+              checked={props.MBvalue}
+              onChange={(e) => props.setMBvalue(e.target.checked)}
+            />
           </div>
           <label>Motorbike</label>
-
-          <div>
-          <input
-            className={styles.filterButton}
-            type="checkbox"
-            checked={props.PTvalue}
-            onChange={(e) => props.setPTvalue(e.target.checked)}
-          />
-          </div>
-          <label>Public Transport</label>
+          {!(window.innerWidth <= 768) && (
+            <div>
+              <input
+                className={styles.filterButton}
+                type="checkbox"
+                checked={props.PTvalue}
+                onChange={(e) => props.setPTvalue(e.target.checked)}
+              />
+            </div>
+          )}
+          {!(window.innerWidth <= 768) && <label>Public Transport</label>}
+        </div>
+        <div className={styles.buttonContainer}>
+          {window.innerWidth <= 768 && (
+            <div>
+              <input
+                className={styles.filterButton}
+                type="checkbox"
+                checked={props.PTvalue}
+                onChange={(e) => props.setPTvalue(e.target.checked)}
+              />
+            </div>
+          )}
+          {window.innerWidth <= 768 && <label>Public Transport</label>}
         </div>
       </div>
     </div>

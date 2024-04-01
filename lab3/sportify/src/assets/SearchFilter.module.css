@@ -131,3 +131,9 @@
     margin-right: 12px;
     margin-bottom: 4px;
 }
+
+@media (max-width: 768px) {
+    .filterPopup {
+      width: 90%;
+    }
+}

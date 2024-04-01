@@ -8,12 +8,6 @@ import {
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
-// set map style object
-const mapContainerStyle = {
-  width: "50vw",
-  height: "500px",
-};
-
 const Map = ({
   filteredData,
   address,
@@ -31,6 +25,36 @@ const Map = ({
   setCircleRadius,
   setSliderValue,
 }) => {
+  // set map style object
+  const mapContainerStyle = {
+    width: "50vw",
+    height: "500px",
+  };
+
+  const mapContainerStyleMobile = {
+    width: "90vw",
+    height: "500px",
+  };
+  const [containerStyle, setContainerStyle] = useState(
+    window.innerWidth <= 768 ? mapContainerStyleMobile : mapContainerStyle
+  );
+  useEffect(() => {
+    const handleResize = () => {
+      console.log(containerStyle);
+      if (window.innerWidth <= 768) {
+        setContainerStyle(mapContainerStyleMobile);
+      } else {
+        setContainerStyle(mapContainerStyle);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const [activeMarker, setActiveMarker] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -110,7 +134,7 @@ const Map = ({
     <div className={`map gradual ${isVisible ? "visible" : ""}`}>
       {mapMessage || (
         <GoogleMap
-          mapContainerStyle={mapContainerStyle}
+          mapContainerStyle={containerStyle}
           zoom={zoom}
           center={center}
           clickableIcons={false}
@@ -144,7 +168,8 @@ const Map = ({
                 circleRadius / 1000
               ) {
                 return (
-                  <MarkerF key={index}
+                  <MarkerF
+                    key={index}
                     position={{
                       lat: parseFloat(Y),
                       lng: parseFloat(X),

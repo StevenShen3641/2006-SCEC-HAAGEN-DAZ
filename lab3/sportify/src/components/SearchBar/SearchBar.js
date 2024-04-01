@@ -33,15 +33,15 @@ const SearchBar = ({
   }, []);
 
   function userLocationClick() {
-    setValue('')
-    setShowFilter(false)
+    setValue("");
+    setShowFilter(false);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         setCenter({
           lat: position.coords.latitude,
-          lng: position.coords.longitude
-        })
-        setAddress('Your Location1')
+          lng: position.coords.longitude,
+        });
+        setAddress("Your Location1");
       });
     } else {
       console.log("Geolocation not supported");
@@ -69,39 +69,45 @@ const SearchBar = ({
 
   return (
     <>
-    <div className={`${styles.search} gradual ${isVisible ? "visible" : ""}`}>
-      <Combobox onSelect={handleSelect} className={styles.combobox}>
-        <ComboboxInput
-          placeholder={"Search for address"}
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-            setComboboxList(true);
-            setAddress("");
-          }}
-          disabled={!ready}
-        />
-        {comboboxList && (
-          <ComboboxPopover>
-            <ComboboxList>
-              {status === "OK" &&
-                data.map(({ place_id, description }) => (
-                  <ComboboxOption key={place_id} value={description} />
-                ))}
-            </ComboboxList>
-          </ComboboxPopover>
-        )}
-      </Combobox>
-      <div className={styles.button} onClick={filterToggle}>
-        <img src={FilterIcon} alt="filter"></img>
+      <div className={`${styles.search} gradual ${isVisible ? "visible" : ""}`}>
+        <Combobox onSelect={handleSelect} className={styles.combobox}>
+          <ComboboxInput
+            
+            placeholder={"Search for address"}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              setComboboxList(true);
+              setAddress("");
+            }}
+            disabled={!ready}
+          />
+          {comboboxList && (
+            <ComboboxPopover>
+              <ComboboxList>
+                {status === "OK" &&
+                  data.map(({ place_id, description }) => (
+                    <ComboboxOption key={place_id} value={description} />
+                  ))}
+              </ComboboxList>
+            </ComboboxPopover>
+          )}
+        </Combobox>
+        <div className={styles.button} onClick={filterToggle}>
+          <img src={FilterIcon} alt="filter"></img>
+        </div>
+        <div className={styles.button} onClick={userLocationClick}>
+          <img
+            width="100"
+            height="100"
+            src="https://img.icons8.com/ios-filled/50/center-direction.png"
+            alt="center-direction"
+          />
+        </div>
+        <div className={styles.button} onClick={searchAction}>
+          <img src={SearchIcon} alt="search"></img>
+        </div>
       </div>
-      <div className={styles.button} onClick={userLocationClick}>
-        <img width="100" height="100" src="https://img.icons8.com/ios-filled/50/center-direction.png" alt="center-direction"/>
-      </div>
-      <div className={styles.button} onClick={searchAction}>
-        <img src={SearchIcon} alt="search"></img>
-      </div>
-    </div>
     </>
   );
 };
