@@ -2,7 +2,6 @@ import styles from '../../assets/SearchEntry.module.css';
 import React, { useState, useEffect } from "react";
 
 const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter }) {
-
     const [address, setAddress] = useState("");
     useEffect(()=>{
         (async function(){
@@ -12,7 +11,7 @@ const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports
 
     return (
         <div className={styles.SearchEntry}>
-            <div className={styles.sideLeft}><img src={imageLink} alt='picture of location'></img></div>
+            <div className={styles.sideLeft} style={{backgroundImage: `url(${imageLink})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
             <div className={styles.sideRight}>
                 <div className={styles.infoBox}>
                     <p><span>Location: {nameOfLocation}</span></p>
