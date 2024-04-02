@@ -54,7 +54,19 @@ const SearchBar = ({
     setValue,
     suggestions: { status, data },
     clearSuggestions,
-  } = usePlacesAutocomplete();
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      origin: {lat: 1.3521, lng:103.8198},
+      componentRestrictions: {country: "sg"},
+      region: "sg"
+    },
+    responseOptions:{
+      predictions:{
+        distance_meters: 1000
+      }
+    }
+  }
+  );
   const [comboboxList, setComboboxList] = useState(true);
 
   const handleSelect = async (address) => {
