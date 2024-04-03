@@ -10,13 +10,14 @@ import useCSVData from "../../data/csvData.js";
 import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
 
+
 const libraries = ["places"];
 
-function Home({buttonPopup, setButtonPopup}) {
+function Home({ buttonPopup, setButtonPopup }) {
   // initial value
   const csvData = useCSVData();
   const navigate = useNavigate();
-  
+
   const [infoWindow, setInfoWindow] = useState(true);
   const [address, setAddress] = useState("");
   const [zoom, setZoom] = useState(11);
@@ -65,12 +66,12 @@ function Home({buttonPopup, setButtonPopup}) {
     if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
       setFilteredData([]);
       const filtered = csvData.filter(
-        (item) =>{
+        (item) => {
           const distanceFromCenter = calculateDistance(center.lat, center.lng, item.Y, item.X);
           item['distanceFromCenter'] = distanceFromCenter;
-           return distanceFromCenter <=sliderValue;
+          return distanceFromCenter <= sliderValue;
         }
-          
+
       );
       // console.log(filtered);
       setFilteredData(filtered);
@@ -89,19 +90,20 @@ function Home({buttonPopup, setButtonPopup}) {
     <div className="App">
       <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
-            {/* lazy initialization */}
-            {isLoaded ? (
-              <SearchBar
-                address={address}
-                setAddress={setAddress}
-                setCenter={setCenter}
-                setShowFilter={setShowFilter}
-                filterToggle={filterToggle}
-                searchAction={() => {
-                  if(filteredData.length !== 0) navigate("/SearchResults",{state:{displayData: filteredData}});
-                }}
-              />
-            ) : null}
+        {/* lazy initialization */}
+        {isLoaded ? (
+          <SearchBar
+            address={address}
+            setAddress={setAddress}
+            setCenter={setCenter}
+            setShowFilter={setShowFilter}
+            filterToggle={filterToggle}
+            searchAction={() => {
+              //call score calculator
+              if (filteredData.length !== 0) navigate("/SearchResults", { state: { displayData: filteredData } });
+            }}
+          />
+        ) : null}
         <SearchFilter
           sliderValue={sliderValue}
           setSliderValue={setSliderValue}
