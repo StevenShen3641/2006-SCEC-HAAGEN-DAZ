@@ -74,6 +74,19 @@ const SearchBar = ({
     clearSuggestions();
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
+    
+    const google = window.google
+    const directionsService = new google.maps.DirectionsService()
+    const a = await directionsService.route({
+      origin: {
+        lat: 1.36,
+        lng: 103.8,
+      },
+      destination: { lat, lng },
+      travelMode: google.maps.TravelMode.DRIVING
+    })
+    console.log(a.routes[0].legs[0].distance.text)
+
     setAddress(address);
     setCenter({ lat: lat, lng: lng });
     setComboboxList(false);

@@ -10,8 +10,8 @@ import useCSVData from "../../data/csvData.js";
 import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
 
-
 const libraries = ["places"];
+
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
@@ -26,10 +26,15 @@ function Home({ buttonPopup, setButtonPopup }) {
     lat: 1.36,
     lng: 103.8,
   });
-  const { isLoaded, loadError } = useLoadScript({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-    libraries: libraries,
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    if (window.google) {
+      setIsLoaded(true)
+    } else {
+      setIsLoaded(false)
+    }
   });
 
   const [showFilter, setShowFilter] = useState(false);
@@ -40,11 +45,9 @@ function Home({ buttonPopup, setButtonPopup }) {
   const [Carvalue, setCarvalue] = useState(true);
   const [MBvalue, setMBvalue] = useState(true);
 
-
-
   const filterToggle = () => {
     if (address === "Your Location1") {
-      setAddress("Your Location")
+      setAddress("Your Location");
     }
     if (address) {
       setSliderValue(sliderValue);
@@ -65,15 +68,16 @@ function Home({ buttonPopup, setButtonPopup }) {
   useEffect(() => {
     if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
       setFilteredData([]);
-      const filtered = csvData.filter(
-        (item) => {
-          const distanceFromCenter = calculateDistance(center.lat, center.lng, item.Y, item.X);
-          item['distanceFromCenter'] = distanceFromCenter;
-          return distanceFromCenter <= sliderValue;
-        }
-
-      );
-      // console.log(filtered);
+      const filtered = csvData.filter((item) => {
+        const distanceFromCenter = calculateDistance(
+          center.lat,
+          center.lng,
+          item.Y,
+          item.X
+        );
+        item["distanceFromCenter"] = distanceFromCenter;
+        return distanceFromCenter <= sliderValue;
+      });
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
@@ -100,7 +104,13 @@ function Home({ buttonPopup, setButtonPopup }) {
             filterToggle={filterToggle}
             searchAction={() => {
               //call score calculator
-              if (filteredData.length !== 0) navigate("/SearchResults", { state: { displayData: filteredData } });
+              if (filteredData.length !== 0)
+                navigate("/SearchResults", {
+                  state: {
+                    displayData: filteredData,
+                    travelModes: { PTvalue, Walkvalue, Carvalue, MBvalue },
+                  },
+                });
             }}
           />
         ) : null}
@@ -127,7 +137,6 @@ function Home({ buttonPopup, setButtonPopup }) {
             center={center}
             infoWindow={infoWindow}
             isLoaded={isLoaded}
-            loadError={loadError}
             setInfoWindow={setInfoWindow}
             sliderValue={sliderValue}
             showFilter={showFilter}
