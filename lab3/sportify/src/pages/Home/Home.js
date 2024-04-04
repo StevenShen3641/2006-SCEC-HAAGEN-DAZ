@@ -8,10 +8,6 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import useCSVData from "../../data/csvData.js";
 import calculateDistance from "./distanceCalculator.js";
-import { useLoadScript } from "@react-google-maps/api";
-
-const libraries = ["places"];
-
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
@@ -27,13 +23,13 @@ function Home({ buttonPopup, setButtonPopup }) {
     lng: 103.8,
   });
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (window.google) {
-      setIsLoaded(true)
+      setIsLoaded(true);
     } else {
-      setIsLoaded(false)
+      setIsLoaded(false);
     }
   });
 

@@ -5,7 +5,6 @@ import useCSVData from "../../data/csvData.js";
 import addressGetter from "../../helper/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import APICaller from "../Home/APICaller.js";
-import { useLoadScript, LoadScript } from "@react-google-maps/api";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;
