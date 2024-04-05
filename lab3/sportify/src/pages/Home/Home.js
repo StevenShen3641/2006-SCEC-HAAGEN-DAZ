@@ -9,14 +9,15 @@ import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import useCSVData from "../../data/csvData.js";
 import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
-
+import APICaller from "./APICaller.js";
+import calculatePSIScore from "../../components/Calculators/CalculatePSI.js";
 const libraries = ["places"];
 
-function Home({buttonPopup, setButtonPopup}) {
+function Home({ buttonPopup, setButtonPopup }) {
   // initial value
   const csvData = useCSVData();
   const navigate = useNavigate();
-  
+  const apiCaller = new APICaller();
   const [infoWindow, setInfoWindow] = useState(true);
   const [address, setAddress] = useState("");
   const [zoom, setZoom] = useState(11);
@@ -25,10 +26,14 @@ function Home({buttonPopup, setButtonPopup}) {
     lat: 1.36,
     lng: 103.8,
   });
-  const { isLoaded, loadError } = useLoadScript({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-    libraries: libraries,
+  const [isLoaded, setIsLoaded] = useState(false);
+  const google = window.google
+  useEffect(() => {
+    if (window.google) {
+      setIsLoaded(true);
+    } else {
+      setIsLoaded(false);
+    }
   });
 
   const [showFilter, setShowFilter] = useState(false);
@@ -39,11 +44,9 @@ function Home({buttonPopup, setButtonPopup}) {
   const [Carvalue, setCarvalue] = useState(true);
   const [MBvalue, setMBvalue] = useState(true);
 
-
-
   const filterToggle = () => {
     if (address === "Your Location1") {
-      setAddress("Your Location")
+      setAddress("Your Location");
     }
     if (address) {
       setSliderValue(sliderValue);
@@ -65,17 +68,36 @@ function Home({buttonPopup, setButtonPopup}) {
     if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
       setFilteredData([]);
       const filtered = csvData.filter(
-        (item) =>{
+        (item) => {
           const distanceFromCenter = calculateDistance(center.lat, center.lng, item.Y, item.X);
           item['distanceFromCenter'] = distanceFromCenter;
-           return distanceFromCenter <=sliderValue;
+          return distanceFromCenter <= sliderValue;
         }
-          
+
       );
       // console.log(filtered);
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
+  
+  const modes = (() => {
+    const transportModes = [];
+    if (isLoaded) {
+      if (PTvalue) {
+        transportModes.push(google.maps.TravelMode.TRANSIT);
+      }
+      if (Walkvalue) {
+        transportModes.push(google.maps.TravelMode.WALKING);
+      }
+      if (Carvalue) {
+        transportModes.push(google.maps.TravelMode.DRIVING);
+      }
+      if (MBvalue) {
+        transportModes.push(google.maps.TravelMode.BICYCLING);
+      }
+      return transportModes;
+    }
+  })();
   {
     /* Use to check if filtering locations is working
     useEffect(() => {
@@ -89,19 +111,27 @@ function Home({buttonPopup, setButtonPopup}) {
     <div className="App">
       <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
-            {/* lazy initialization */}
-            {isLoaded ? (
-              <SearchBar
-                address={address}
-                setAddress={setAddress}
-                setCenter={setCenter}
-                setShowFilter={setShowFilter}
-                filterToggle={filterToggle}
-                searchAction={() => {
-                  if(filteredData.length !== 0) navigate("/SearchResults",{state:{displayData: filteredData}});
-                }}
-              />
-            ) : null}
+        {/* lazy initialization */}
+        {isLoaded ? (
+          <SearchBar
+            address={address}
+            setAddress={setAddress}
+            setCenter={setCenter}
+            setShowFilter={setShowFilter}
+            filterToggle={filterToggle}
+            searchAction={() => {
+              //call score calculator
+              if (filteredData.length !== 0)
+                navigate("/SearchResults", {
+                  state: {
+                    displayData: filteredData,
+                    travelModes: modes,
+                    ori: center
+                  },
+                });
+            }}
+          />
+        ) : null}
         <SearchFilter
           sliderValue={sliderValue}
           setSliderValue={setSliderValue}
@@ -125,7 +155,6 @@ function Home({buttonPopup, setButtonPopup}) {
             center={center}
             infoWindow={infoWindow}
             isLoaded={isLoaded}
-            loadError={loadError}
             setInfoWindow={setInfoWindow}
             sliderValue={sliderValue}
             showFilter={showFilter}

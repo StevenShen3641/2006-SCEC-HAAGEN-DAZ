@@ -14,7 +14,6 @@ const Map = ({
   center,
   infoWindow,
   isLoaded,
-  loadError,
   setInfoWindow,
   sliderValue,
   showFilter,
@@ -67,13 +66,7 @@ const Map = ({
 
   let mapMessage;
 
-  if (loadError) {
-    mapMessage = (
-      <div style={{ fontSize: "20px", textAlign: "center" }}>
-        Error loading maps
-      </div>
-    );
-  } else if (!isLoaded) {
+  if (!isLoaded) {
     mapMessage = (
       <div style={{ fontSize: "20px", textAlign: "center" }}>Loading maps</div>
     );
