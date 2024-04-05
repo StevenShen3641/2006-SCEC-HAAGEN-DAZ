@@ -13,6 +13,7 @@ import APICaller from "./APICaller.js";
 import calculatePSIScore from "../../components/Calculators/CalculatePSI.js";
 const libraries = ["places"];
 
+
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
   const csvData = useCSVData();
@@ -26,10 +27,15 @@ function Home({ buttonPopup, setButtonPopup }) {
     lat: 1.36,
     lng: 103.8,
   });
-  const { isLoaded, loadError } = useLoadScript({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-    libraries: libraries,
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    if (window.google) {
+      setIsLoaded(true)
+    } else {
+      setIsLoaded(false)
+    }
   });
 
   const [showFilter, setShowFilter] = useState(false);
@@ -63,16 +69,14 @@ function Home({ buttonPopup, setButtonPopup }) {
   useEffect(() => {
     if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
       setFilteredData([]);
-      const filtered = csvData.filter((item) => {
-        const distanceFromCenter = calculateDistance(
-          center.lat,
-          center.lng,
-          item.Y,
-          item.X
-        );
-        item["distanceFromCenter"] = distanceFromCenter;
-        return distanceFromCenter <= sliderValue;
-      });
+      const filtered = csvData.filter(
+        (item) => {
+          const distanceFromCenter = calculateDistance(center.lat, center.lng, item.Y, item.X);
+          item['distanceFromCenter'] = distanceFromCenter;
+          return distanceFromCenter <= sliderValue;
+        }
+
+      );
       // console.log(filtered);
       setFilteredData(filtered);
     }
@@ -100,10 +104,7 @@ function Home({ buttonPopup, setButtonPopup }) {
             filterToggle={filterToggle}
             searchAction={() => {
               //call score calculator
-              if (filteredData.length !== 0)
-                navigate("/SearchResults", {
-                  state: { displayData: filteredData },
-                });
+              if (filteredData.length !== 0) navigate("/SearchResults", { state: { displayData: filteredData } });
             }}
           />
         ) : null}
@@ -130,7 +131,6 @@ function Home({ buttonPopup, setButtonPopup }) {
             center={center}
             infoWindow={infoWindow}
             isLoaded={isLoaded}
-            loadError={loadError}
             setInfoWindow={setInfoWindow}
             sliderValue={sliderValue}
             showFilter={showFilter}

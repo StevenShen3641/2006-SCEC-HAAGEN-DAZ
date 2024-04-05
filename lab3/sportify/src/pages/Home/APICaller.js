@@ -16,8 +16,8 @@ class APICaller {
     this.RAIN_ENDPOINT = "/environment/rainfall";
     this.WEATHER_ENDPOINT = "/environment/2-hour-weather-forecast";
     this.AIR_ENDPOINT = "/environment/air-temperature";
-    this.UVI_ENDPOINT = '/environment/uv-index';
-    this.PSI_ENDPOINT = '/environment/psi';
+    this.UVI_ENDPOINT = "/environment/uv-index";
+    this.PSI_ENDPOINT = "/environment/psi";
 
     //Date+Time in SGT
     const currentDate = new Date();
@@ -27,6 +27,28 @@ class APICaller {
     // console.log("Current Date-Time:", currentDate);
     // console.log("Formatted Current Date-Time:", currentDateTimeFormatted);
     // console.log("Formatted Current Date:", currentDateFormatted);
+  }
+
+  async fetchDistance(ori, dest, modes) {
+    const google = window.google;
+    const directionService = new google.maps.directionService();
+    const distances = []
+    try {
+      for (let i = 0; i < modes.length; i++) {
+        let mode = modes[i]
+        const results = await directionService.route({
+          origin: ori,
+          destination: dest,
+          travelMode: mode,
+        });
+        const distance = parseInt(results.routes[0].legs[0].distance.text.match(/\d+/)[0])
+        distances.push(distance)
+      }
+      return Math.max(...distances)
+    } catch (error) {
+      console.error("Error fetching API readings from GoogleMaps: ", error);
+      throw error;
+    }
   }
 
   //asynchronous function for fetch API data
@@ -54,21 +76,26 @@ class APICaller {
     try {
       //to check if time is constantly updating
       // console.log("Time & Date:", this.currentDateTimeFormatted);
-      this.data = await this.fetchAPIReadings(this.BASE_URL, this.RAIN_ENDPOINT, this.currentDateTimeFormatted, this.currentDateFormatted);
+      this.data = await this.fetchAPIReadings(
+        this.BASE_URL,
+        this.RAIN_ENDPOINT,
+        this.currentDateTimeFormatted,
+        this.currentDateFormatted
+      );
       const coordinates = {};
       const values = {};
       let raindata = {};
-      //metadata so we can access station values -> coordinates 
+      //metadata so we can access station values -> coordinates
       this.data.metadata.stations.forEach((station, index) => {
         coordinates[index] = station.location;
-      })
+      });
       this.data.items[0].readings.forEach((reading, index) => {
-        values[index] = reading.value
-      })
+        values[index] = reading.value;
+      });
       raindata = {
         coordinates,
-        values
-      }
+        values,
+      };
       // console.log("Rainfall readings:", raindata);
       return raindata;
     } catch (error) {
@@ -79,22 +106,27 @@ class APICaller {
 
   async fetchWeatherReadings() {
     try {
-      this.data = await this.fetchAPIReadings(this.BASE_URL, this.WEATHER_ENDPOINT, this.currentDateTimeFormatted, this.currentDateFormatted);
+      this.data = await this.fetchAPIReadings(
+        this.BASE_URL,
+        this.WEATHER_ENDPOINT,
+        this.currentDateTimeFormatted,
+        this.currentDateFormatted
+      );
       const coordinates = {};
       const reading = {};
       let weatherdata = {};
       this.data.area_metadata.forEach((area, index) => {
         coordinates[index] = area.label_location;
-      })
+      });
       this.data.items[0].forecasts.forEach((forecast, index) => {
-        reading[index] = forecast.forecast
-      })
+        reading[index] = forecast.forecast;
+      });
       weatherdata = {
         coordinates,
-        reading
-      }
+        reading,
+      };
       // console.log("Weather Readings: ", weatherdata)
-      return weatherdata
+      return weatherdata;
     } catch (error) {
       console.error("Error fetching weather readings:", error);
       throw error;
@@ -104,21 +136,26 @@ class APICaller {
   //readings in degC
   async fetchAirReadings() {
     try {
-      console.log(this.currentDateTimeFormatted)
-      this.data = await this.fetchAPIReadings(this.BASE_URL, this.AIR_ENDPOINT, this.currentDateTimeFormatted, this.currentDateFormatted);
+      console.log(this.currentDateTimeFormatted);
+      this.data = await this.fetchAPIReadings(
+        this.BASE_URL,
+        this.AIR_ENDPOINT,
+        this.currentDateTimeFormatted,
+        this.currentDateFormatted
+      );
       const coordinates = {};
       const value = {};
       let airdata = {};
       this.data.metadata.stations.forEach((station, index) => {
         coordinates[index] = station.location;
-      })
+      });
       this.data.items[0].readings.forEach((reading, index) => {
-        value[index] = reading.value
-      })
+        value[index] = reading.value;
+      });
       airdata = {
         coordinates,
-        value
-      }
+        value,
+      };
       // console.log("Air Readings: ", this.data)
       return airdata;
     } catch (error) {
@@ -129,11 +166,16 @@ class APICaller {
 
   async fetchUVIReadings() {
     try {
-      this.data = await this.fetchAPIReadings(this.BASE_URL, this.UVI_ENDPOINT, this.currentDateTimeFormatted, this.currentDateFormatted);
+      this.data = await this.fetchAPIReadings(
+        this.BASE_URL,
+        this.UVI_ENDPOINT,
+        this.currentDateTimeFormatted,
+        this.currentDateFormatted
+      );
       const UVI = this.data.items[0].index[9].value;
       // console.log(UVI)
       // console.log("UVI Readings: ", this.data)
-      return UVI
+      return UVI;
     } catch (error) {
       console.error("Error fetching air readings:", error);
       throw error;
@@ -142,25 +184,30 @@ class APICaller {
 
   async fetchPSIReadings() {
     try {
-      this.data = await this.fetchAPIReadings(this.BASE_URL, this.PSI_ENDPOINT, this.currentDateTimeFormatted, this.currentDateFormatted);
+      this.data = await this.fetchAPIReadings(
+        this.BASE_URL,
+        this.PSI_ENDPOINT,
+        this.currentDateTimeFormatted,
+        this.currentDateFormatted
+      );
       const coordinates = {};
       const value = {};
       let PSIdata = {};
       this.data.region_metadata.forEach((region, index) => {
         coordinates[index] = region.label_location;
-      })
+      });
       const store = this.data.items[0].readings.psi_twenty_four_hourly;
       for (const region in store) {
         value[region] = store[region];
       }
       PSIdata = {
         coordinates,
-        value
-      }
+        value,
+      };
       // console.log(value)
       // console.log(value[Object.keys(value)[0]]);
       // console.log("PSI Readings: ", this.data)
-      return PSIdata
+      return PSIdata;
     } catch (error) {
       console.error("Error fetching air readings:", error);
       throw error;
