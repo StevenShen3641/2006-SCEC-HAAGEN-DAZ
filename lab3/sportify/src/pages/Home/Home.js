@@ -22,9 +22,8 @@ function Home({ buttonPopup, setButtonPopup }) {
     lat: 1.36,
     lng: 103.8,
   });
-  const [mapLoaded, setMapLoaded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const google = window.google
   useEffect(() => {
     if (window.google) {
       setIsLoaded(true);
@@ -77,6 +76,25 @@ function Home({ buttonPopup, setButtonPopup }) {
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
+  
+  const modes = (() => {
+    const transportModes = [];
+    if (isLoaded) {
+      if (PTvalue) {
+        transportModes.push(google.maps.TravelMode.TRANSIT);
+      }
+      if (Walkvalue) {
+        transportModes.push(google.maps.TravelMode.WALKING);
+      }
+      if (Carvalue) {
+        transportModes.push(google.maps.TravelMode.DRIVING);
+      }
+      if (MBvalue) {
+        transportModes.push(google.maps.TravelMode.BICYCLING);
+      }
+      return transportModes;
+    }
+  })();
   {
     /* Use to check if filtering locations is working
     useEffect(() => {
@@ -104,7 +122,8 @@ function Home({ buttonPopup, setButtonPopup }) {
                 navigate("/SearchResults", {
                   state: {
                     displayData: filteredData,
-                    travelModes: { PTvalue, Walkvalue, Carvalue, MBvalue },
+                    travelModes: modes,
+                    ori: center
                   },
                 });
             }}

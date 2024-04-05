@@ -8,6 +8,8 @@ import APICaller from "../Home/APICaller.js";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;
+  const ori = useLocation().state.ori;
+  const modes = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
 
   // for Google Maps
@@ -18,29 +20,30 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       setIsLoaded(false);
     }
   });
-  const google = window.google;
-  const { PTvalue, Walkvalue, Carvalue, MBvalue } =
-    useLocation().state.travelModes;
 
-  const modes = (() => {
-    const transportModes = [];
-    if (isLoaded) {
-      if (PTvalue) {
-        transportModes.push(google.maps.TravelMode.TRANSIT);
-      }
-      if (Walkvalue) {
-        transportModes.push(google.maps.TravelMode.WALKING);
-      }
-      if (Carvalue) {
-        transportModes.push(google.maps.TravelMode.DRIVING);
-      }
-      if (MBvalue) {
-        transportModes.push(google.maps.TravelMode.BICYCLING);
-      }
-      return transportModes;
-    }
-  })();
-  console.log(modes);
+  const apiCaller = new APICaller();
+  const [distance, setDistance] = useState({});
+  useEffect(() => {
+    let d = null;
+    displayData.forEach((value) => {
+      apiCaller
+        .fetchDistance(
+          ori,
+          {
+            lat: parseFloat(value.Y),
+            lng: parseFloat(value.X),
+          },
+          modes
+        )
+        .then((result) => {
+          console.log(result);
+          d = result;
+          setDistance((prevDistance) => ({...prevDistance, [value.index]: d}));
+        });
+    });
+  }, []);
+  console.log(distance);
+
   // please ignore, testing
   // const apiCaller = new APICaller();
   // const read = apiCaller.fetchPSIReadings();
@@ -52,18 +55,20 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
       </header>
       <body>
-        {displayData.map((location) => {
-          return (
-            <SearchEntry
-              imageLink={location.Images}
-              nameOfLocation={location.Name}
-              addressGetter={() => addressGetter(location.Y, location.X)}
-              sports={location.Sports}
-              distanceFromCenter={location.distanceFromCenter}
-              //   score = {scoreCalculator()}
-            ></SearchEntry>
-          );
-        })}
+        {distance != null &&
+          displayData.map((location) => {
+            return (
+              <SearchEntry
+                key={location.index}
+                imageLink={location.Images}
+                nameOfLocation={location.Name}
+                addressGetter={() => addressGetter(location.Y, location.X)}
+                sports={location.Sports}
+                distanceFromCenter={location.distanceFromCenter}
+                //   score = {scoreCalculator()}
+              ></SearchEntry>
+            );
+          })}
       </body>
     </>
   );

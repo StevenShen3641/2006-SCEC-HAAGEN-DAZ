@@ -31,20 +31,23 @@ class APICaller {
 
   async fetchDistance(ori, dest, modes) {
     const google = window.google;
-    const directionService = new google.maps.directionService();
-    const distances = []
+    const directionService = new google.maps.DirectionsService();
+    const distances = [];
     try {
       for (let i = 0; i < modes.length; i++) {
-        let mode = modes[i]
-        const results = await directionService.route({
-          origin: ori,
-          destination: dest,
-          travelMode: mode,
-        });
-        const distance = parseInt(results.routes[0].legs[0].distance.text.match(/\d+/)[0])
-        distances.push(distance)
+        let mode = modes[i];
+        try {
+          const results = await directionService.route({
+            origin: ori,
+            destination: dest,
+            travelMode: mode,
+          });
+          const distance = parseInt(results.routes[0].legs[0].distance.value);
+          distances.push(distance);
+        } catch (error) {}
       }
-      return Math.max(...distances)
+      return Math.min(...distances);
+      // return distances
     } catch (error) {
       console.error("Error fetching API readings from GoogleMaps: ", error);
       throw error;
