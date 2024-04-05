@@ -24,7 +24,6 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const apiCaller = new APICaller();
   const [distance, setDistance] = useState({});
   useEffect(() => {
-    let d = null;
     displayData.forEach((value) => {
       apiCaller
         .fetchDistance(
@@ -37,8 +36,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         )
         .then((result) => {
           console.log(result);
-          d = result;
-          setDistance((prevDistance) => ({...prevDistance, [value.index]: d}));
+          setDistance((prevDistance) => ({...prevDistance, [value.index]: result}));
         });
     });
   }, []);
