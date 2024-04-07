@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,createContext } from "react";
 import Papa from "papaparse";
-import Data from "./data2.csv";
+import Data from "../data/data2.csv";
 
-function useCSVData() {
-  const [csvData, setCsvData] = useState([]);
+export const CSVDataContext = createContext();
+
+function CSVDataContextProvider({children}) {
+  const [csvData, setCsvData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +23,9 @@ function useCSVData() {
     fetchData();
   }, []);
 
-  return csvData;
+  return(
+    <CSVDataContext.Provider value={csvData}>{children}</CSVDataContext.Provider>
+  );
 }
 
-export default useCSVData;
+export default CSVDataContextProvider;
