@@ -22,7 +22,8 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   });
 
   const apiCaller = new APICaller();
-  const [distance, setDistance] = useState({});
+  const [distances, setDistances] = useState({});
+  // const distances;
   useEffect(() => {
     displayData.forEach((value) => {
       apiCaller
@@ -36,11 +37,11 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         )
         .then((result) => {
           console.log(result);
-          setDistance((prevDistance) => ({...prevDistance, [value.index]: result}));
+          setDistances((prevDistance) => ({...prevDistance, [value.index]: result}));
         });
     });
   }, []);
-  console.log(distance);
+  console.log(distances);
 
   // please ignore, testing
   // const apiCaller = new APICaller();
@@ -53,7 +54,8 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
       </header>
       <body>
-        {distance != null &&
+        {/* {distance != null && Object.keys(distances).length == displayData.length && */}
+        {distances != null &&
           displayData.map((location) => {
             return (
               <SearchEntry
