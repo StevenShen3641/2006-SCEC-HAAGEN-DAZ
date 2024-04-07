@@ -46,3 +46,24 @@ async function calculateUVIScore(location) {
   }
 }
 export default calculateUVIScore;*/
+import APICaller from "../../pages/Home/APICaller";
+const apiCaller = new APICaller();
+const fetchUVIValues = async () => {
+  try {
+    const UVIData = await apiCaller.fetchUVIReadings();
+    return UVIData;
+  } catch (error) {
+    console.error("Error fetching UVI values:", error);
+  }
+  fetchUVIValues();
+};
+async function calculateUVIScore(location) {
+  const UVIData = apiCaller.fetchUVIReadings();
+  UVIData.then((result) => {
+    console.log(result);
+    return result;
+  }).catch((error) => {
+    console.error("Error occurred:", error);
+  });
+}
+export default calculateUVIScore;

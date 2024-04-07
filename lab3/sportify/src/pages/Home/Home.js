@@ -13,6 +13,7 @@ import APICaller from "./APICaller.js";
 import calculatePSIScore from "../../components/Calculators/CalculatePSI.js";
 import calculateRainfallScore from "../../components/Calculators/CalculateRainfall.js";
 import calculateUVIScore from "../../components/Calculators/CalculateUV.js";
+import calculateAirScore from "../../components/Calculators/CalculateAirTemp.js";
 const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
@@ -111,17 +112,32 @@ function Home({ buttonPopup, setButtonPopup }) {
     fetchRainfallScore();
   */
     }
+    {
+      /*
     const fetchUVIScore = async () => {
       try {
-        const UVIData = apiCaller.fetchUVIReadings();
-        //const UVIScore = calculateUVIScore(center);
-        //console.log(UVIScore);
-        console.log(UVIData);
+        const UVIScore = calculateUVIScore(center);
+        console.log(UVIScore);
       } catch (error) {
         console.error("Error fetching PSI score:", error);
       }
     };
     fetchUVIScore();
+  });*/
+    }
+    {
+      /*
+    const fetchAirTempScore = async () => {
+      try {
+        const airTempScore = calculateAirScore(center);
+        console.log(airTempScore);
+      } catch (error) {
+        console.error("Error getting Air Temp Data:", error);
+      }
+    };
+    fetchAirTempScore();
+    */
+    }
   });
   const modes = (() => {
     const transportModes = [];
