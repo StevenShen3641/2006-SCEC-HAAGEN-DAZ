@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams} from "react-router-dom";
-import {CSVDataContext} from "../../context/CSVDataContext.js";
+import {CSVDataContext} from "../../contextProviders/CSVDataContext.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 
 const SportsLocation = ({ buttonPopup, setButtonPopup })=>{

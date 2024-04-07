@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SearchResults from "./pages/SearchResults/SearchResults";
 import SportsLocation from "./pages/Location/SportsLocation";
 import React, { useState, useEffect } from "react";
-import CSVDataContextProvider from './context/CSVDataContext';
+import CSVDataContextProvider from './contextProviders/CSVDataContext';
 
 function App() {
   //for popup

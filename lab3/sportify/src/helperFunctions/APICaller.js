@@ -55,7 +55,7 @@ class APICaller {
   }
 
   //asynchronous function for fetch API data
-  async fetchAPIReadings(url, endpoint, dateTime, date) {
+  async #fetchAPIReadings(url, endpoint, dateTime, date) {
     //exception handling
     try {
       // pause function until completion/failure in fetching data
@@ -79,7 +79,7 @@ class APICaller {
     try {
       //to check if time is constantly updating
       // console.log("Time & Date:", this.currentDateTimeFormatted);
-      this.data = await this.fetchAPIReadings(
+      this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.RAIN_ENDPOINT,
         this.currentDateTimeFormatted,
@@ -109,7 +109,7 @@ class APICaller {
 
   async fetchWeatherReadings() {
     try {
-      this.data = await this.fetchAPIReadings(
+      this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.WEATHER_ENDPOINT,
         this.currentDateTimeFormatted,
@@ -140,7 +140,7 @@ class APICaller {
   async fetchAirReadings() {
     try {
       console.log(this.currentDateTimeFormatted);
-      this.data = await this.fetchAPIReadings(
+      this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.AIR_ENDPOINT,
         this.currentDateTimeFormatted,
@@ -169,7 +169,7 @@ class APICaller {
 
   async fetchUVIReadings() {
     try {
-      this.data = await this.fetchAPIReadings(
+      this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.UVI_ENDPOINT,
         this.currentDateTimeFormatted,
@@ -188,7 +188,7 @@ class APICaller {
 
   async fetchPSIReadings() {
     try {
-      this.data = await this.fetchAPIReadings(
+      this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.PSI_ENDPOINT,
         this.currentDateTimeFormatted,

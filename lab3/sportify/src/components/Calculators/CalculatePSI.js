@@ -1,5 +1,5 @@
-import calculateDistance from "../../pages/Home/distanceCalculator";
-import APICaller from "../../pages/Home/APICaller";
+import calculateDistance from "../../helperFunctions/distanceCalculator";
+import APICaller from "../../helperFunctions/APICaller";
 const apiCaller = new APICaller();
 const fetchPSIValues = async () => {
   try {

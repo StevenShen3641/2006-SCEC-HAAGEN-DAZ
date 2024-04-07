@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './assets/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import CSVDataContextProvider from './context/CSVDataContext';
+import CSVDataContextProvider from './contextProviders/CSVDataContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

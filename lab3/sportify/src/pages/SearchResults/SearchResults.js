@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter, useLocation } from "react-router-dom";
 import SearchEntry from "./SearchEntry";
-import useCSVData from "../../context/CSVDataContext.js";
-import addressGetter from "../../helper/addressGetter.js";
+import useCSVData from "../../contextProviders/CSVDataContext.js";
+import addressGetter from "../../helperFunctions/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-import APICaller from "../Home/APICaller.js";
+import APICaller from "../../helperFunctions/APICaller.js";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;

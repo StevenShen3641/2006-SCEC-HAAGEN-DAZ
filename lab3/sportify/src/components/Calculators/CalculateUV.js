@@ -46,7 +46,7 @@ async function calculateUVIScore(location) {
   }
 }
 export default calculateUVIScore;*/
-import APICaller from "../../pages/Home/APICaller";
+import APICaller from "../../helperFunctions/APICaller";
 const apiCaller = new APICaller();
 const fetchUVIValues = async () => {
   try {
