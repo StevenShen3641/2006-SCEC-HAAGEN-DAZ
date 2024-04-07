@@ -46,7 +46,10 @@ class APICaller {
           distances.push(distance);
         } catch (error) { }
       }
-      return Math.min(...distances);
+      if (distances.length == 0) {
+        return Infinity
+      } else {
+      return Math.min(...distances);}
       // return distances
     } catch (error) {
       console.error("Error fetching API readings from GoogleMaps: ", error);
