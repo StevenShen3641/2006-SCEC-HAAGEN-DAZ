@@ -6,7 +6,7 @@ import SearchFilter from "./SearchFilter";
 import Map from "../../components/Map/Map";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-import {CSVDataContext} from "../../context/CSVDataContext.js";
+import { CSVDataContext } from "../../context/CSVDataContext.js";
 import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
 import APICaller from "./APICaller.js";
@@ -15,9 +15,9 @@ const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
-  console.log('hi');
+  console.log("hi");
   const csvData = useContext(CSVDataContext);
-  console.log(csvData)
+  console.log(csvData);
   const navigate = useNavigate();
   const apiCaller = new APICaller();
   const [infoWindow, setInfoWindow] = useState(true);
@@ -82,11 +82,13 @@ function Home({ buttonPopup, setButtonPopup }) {
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
+  //console.log(center);
   useEffect(() => {
     const fetchPSIScore = async () => {
       try {
+        console.log(center);
         const psiScore = calculatePSIScore(center);
-        //console.log(psiScore);
+        console.log(psiScore);
       } catch (error) {
         console.error("Error fetching PSI score:", error);
       }

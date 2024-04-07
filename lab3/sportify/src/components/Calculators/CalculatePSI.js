@@ -14,6 +14,7 @@ const fetchPSIValues = async () => {
   fetchPSIValues();
 };
 async function calculatePSIScore(location) {
+  console.log(location);
   try {
     const psiData = await fetchPSIValues();
     {
@@ -21,11 +22,11 @@ async function calculatePSIScore(location) {
     }
     const PSIvalue = psiData.value;
     {
-      /*console.log(PSIvalue);*/
+      //console.log(PSIvalue);
     }
     const PSIcoordinates = psiData.coordinates;
     {
-      /*console.log(PSIcoordinates);*/
+      //console.log(PSIcoordinates);
     }
     let shortestDistance = Infinity;
     let closestIndex = -1;
@@ -36,8 +37,8 @@ async function calculatePSIScore(location) {
       const coordinates = PSIcoordinates[i];
       //console.log(coordinates);
       //console.log(coordinates.latitude);
-      console.log(location.x);
-      console.log(location.y);
+      //console.log(location.x);
+      //console.log(location.y);
       const distance = calculateDistance(
         coordinates.latitude,
         coordinates.longitude,
@@ -48,13 +49,11 @@ async function calculatePSIScore(location) {
       if (distance < shortestDistance) {
         shortestDistance = distance;
         closestIndex = i;
-        console.log(closestIndex);
       }
     }
     return PSIvalue[closestIndex];
   } catch (error) {
     console.error("Error calculating PSI score:", error);
-    return null;
   }
 }
 export default calculatePSIScore;
