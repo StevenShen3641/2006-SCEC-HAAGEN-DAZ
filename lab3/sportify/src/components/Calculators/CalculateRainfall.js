@@ -3,34 +3,46 @@ import APICaller from "../../pages/Home/APICaller";
 const apiCaller = new APICaller();
 const fetchRainfallValues = async () => {
   try {
-    const rainfallData = await apiCaller.fetchRainfallReadings();
-    return rainfallData;
+    const RainfallData = await apiCaller.fetchRainfallReadings();
+    return RainfallData;
   } catch (error) {
-    console.error("Error fetching PSI values:", error);
+    console.error("Error fetching Rainfall values:", error);
   }
   fetchRainfallValues();
 };
-function calculateRainfallScore(location) {
-  const rainfallData = apiCaller.fetchRainfallReadings();
-  const rainfallvalue = rainfallData.value;
-  const rainfallcoordinates = rainfallData.coordinates;
-  let shortestDistance = Infinity;
-  let closestIndex = -1;
-  if (rainfallcoordinates && Array.isArray(rainfallcoordinates)) {
-    for (let i = 0; i < rainfallcoordinates.length; i++) {
-      const coordinates = rainfallcoordinates[i];
+async function calculateRainfallScore(location) {
+  try {
+    const RainfallData = await fetchRainfallValues();
+    const Rainfallvalue = RainfallData.values;
+    const Rainfallcoordinates = RainfallData.coordinates;
+    //console.log(RainfallData);
+    //console.log(Rainfallcoordinates);
+    //console.log(Rainfallvalue);
+    let shortestDistance = Infinity;
+    let closestIndex = -1;
+    if (!Rainfallcoordinates || Array.isArray(Rainfallcoordinates)) {
+      console.log("Rainfallcoordinates not ready.");
+    }
+    for (let i = 0; i < 60; i++) {
+      const coordinates = Rainfallcoordinates[i];
       const distance = calculateDistance(
         coordinates.latitude,
         coordinates.longitude,
-        location.y,
-        location.x
+        location.x,
+        location.y
       );
+      console.log(distance);
       if (distance < shortestDistance) {
         shortestDistance = distance;
         closestIndex = i;
       }
-      return rainfallvalue[i];
     }
+    const valuesArray = Object.values(Rainfallvalue);
+    console.log(closestIndex);
+    console.log(valuesArray[closestIndex]);
+    return valuesArray[closestIndex];
+  } catch (error) {
+    console.error("Error calculating Rainfall score:", error);
   }
 }
 export default calculateRainfallScore;

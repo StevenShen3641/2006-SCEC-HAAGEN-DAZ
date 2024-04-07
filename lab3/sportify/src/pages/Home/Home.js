@@ -6,18 +6,21 @@ import SearchFilter from "./SearchFilter";
 import Map from "../../components/Map/Map";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-import {CSVDataContext} from "../../context/CSVDataContext.js";
+import { CSVDataContext } from "../../context/CSVDataContext.js";
 import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
 import APICaller from "./APICaller.js";
 import calculatePSIScore from "../../components/Calculators/CalculatePSI.js";
+import calculateRainfallScore from "../../components/Calculators/CalculateRainfall.js";
+import calculateUVIScore from "../../components/Calculators/CalculateUV.js";
+import calculateAirScore from "../../components/Calculators/CalculateAirTemp.js";
 const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
-  console.log('hi');
+  //console.log("hi");
   const csvData = useContext(CSVDataContext);
-  console.log(csvData)
+  //console.log(csvData);
   const navigate = useNavigate();
   const apiCaller = new APICaller();
   const [infoWindow, setInfoWindow] = useState(true);
@@ -82,16 +85,59 @@ function Home({ buttonPopup, setButtonPopup }) {
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
+  //console.log(center);
   useEffect(() => {
-    const fetchPSIScore = async () => {
+    //Here, to test calculators, to test using center, change location.y and location.x to location.lat and location.lng respectively in calculators
+    //Current implementation location.y and location.x is for filteredData/csvData iterations
+    {
+      /*const fetchPSIScore = async () => {
       try {
         const psiScore = calculatePSIScore(center);
-        //console.log(psiScore);
+        console.log(psiScore);
       } catch (error) {
         console.error("Error fetching PSI score:", error);
       }
     };
-    fetchPSIScore();
+  fetchPSIScore();*/
+    }
+    {
+      /*const fetchRainfallScore = async () => {
+      try {
+        const RainfallScore = calculateRainfallScore(center);
+        console.log(RainfallScore);
+      } catch (error) {
+        console.error("Error fetching Rainfall score:", error);
+      }
+    };
+    fetchRainfallScore();
+  */
+    }
+    {
+      /*
+    const fetchUVIScore = async () => {
+      try {
+        const UVIScore = calculateUVIScore(center);
+        console.log(UVIScore);
+      } catch (error) {
+        console.error("Error fetching PSI score:", error);
+      }
+    };
+    fetchUVIScore();
+  });*/
+    }
+    {
+      /*
+    const fetchAirTempScore = async () => {
+      try {
+        const airTempScore = calculateAirScore(center);
+        console.log(airTempScore);
+      } catch (error) {
+        console.error("Error getting Air Temp Data:", error);
+      }
+    };
+    fetchAirTempScore();
+    */
+    }
   });
   const modes = (() => {
     const transportModes = [];

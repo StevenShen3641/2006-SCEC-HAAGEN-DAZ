@@ -44,7 +44,7 @@ class APICaller {
           });
           const distance = parseInt(results.routes[0].legs[0].distance.value);
           distances.push(distance);
-        } catch (error) {}
+        } catch (error) { }
       }
       if (distances.length == 0) {
         return Infinity
@@ -178,9 +178,10 @@ class APICaller {
         this.currentDateTimeFormatted,
         this.currentDateFormatted
       );
-      const UVI = this.data.items[0].index[9].value;
-      // console.log(UVI)
-      // console.log("UVI Readings: ", this.data)
+      //console.log(this.data);
+      const UVI = this.data.items[0].index[0].value;
+      //console.log(UVI);
+      //console.log("UVI Readings: ", this.data);
       return UVI;
     } catch (error) {
       console.error("Error fetching air readings:", error);
