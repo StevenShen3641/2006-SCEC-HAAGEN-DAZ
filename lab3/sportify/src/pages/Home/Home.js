@@ -27,7 +27,7 @@ function Home({ buttonPopup, setButtonPopup }) {
     lng: 103.8,
   });
   const [isLoaded, setIsLoaded] = useState(false);
-  const google = window.google
+  const google = window.google;
   useEffect(() => {
     if (window.google) {
       setIsLoaded(true);
@@ -35,7 +35,6 @@ function Home({ buttonPopup, setButtonPopup }) {
       setIsLoaded(false);
     }
   });
-
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [circleRadius, setCircleRadius] = useState(0);
@@ -67,19 +66,31 @@ function Home({ buttonPopup, setButtonPopup }) {
   useEffect(() => {
     if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
       setFilteredData([]);
-      const filtered = csvData.filter(
-        (item) => {
-          const distanceFromCenter = calculateDistance(center.lat, center.lng, item.Y, item.X);
-          item['distanceFromCenter'] = distanceFromCenter;
-          return distanceFromCenter <= sliderValue;
-        }
-
-      );
+      const filtered = csvData.filter((item) => {
+        const distanceFromCenter = calculateDistance(
+          center.lat,
+          center.lng,
+          item.Y,
+          item.X
+        );
+        item["distanceFromCenter"] = distanceFromCenter;
+        return distanceFromCenter <= sliderValue;
+      });
       // console.log(filtered);
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
-  
+  useEffect(() => {
+    const fetchPSIScore = async () => {
+      try {
+        const psiScore = calculatePSIScore(center);
+        //console.log(psiScore);
+      } catch (error) {
+        console.error("Error fetching PSI score:", error);
+      }
+    };
+    fetchPSIScore();
+  });
   const modes = (() => {
     const transportModes = [];
     if (isLoaded) {
@@ -107,6 +118,7 @@ function Home({ buttonPopup, setButtonPopup }) {
     }, [filteredData, center, csvData]);
   }*/
   }
+
   return (
     <div className="App">
       <header>
@@ -126,7 +138,7 @@ function Home({ buttonPopup, setButtonPopup }) {
                   state: {
                     displayData: filteredData,
                     travelModes: modes,
-                    ori: center
+                    ori: center,
                   },
                 });
             }}
