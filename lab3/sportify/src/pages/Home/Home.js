@@ -11,6 +11,8 @@ import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
 import APICaller from "./APICaller.js";
 import calculatePSIScore from "../../components/Calculators/CalculatePSI.js";
+import calculateRainfallScore from "../../components/Calculators/CalculateRainfall.js";
+import calculateUVIScore from "../../components/Calculators/CalculateUV.js";
 const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
@@ -83,16 +85,42 @@ function Home({ buttonPopup, setButtonPopup }) {
   }, [sliderValue, center, csvData]);
   //console.log(center);
   useEffect(() => {
-    const fetchPSIScore = async () => {
+    //Here, to test calculators, to test using center, change location.y and location.x to location.lat and location.lng respectively in calculators
+    //Current implementation location.y and location.x is for filteredData/csvData iterations
+    {
+      /*const fetchPSIScore = async () => {
       try {
-        console.log(center);
         const psiScore = calculatePSIScore(center);
         console.log(psiScore);
       } catch (error) {
         console.error("Error fetching PSI score:", error);
       }
     };
-    fetchPSIScore();
+  fetchPSIScore();*/
+    }
+    {
+      /*const fetchRainfallScore = async () => {
+      try {
+        const RainfallScore = calculateRainfallScore(center);
+        console.log(RainfallScore);
+      } catch (error) {
+        console.error("Error fetching Rainfall score:", error);
+      }
+    };
+    fetchRainfallScore();
+  */
+    }
+    const fetchUVIScore = async () => {
+      try {
+        const UVIData = apiCaller.fetchUVIReadings();
+        //const UVIScore = calculateUVIScore(center);
+        //console.log(UVIScore);
+        console.log(UVIData);
+      } catch (error) {
+        console.error("Error fetching PSI score:", error);
+      }
+    };
+    fetchUVIScore();
   });
   const modes = (() => {
     const transportModes = [];

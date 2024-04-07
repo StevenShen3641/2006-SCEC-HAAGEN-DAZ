@@ -36,7 +36,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         )
         .then((result) => {
           console.log(result);
-          setDistance((prevDistance) => ({...prevDistance, [value.index]: result}));
+          setDistance((prevDistance) => ({ ...prevDistance, [value.index]: result }));
         });
     });
   }, []);
@@ -44,7 +44,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
 
   // please ignore, testing
   // const apiCaller = new APICaller();
-  // const read = apiCaller.fetchPSIReadings();
+  // const read = apiCaller.fetchUVIReadings();
   // console.log(read);
 
   return (
@@ -63,7 +63,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
                 addressGetter={() => addressGetter(location.Y, location.X)}
                 sports={location.Sports}
                 distanceFromCenter={location.distanceFromCenter}
-                //   score = {scoreCalculator()}
+              //   score = {scoreCalculator()}
               ></SearchEntry>
             );
           })}
