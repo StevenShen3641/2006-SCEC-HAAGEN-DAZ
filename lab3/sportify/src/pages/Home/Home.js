@@ -15,9 +15,7 @@ const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
-  console.log("hi");
-  const csvData = useContext(CSVDataContext);
-  console.log(csvData);
+  const {csvData, setCsvData} = useContext(CSVDataContext);
   const navigate = useNavigate();
   const apiCaller = new APICaller();
   const [infoWindow, setInfoWindow] = useState(true);
@@ -37,6 +35,7 @@ function Home({ buttonPopup, setButtonPopup }) {
       setIsLoaded(false);
     }
   });
+
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [circleRadius, setCircleRadius] = useState(0);

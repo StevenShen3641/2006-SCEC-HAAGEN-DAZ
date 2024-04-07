@@ -16,7 +16,7 @@ function CSVDataContextProvider({children}) {
       const csvText = decoder.decode(result.value);
       const parsedData = Papa.parse(csvText, {
         header: true,
-        skipEmptyLines: true,
+        skipEmptyLines: true, 
       }).data;
       setCsvData(parsedData);
     };
@@ -24,7 +24,7 @@ function CSVDataContextProvider({children}) {
   }, []);
 
   return(
-    <CSVDataContext.Provider value={csvData}>{children}</CSVDataContext.Provider>
+    <CSVDataContext.Provider value={{csvData, setCsvData}}>{children}</CSVDataContext.Provider>
   );
 }
 

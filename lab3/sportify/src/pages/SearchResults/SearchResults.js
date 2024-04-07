@@ -57,7 +57,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
           displayData.map((location) => {
             return (
               <SearchEntry
-                key={location.index}
+                locationKey={location.index}
                 imageLink={location.Images}
                 nameOfLocation={location.Name}
                 addressGetter={() => addressGetter(location.Y, location.X)}

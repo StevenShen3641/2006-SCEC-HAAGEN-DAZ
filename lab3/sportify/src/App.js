@@ -20,7 +20,7 @@ function App() {
           {/* for results page */}
           <Route path="/SearchResults" element={<SearchResults buttonPopup={buttonPopup} setButtonPopup={setButtonPopup}/>} />
           {/* for each location*/}
-          <Route path="/SportsLocation/:id" element={<SportsLocation/>} />
+          <Route path="/SportsLocation/:id" element={<SportsLocation buttonPopup={buttonPopup} setButtonPopup={setButtonPopup}/>} />
         </Routes>
       </Router>
     </div>
