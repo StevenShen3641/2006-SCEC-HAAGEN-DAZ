@@ -1,4 +1,4 @@
-import calculateDistance from "../../helperFunctions/distanceCalculator";
+import calculateMapDistance from "../calculateMapDistance";
 import APICaller from "../../helperFunctions/APICaller";
 const apiCaller = new APICaller();
 const fetchPSIValues = async () => {
@@ -10,7 +10,7 @@ const fetchPSIValues = async () => {
   }
   fetchPSIValues();
 };
-async function calculatePSIScore(location) {
+async function calculatePSI(location) {
   try {
     const psiData = await fetchPSIValues();
     const PSIvalue = psiData.value;
@@ -20,9 +20,9 @@ async function calculatePSIScore(location) {
     if (!PSIcoordinates || Array.isArray(PSIcoordinates)) {
       console.log("PSIcoordinates not ready.");
     }
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < PSIcoordinates.length; i++) {
       const coordinates = PSIcoordinates[i];
-      const distance = calculateDistance(
+      const distance = calculateMapDistance(
         coordinates.latitude,
         coordinates.longitude,
         location.y,
@@ -40,4 +40,4 @@ async function calculatePSIScore(location) {
     console.error("Error calculating PSI score:", error);
   }
 }
-export default calculatePSIScore;
+export default calculatePSI;

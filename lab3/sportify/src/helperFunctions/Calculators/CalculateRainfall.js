@@ -1,4 +1,4 @@
-import calculateDistance from "../../helperFunctions/distanceCalculator";
+import calculateDistance from "../calculateMapDistance";
 import APICaller from "../../helperFunctions/APICaller";
 const apiCaller = new APICaller();
 const fetchRainfallValues = async () => {
@@ -10,7 +10,7 @@ const fetchRainfallValues = async () => {
   }
   fetchRainfallValues();
 };
-async function calculateRainfallScore(location) {
+async function calculateRainfallAmount(location) {
   try {
     const RainfallData = await fetchRainfallValues();
     const Rainfallvalue = RainfallData.values;
@@ -45,4 +45,4 @@ async function calculateRainfallScore(location) {
     console.error("Error calculating Rainfall score:", error);
   }
 }
-export default calculateRainfallScore;
+export default calculateRainfallAmount;

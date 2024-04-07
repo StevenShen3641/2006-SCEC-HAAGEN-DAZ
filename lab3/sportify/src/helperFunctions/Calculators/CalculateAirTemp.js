@@ -1,4 +1,4 @@
-import calculateDistance from "../../helperFunctions/distanceCalculator";
+import calculateDistance from "../calculateMapDistance";
 import APICaller from "../../helperFunctions/APICaller";
 const apiCaller = new APICaller();
 const fetchAirValues = async () => {
@@ -11,7 +11,7 @@ const fetchAirValues = async () => {
   }
   fetchAirValues();
 };
-async function calculateAirScore(location) {
+async function calculateAirTemp(location) {
   try {
     const AirData = await fetchAirValues();
     const Airvalue = AirData.value;
@@ -50,4 +50,4 @@ async function calculateAirScore(location) {
     console.error("Error calculating Air score:", error);
   }
 }
-export default calculateAirScore;
+export default calculateAirTemp;

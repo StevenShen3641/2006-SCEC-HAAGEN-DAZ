@@ -4,13 +4,14 @@ import SearchEntry from "./SearchEntry";
 import useCSVData from "../../contextProviders/CSVDataContext.js";
 import addressGetter from "../../helperFunctions/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-import APICaller from "../../helperFunctions/APICaller.js";
+import CalculateScores from "../../helperFunctions/Calculators/CalculateScores.js";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
+  const [overallScores, setOverallScores] = useState();
 
   // for Google Maps
   useEffect(() => {
@@ -21,33 +22,12 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
     }
   });
 
-  const apiCaller = new APICaller();
-  const [distances, setDistances] = useState({});
-  // const distances;
-  useEffect(() => {
-    displayData.forEach((value) => {
-      apiCaller
-        .fetchDistance(
-          ori,
-          {
-            lat: parseFloat(value.Y),
-            lng: parseFloat(value.X),
-          },
-          modes
-        )
-        .then((result) => {
-          console.log(result);
+  useEffect(()=>{
+    setOverallScores(CalculateScores(displayData,ori,modes))
+  },[])
+  
 
-          setDistances((prevDistance) => ({ ...prevDistance, [value.index]: result }));
-        });
-    });
-  }, []);
-  console.log(distances);
-
-  // please ignore, testing
-  // const apiCaller = new APICaller();
-  // const read = apiCaller.fetchUVIReadings();
-  // console.log(read);
+  
 
   return (
     <>
@@ -56,7 +36,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       </header>
       <body>
         {/* {distance != null && Object.keys(distances).length == displayData.length && */}
-        {distances != null &&
+        {
           displayData.map((location) => {
             return (
               <SearchEntry
@@ -66,7 +46,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
                 addressGetter={() => addressGetter(location.Y, location.X)}
                 sports={location.Sports}
                 distanceFromCenter={location.distanceFromCenter}
-              //   score = {scoreCalculator()}
+                score = {overallScores}
               ></SearchEntry>
             );
           })}

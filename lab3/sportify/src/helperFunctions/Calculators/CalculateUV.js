@@ -57,7 +57,7 @@ const fetchUVIValues = async () => {
   }
   fetchUVIValues();
 };
-async function calculateUVIScore(location) {
+async function calculateUVI(location) {
   const UVIData = apiCaller.fetchUVIReadings();
   UVIData.then((result) => {
     console.log(result);
@@ -66,4 +66,4 @@ async function calculateUVIScore(location) {
     console.error("Error occurred:", error);
   });
 }
-export default calculateUVIScore;
+export default calculateUVI;

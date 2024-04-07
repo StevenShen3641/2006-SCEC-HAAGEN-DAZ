@@ -1,4 +1,4 @@
-import calculateDistance from "../../helperFunctions/distanceCalculator";
+import calculateDistance from "../../helperFunctions/calculateMapDistance";
 import "../../assets/App.css";
 import {
   GoogleMap,

@@ -7,13 +7,9 @@ import Map from "../../components/Map/Map";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import { CSVDataContext } from "../../contextProviders/CSVDataContext.js";
-import calculateDistance from "../../helperFunctions/distanceCalculator.js";
+import calculateDistance from "../../helperFunctions/calculateMapDistance.js";
 import { useLoadScript } from "@react-google-maps/api";
 import APICaller from "../../helperFunctions/APICaller.js";
-import calculatePSIScore from "../../components/Calculators/CalculatePSI.js";
-import calculateRainfallScore from "../../components/Calculators/CalculateRainfall.js";
-import calculateUVIScore from "../../components/Calculators/CalculateUV.js";
-import calculateAirScore from "../../components/Calculators/CalculateAirTemp.js";
 const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
