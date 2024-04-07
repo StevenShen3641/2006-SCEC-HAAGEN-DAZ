@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, createMemoryRouter, useLocation } from "react-router-dom";
 import SearchEntry from "./SearchEntry";
-import useCSVData from "../../data/csvData.js";
+import useCSVData from "../../context/CSVDataContext.js";
 import addressGetter from "../../helper/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import APICaller from "../Home/APICaller.js";

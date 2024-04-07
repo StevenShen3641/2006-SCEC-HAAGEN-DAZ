@@ -1,12 +1,12 @@
 import "../../assets/App.css";
 import Data from "../../data/data2.csv";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, createMemoryRouter, useNavigate } from "react-router-dom";
 import SearchFilter from "./SearchFilter";
 import Map from "../../components/Map/Map";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-import useCSVData from "../../data/csvData.js";
+import {CSVDataContext} from "../../context/CSVDataContext.js";
 import calculateDistance from "./distanceCalculator.js";
 import { useLoadScript } from "@react-google-maps/api";
 import APICaller from "./APICaller.js";
@@ -15,7 +15,9 @@ const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
-  const csvData = useCSVData();
+  console.log('hi');
+  const csvData = useContext(CSVDataContext);
+  console.log(csvData)
   const navigate = useNavigate();
   const apiCaller = new APICaller();
   const [infoWindow, setInfoWindow] = useState(true);

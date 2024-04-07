@@ -1,7 +1,13 @@
 import styles from '../../assets/SearchEntry.module.css';
 import React, { useState, useEffect } from "react";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    Link,
+  } from "react-router-dom";
 
-const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter }) {
+const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter,placeID }) {
     const [address, setAddress] = useState("");
     useEffect(()=>{
         (async function(){
@@ -22,7 +28,7 @@ const SearchEntry = function ({ imageLink, nameOfLocation, addressGetter, sports
                 </div>
                 <div className={styles.scorebox}>
                     <span>
-                        <a className={styles.button} href='#'>Find out more</a>
+                        <Link className={styles.button} to={`SportsLocation/${placeID}`}>Find out more</Link>
                         <h3>Score: 90/100</h3>
                     </span>
                 </div>
