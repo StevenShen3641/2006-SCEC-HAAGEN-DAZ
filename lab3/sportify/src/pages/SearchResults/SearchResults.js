@@ -38,7 +38,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         .then((result) => {
           console.log(result);
 
-          setDistance((prevDistance) => ({ ...prevDistance, [value.index]: result }));
+          setDistances((prevDistance) => ({ ...prevDistance, [value.index]: result }));
         });
     });
   }, []);
