@@ -175,9 +175,10 @@ class APICaller {
         this.currentDateTimeFormatted,
         this.currentDateFormatted
       );
+      //console.log(this.data);
       const UVI = this.data.items[0].index[9].value;
-      // console.log(UVI)
-      // console.log("UVI Readings: ", this.data)
+      //console.log(UVI);
+      //console.log("UVI Readings: ", this.data);
       return UVI;
     } catch (error) {
       console.error("Error fetching air readings:", error);
