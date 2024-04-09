@@ -169,6 +169,10 @@ function Home({ buttonPopup, setButtonPopup }) {
         {/* lazy initialization */}
         {isLoaded ? (
           <SearchBar
+            PTvalue={PTvalue}
+            Carvalue={Carvalue}
+            Walkvalue={Walkvalue}
+            MBvalue={MBvalue}
             address={address}
             showFilter={showFilter}
             setAddress={setAddress}

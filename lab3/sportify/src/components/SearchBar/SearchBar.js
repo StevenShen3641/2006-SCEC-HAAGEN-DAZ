@@ -16,6 +16,10 @@ import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 
 const SearchBar = ({
+  PTvalue,
+  Carvalue,
+  Walkvalue,
+  MBvalue,
   address,
   showFilter,
   setAddress,
@@ -92,6 +96,10 @@ const SearchBar = ({
       setIssueStyle(true);
       console.log(issueStyle);
       setWarning("Please set the filter first!");
+      setShowFilter(true);
+    } else if (!(PTvalue || Carvalue || Walkvalue || MBvalue)) {
+      console.log(issueStyle);
+      setWarning("Please choose at least one mode of transport!");
       setShowFilter(true);
     }
   }
@@ -170,7 +178,7 @@ const SearchBar = ({
         </div>
         <div
           className={styles.button}
-          onClick={address && showFilter ? searchAction : handleIssue}
+          onClick={address && showFilter && (PTvalue || Carvalue || Walkvalue || MBvalue) ? searchAction : handleIssue}
         >
           <img src={SearchIcon} alt="search"></img>
         </div>
