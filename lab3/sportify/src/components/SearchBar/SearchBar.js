@@ -90,17 +90,14 @@ const SearchBar = ({
   function handleIssue() {
     if (!address) {
       setIssueStyle(true);
-      console.log(issueStyle);
       setWarning("Please enter the location first!");
     } else if (!showFilter) {
       setIssueStyle(true);
-      console.log(issueStyle);
       setWarning("Please set the filter first!");
       setShowFilter(true);
     } else if (!(PTvalue || Carvalue || Walkvalue || MBvalue)) {
-      console.log(issueStyle);
+      setIssueStyle(true);
       setWarning("Please choose at least one mode of transport!");
-      setShowFilter(true);
     }
   }
   // gradually show warning
