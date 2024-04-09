@@ -170,6 +170,7 @@ function Home({ buttonPopup, setButtonPopup }) {
         {isLoaded ? (
           <SearchBar
             address={address}
+            showFilter={showFilter}
             setAddress={setAddress}
             setCenter={setCenter}
             setShowFilter={setShowFilter}
@@ -218,6 +219,7 @@ function Home({ buttonPopup, setButtonPopup }) {
             setZoom={setZoom}
             setCenter={setCenter}
             setCircleRadius={setCircleRadius}
+            setFilteredData={setFilteredData}
             setSliderValue={setSliderValue}
           />
         ) : null}

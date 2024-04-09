@@ -13,13 +13,8 @@ async function CalculateDistance(displayData, ori, modes) {
       },
       modes
     );
-    console.log(result);
-
-    
     distances[value.index] = result
   }
-
-  console.log(distances);
   return distances;
 }
 
