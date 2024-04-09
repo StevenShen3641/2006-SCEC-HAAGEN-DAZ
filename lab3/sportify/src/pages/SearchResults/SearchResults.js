@@ -5,6 +5,7 @@ import useCSVData from "../../contextProviders/CSVDataContext.js";
 import addressGetter from "../../helperFunctions/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import CalculateScores from "../../helperFunctions/Calculators/CalculateScores.js";
+import CalculateDistance from "../../helperFunctions/Calculators/CalculateDistance";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;
@@ -22,9 +23,17 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
     }
   });
 
-  useEffect(()=>{
-    setOverallScores(CalculateScores(displayData,ori,modes))
-  },[])
+
+  const fetch = async (displayData, ori, modes) =>{
+    return CalculateDistance(displayData, ori, modes)
+  }
+
+  const res = fetch(displayData, ori, modes)
+  console.log(res)
+
+  // useEffect(()=>{
+  //   setOverallScores(CalculateScores(displayData,ori,modes))
+  // },[])
   
 
   
