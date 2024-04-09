@@ -8,6 +8,15 @@ import {
   } from "react-router-dom";
 
 const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter}) {
+    // add gradual effect
+    const [isVisible, setIsVisible] = useState(false);
+    useEffect(() => {
+        // set the visibility to true after a delay to trigger the transition
+        const timeout = setTimeout(() => {
+          setIsVisible(true);
+        });
+        return () => clearTimeout(timeout);
+      }, []);
     const [address, setAddress] = useState("");
     useEffect(()=>{
         (async function(){
@@ -15,7 +24,7 @@ const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressG
         })()
     },[])
     return (
-        <div className={styles.SearchEntry}>
+        <div className={`${styles.SearchEntry} gradual ${isVisible ? "visible" : ""}`}>
             <div className={styles.sideLeft} style={{backgroundImage: `url(${imageLink})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
             <div className={styles.sideRight}>
                 <div className={styles.infoBox}>
