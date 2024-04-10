@@ -5,19 +5,25 @@ import calculateUVI from "./CalculateUV";
 import CalculateDistance from "./CalculateDistance";
 
 const CalculateScores = async (displayData,ori,modes)=>{
-    const scores = [];
+    const overallScores = {};
 
     const WEATHER_WEIGHTAGE = 0.4;
     const DISTANCE_WEIGHTAGE = 1 - WEATHER_WEIGHTAGE;
     const [distances, minDistance] = await CalculateDistance(displayData,ori,modes);
     const distanceScores = CalCulateDistanceScore(distances,minDistance);
-    for(let element of displayData) {
-        
-    const weatherScore = await CalculateWeatherScore(element);
-    scores.push(weatherScore)
-}
+    const distanceScoresIndex = Object.keys(distanceScores);
 
-    return scores;
+    for(let element of displayData) {
+        const weatherScore = await CalculateWeatherScore(element);
+        if (element && distanceScoresIndex.length !== 0 && distanceScoresIndex.includes(element.index)){
+            overallScores[element.index] = (distanceScores[element.index] * DISTANCE_WEIGHTAGE) + (weatherScore* WEATHER_WEIGHTAGE)
+        }
+        else{
+            console.log("cannot calculate overall scores!;")
+        }
+    }
+
+return overallScores;
 }
 
 

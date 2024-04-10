@@ -4,14 +4,13 @@ import SearchEntry from "./SearchEntry";
 import addressGetter from "../../helperFunctions/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import CalculateScores from "../../helperFunctions/Calculators/CalculateScores.js";
-import CalculateDistance from "../../helperFunctions/Calculators/CalculateDistance";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
-  const [overallScores, setOverallScores] = useState();
+  const [overallScores, setOverallScores] = useState(0);
 
   // for Google Maps
   useEffect(() => {
@@ -21,25 +20,15 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       setIsLoaded(false);
     }
   });
-  const [finalScore, setFinalScore] = useState(0);
+
   useEffect(() => {
     CalculateScores(displayData, ori, modes).then((result) => {
-      console.log(result);
-    });
-
-    // setOverallScores(final_score);
-    // fetchOverallScores();
-  }, []);
-
-  useEffect(() => {
-    CalculateDistance(displayData, ori, modes).then((result) => {
-      console.log(result);
+      setOverallScores(result);
     });
   }, []);
 
-  // useEffect(()=>{
-  //   setOverallScores(CalculateScores(displayData,ori,modes))
-  // },[])
+
+
 
   return (
     <>
@@ -47,6 +36,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
       </header>
       <body>
+        
         {/* {distance != null && Object.keys(distances).length == displayData.length && */}
         {displayData.map((location) => {
           return (
@@ -57,7 +47,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
               addressGetter={() => addressGetter(location.Y, location.X)}
               sports={location.Sports}
               distanceFromCenter={location.distanceFromCenter}
-              overallScores={overallScores}
+              overallScores={parseInt(overallScores[location.index])}
             ></SearchEntry>
           );
         })}
