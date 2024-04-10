@@ -21,34 +21,25 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       setIsLoaded(false);
     }
   });
+  const [finalScore, setFinalScore] = useState(0);
+  useEffect(() => {
+    CalculateScores(displayData, ori, modes).then((result) => {
+      console.log(result);
+    });
 
-  useEffect(()=>{
-      async function fetchOverallScores(){
-      try{
-        const final_score = await CalculateScores(displayData,ori,modes);
-        setOverallScores(final_score);
+    // setOverallScores(final_score);
+    // fetchOverallScores();
+  }, []);
 
-      }
-      catch(e){
-        console.log("Error getting final score!"+ e);
-      }
-  }
-    fetchOverallScores();
-},[])
-
-  const fetch = async (displayData, ori, modes) =>{
-    return CalculateDistance(displayData, ori, modes)
-  }
-
-  const res = fetch(displayData, ori, modes)
-  console.log(res)
+  useEffect(() => {
+    CalculateDistance(displayData, ori, modes).then((result) => {
+      console.log(result);
+    });
+  }, []);
 
   // useEffect(()=>{
   //   setOverallScores(CalculateScores(displayData,ori,modes))
   // },[])
-  
-
-  
 
   return (
     <>
@@ -57,20 +48,19 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       </header>
       <body>
         {/* {distance != null && Object.keys(distances).length == displayData.length && */}
-        {
-          displayData.map((location) => {
-            return (
-              <SearchEntry
-                locationKey={location.index}
-                imageLink={location.Images}
-                nameOfLocation={location.Name}
-                addressGetter={() => addressGetter(location.Y, location.X)}
-                sports={location.Sports}
-                distanceFromCenter={location.distanceFromCenter}
-                overallScores = {overallScores}
-              ></SearchEntry>
-            );
-          })}
+        {displayData.map((location) => {
+          return (
+            <SearchEntry
+              locationKey={location.index}
+              imageLink={location.Images}
+              nameOfLocation={location.Name}
+              addressGetter={() => addressGetter(location.Y, location.X)}
+              sports={location.Sports}
+              distanceFromCenter={location.distanceFromCenter}
+              overallScores={overallScores}
+            ></SearchEntry>
+          );
+        })}
       </body>
     </>
   );

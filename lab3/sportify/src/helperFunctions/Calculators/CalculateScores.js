@@ -3,9 +3,10 @@ import calculatePSI from "./CalculatePSI";
 import calculateRainfallAmount from "./CalculateRainfall";
 import calculateUVI from "./CalculateUV";
 import CalculateDistance from "./CalculateDistance";
+import { useState } from "react";
 
 const CalculateScores = async (displayData,ori,modes)=>{
-    const scores = [];
+    // const [scores, setScores] = useState([])
 
     const WEATHER_WEIGHTAGE = 0.4;
     const DISTANCE_WEIGHTAGE = 1 - WEATHER_WEIGHTAGE;
@@ -13,11 +14,13 @@ const CalculateScores = async (displayData,ori,modes)=>{
     const distanceScores = CalCulateDistanceScore(distances,minDistance);
     displayData.forEach(element => {
         
-    const weatherScore = CalculateWeatherScore(element);
-    console.log(weatherScore);
-});
+    const weatherScore = CalculateWeatherScore(element)
+    console.log(weatherScore)
+    // scores.push(weatherScore)
 
-    return 20;
+});
+    // return scores
+
 }
 
 
@@ -29,8 +32,8 @@ const CalculateWeatherScore = async (element)=>{
     const PSI = await calculatePSI(element);
     const rainFall = await calculateRainfallAmount(element);
     const UVI = await calculateUVI(element);
-    
-    return (CalculateAirTempScore(air_temp) + calculatePSI(PSI) + CalculateRainfallScore(rainFall) + CalculateUVScore(UVI)) * EACH_API_WEIGHTAGE;
+    console.log((CalculateAirTempScore(air_temp) + CalculatePSIScore(PSI) + CalculateRainfallScore(rainFall) + CalculateUVScore(UVI)) * EACH_API_WEIGHTAGE)    
+    return (CalculateAirTempScore(air_temp) + CalculatePSIScore(PSI) + CalculateRainfallScore(rainFall) + CalculateUVScore(UVI)) * EACH_API_WEIGHTAGE;
 }
 
 

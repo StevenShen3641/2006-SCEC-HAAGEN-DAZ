@@ -40,7 +40,7 @@ class APICaller {
           const results = await directionService.route({
             origin: ori,
             destination: dest,
-            travelMode: mode,
+            travelMode: google.maps.TravelMode.DRIVING,
           });
           const distance = parseInt(results.routes[0].legs[0].distance.value);
           distances.push(distance);

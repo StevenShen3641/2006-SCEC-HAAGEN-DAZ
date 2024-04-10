@@ -17,7 +17,6 @@ async function CalculateDistance(displayData, ori, modes) {
     distances[value.index] = result
     if(result< minDistance) minDistance = result;
   }
-  console.log(distances)
   return [distances,minDistance];
 }
 
