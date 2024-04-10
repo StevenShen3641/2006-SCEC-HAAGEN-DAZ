@@ -14,7 +14,7 @@ const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
-  const {csvData, setCsvData} = useContext(CSVDataContext);
+  const { csvData, setCsvData } = useContext(CSVDataContext);
   const navigate = useNavigate();
   const [infoWindow, setInfoWindow] = useState(true);
   const [address, setAddress] = useState("");
@@ -37,10 +37,7 @@ function Home({ buttonPopup, setButtonPopup }) {
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [circleRadius, setCircleRadius] = useState(0);
-  const [PTvalue, setPTvalue] = useState(false);
-  const [Walkvalue, setWalkvalue] = useState(true);
-  const [Carvalue, setCarvalue] = useState(false);
-  const [MBvalue, setMBvalue] = useState(false);
+  const [mode, setMode] = useState("walk");
 
   const filterToggle = () => {
     if (address === "Your Location1") {
@@ -119,7 +116,7 @@ function Home({ buttonPopup, setButtonPopup }) {
     fetchUVIScore();
   });*/
     }
-    console.log(filteredData)
+    // console.log([Walkvalue, Carvalue, PTvalue, MBvalue]);
     {
       /*
     const fetchAirTempScore = async () => {
@@ -134,25 +131,22 @@ function Home({ buttonPopup, setButtonPopup }) {
     */
     }
   });
-  const mode = (() => {
-    let transportModes = null;
+  useEffect(() => {
     if (isLoaded) {
-      if (PTvalue) {
-        transportModes= google.maps.TravelMode.TRANSIT;
+      if (mode === "public") {
+        setMode(google.maps.TravelMode.TRANSIT);
       }
-      if (Walkvalue) {
-        transportModes = google.maps.TravelMode.WALKING;
+      if (mode === "walk") {
+        setMode(google.maps.TravelMode.WALKING);
       }
-      if (Carvalue) {
-        transportModes = google.maps.TravelMode.DRIVING;
+      if (mode === "car") {
+        setMode(google.maps.TravelMode.DRIVING);
       }
-      if (MBvalue) {
-        transportModes = google.maps.TravelMode.BICYCLING;
+      if (mode === "motor") {
+        setMode(google.maps.TravelMode.BICYCLING);
       }
-      return transportModes;
     }
-  })();
-  // console.log(modes)
+  }, [mode, isLoaded]);
   {
     /* Use to check if filtering locations is working
     useEffect(() => {
@@ -195,14 +189,9 @@ function Home({ buttonPopup, setButtonPopup }) {
           setSliderValue={setSliderValue}
           showFilter={showFilter}
           setShowFilter={setShowFilter}
-          PTvalue={PTvalue}
-          setPTvalue={setPTvalue}
-          Walkvalue={Walkvalue}
-          setWalkvalue={setWalkvalue}
-          Carvalue={Carvalue}
-          setCarvalue={setCarvalue}
-          MBvalue={MBvalue}
-          setMBvalue={setMBvalue}
+          mode={mode}
+          setMode={setMode}
+
         />
       </header>
       <body>

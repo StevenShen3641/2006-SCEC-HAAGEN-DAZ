@@ -45,10 +45,11 @@ function SearchFilter(props) {
           <div>
             <input
               className={styles.filterButton}
+              value="walk"
               type="radio"
               name="transport"
-              checked={props.Walkvalue}
-              onChange={(e) => props.setWalkvalue(e.target.checked)}
+              defaultChecked
+              onChange={(e) => props.setMode(e.target.value)}
             />
           </div>
           <label>Walk</label>
@@ -56,10 +57,10 @@ function SearchFilter(props) {
           <div>
             <input
               className={styles.filterButton}
+              value="car"
               type="radio"
               name="transport"
-              checked={props.Carvalue}
-              onChange={(e) => props.setCarvalue(e.target.checked)}
+              onChange={(e) => props.setMode(e.target.value)}
             />
           </div>
           <label className={styles.Buttonlabel}>Car</label>
@@ -68,10 +69,10 @@ function SearchFilter(props) {
             <input
               id=""
               className={styles.filterButton}
+              value="motor"
               type="radio"
               name="transport"
-              checked={props.MBvalue}
-              onChange={(e) => props.setMBvalue(e.target.checked)}
+              onChange={(e) => props.setMode(e.target.value)}
             />
           </div>
           <label>Motorbike</label>
@@ -79,10 +80,10 @@ function SearchFilter(props) {
             <div>
               <input
                 className={styles.filterButton}
+                value="public"
                 type="radio"
                 name="transport"
-                checked={props.PTvalue}
-                onChange={(e) => props.setPTvalue(e.target.checked)}
+                onChange={(e) => props.setMode(e.target.value)}
               />
             </div>
           )}
@@ -93,10 +94,10 @@ function SearchFilter(props) {
             <div>
               <input
                 className={styles.filterButton}
+                value="public"
                 type="radio"
                 name="transport"
-                checked={props.PTvalue}
-                onChange={(e) => props.setPTvalue(e.target.checked)}
+                onChange={(e) => props.setMode(e.target.value)}
               />
             </div>
           )}
