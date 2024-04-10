@@ -53,13 +53,32 @@
 
 }
 
-.icon{
+.cross{
     position: absolute;
-    width:30px;
-    height:30px;
-    margin-top: -40px;
+    width:20px;
+    height:20px;
+    margin-top: -32px;
     margin-left:-410px;
     
+}
+
+.check{
+    position: absolute;
+    width:35px;
+    height:35px;
+    margin-top: -40px;
+    margin-left:-420px;
+}
+
+.PreCheckIn{
+    position: relative;
+    margin-top : 10px;
+    margin-left: -810px;
+}
+
+.activityRings{
+    position: absolute ;
+    margin-left: -100px;
 }
 
 @media (max-width: 900px) {
