@@ -8,6 +8,8 @@ import {
   } from "react-router-dom";
 
 const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter,overallScores}) {
+    
+    
     // add gradual effect
     const [isVisible, setIsVisible] = useState(false);
     useEffect(() => {
@@ -17,12 +19,15 @@ const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressG
         });
         return () => clearTimeout(timeout);
       }, []);
+
+
     const [address, setAddress] = useState("");
     useEffect(()=>{
         (async function(){
             setAddress(await addressGetter());
         })()
-    },[])
+    },[]);
+
     return (
         <div className={`${styles.SearchEntry} gradual ${isVisible ? "visible" : ""}`}>
             <div className={styles.sideLeft} style={{backgroundImage: `url(${imageLink})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>

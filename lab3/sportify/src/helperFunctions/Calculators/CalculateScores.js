@@ -9,17 +9,19 @@ const CalculateScores = async (displayData,ori,modes)=>{
 
     const WEATHER_WEIGHTAGE = 0.4;
     const DISTANCE_WEIGHTAGE = 1 - WEATHER_WEIGHTAGE;
-    CalculateDistance(displayData,ori,modes);
+    const [distances, minDistance] = await CalculateDistance(displayData,ori,modes);
+    const distanceScores = CalCulateDistanceScore(distances,minDistance);
     displayData.forEach(element => {
         
-    CalculateWeatherScores(element);
+    const weatherScore = CalculateWeatherScore(element);
+    console.log(weatherScore);
 });
 
     return 20;
 }
 
 
-const CalculateWeatherScores = async (element)=>{
+const CalculateWeatherScore = async (element)=>{
 
     const EACH_API_WEIGHTAGE = 0.25;
 
@@ -33,8 +35,12 @@ const CalculateWeatherScores = async (element)=>{
 
 
 
-const CalCulateDistanceScore = (element)=>{
-    
+const CalCulateDistanceScore = (distances,minDistance)=>{
+    const scores ={};
+    for (let placeID in distances){
+        scores[placeID] = 100 - ((distances[placeID] - minDistance)/minDistance) * 100;
+    }
+    return scores;
 }
 
 const between = (x, min, max) => {
@@ -90,10 +96,5 @@ const CalculateUVScore = (UVI) =>{
 
 
 export default CalculateScores;
-const CalculateScores = async (displayData, ori, modes) => {
-  const scores = [];
-  displayData.array.forEach((element) => {
-    scores.push(calculateAirTemp(element) + calculatePSI);
-  });
-};
-export default CalculateScores;
+
+

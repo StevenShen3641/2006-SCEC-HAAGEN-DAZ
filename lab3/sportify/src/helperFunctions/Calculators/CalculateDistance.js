@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 async function CalculateDistance(displayData, ori, modes) {
   const apiCaller = new APICaller();
   const distances = {}
+  let minDistance = Infinity;
   for (const value of displayData) {
     const result = await apiCaller.fetchDistance(
       ori,
@@ -14,8 +15,10 @@ async function CalculateDistance(displayData, ori, modes) {
       modes
     );
     distances[value.index] = result
+    if(result< minDistance) minDistance = result;
   }
-  return distances;
+  console.log(distances)
+  return [distances,minDistance];
 }
 
 export default CalculateDistance;
