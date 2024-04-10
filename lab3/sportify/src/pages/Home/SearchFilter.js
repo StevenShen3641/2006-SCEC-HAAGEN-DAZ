@@ -45,7 +45,8 @@ function SearchFilter(props) {
           <div>
             <input
               className={styles.filterButton}
-              type="checkbox"
+              type="radio"
+              name="transport"
               checked={props.Walkvalue}
               onChange={(e) => props.setWalkvalue(e.target.checked)}
             />
@@ -55,7 +56,8 @@ function SearchFilter(props) {
           <div>
             <input
               className={styles.filterButton}
-              type="checkbox"
+              type="radio"
+              name="transport"
               checked={props.Carvalue}
               onChange={(e) => props.setCarvalue(e.target.checked)}
             />
@@ -64,8 +66,10 @@ function SearchFilter(props) {
 
           <div>
             <input
+              id=""
               className={styles.filterButton}
-              type="checkbox"
+              type="radio"
+              name="transport"
               checked={props.MBvalue}
               onChange={(e) => props.setMBvalue(e.target.checked)}
             />
@@ -75,7 +79,8 @@ function SearchFilter(props) {
             <div>
               <input
                 className={styles.filterButton}
-                type="checkbox"
+                type="radio"
+                name="transport"
                 checked={props.PTvalue}
                 onChange={(e) => props.setPTvalue(e.target.checked)}
               />
@@ -88,7 +93,8 @@ function SearchFilter(props) {
             <div>
               <input
                 className={styles.filterButton}
-                type="checkbox"
+                type="radio"
+                name="transport"
                 checked={props.PTvalue}
                 onChange={(e) => props.setPTvalue(e.target.checked)}
               />

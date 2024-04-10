@@ -4,12 +4,12 @@ import calculateRainfallAmount from "./CalculateRainfall";
 import calculateUVI from "./CalculateUV";
 import CalculateDistance from "./CalculateDistance";
 
-const CalculateScores = async (displayData,ori,modes)=>{
+const CalculateScores = async (displayData,ori,mode)=>{
     const overallScores = {};
 
     const WEATHER_WEIGHTAGE = 0.4;
     const DISTANCE_WEIGHTAGE = 1 - WEATHER_WEIGHTAGE;
-    const [distances, minDistance] = await CalculateDistance(displayData,ori,modes);
+    const [distances, minDistance] = await CalculateDistance(displayData,ori,mode);
     const distanceScores = CalCulateDistanceScore(distances,minDistance);
     const distanceScoresIndex = Object.keys(distanceScores);
 

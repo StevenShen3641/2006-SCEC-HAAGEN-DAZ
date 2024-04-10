@@ -1,7 +1,7 @@
 import APICaller from "../APICaller";
 import React, { useState, useEffect } from "react";
 
-async function CalculateDistance(displayData, ori, modes) {
+async function CalculateDistance(displayData, ori, mode) {
   const apiCaller = new APICaller();
   const distances = {}
   let minDistance = Infinity;
@@ -12,7 +12,7 @@ async function CalculateDistance(displayData, ori, modes) {
         lat: parseFloat(value.Y),
         lng: parseFloat(value.X),
       },
-      modes
+      mode
     );
     distances[value.index] = result
     if(result< minDistance) minDistance = result;

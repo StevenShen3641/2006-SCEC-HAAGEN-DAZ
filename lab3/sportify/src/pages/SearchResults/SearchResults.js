@@ -8,7 +8,7 @@ import CalculateScores from "../../helperFunctions/Calculators/CalculateScores.j
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const displayData = useLocation().state.displayData;
   const ori = useLocation().state.ori;
-  const modes = useLocation().state.travelModes;
+  const mode = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
   const [overallScores, setOverallScores] = useState(0);
 
@@ -22,7 +22,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   });
 
   useEffect(() => {
-    CalculateScores(displayData, ori, modes).then((result) => {
+    CalculateScores(displayData, ori, mode).then((result) => {
       setOverallScores(result);
     });
   }, []);

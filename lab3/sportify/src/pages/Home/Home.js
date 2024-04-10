@@ -16,7 +16,6 @@ function Home({ buttonPopup, setButtonPopup }) {
   // initial value
   const {csvData, setCsvData} = useContext(CSVDataContext);
   const navigate = useNavigate();
-  const apiCaller = new APICaller();
   const [infoWindow, setInfoWindow] = useState(true);
   const [address, setAddress] = useState("");
   const [zoom, setZoom] = useState(11);
@@ -38,10 +37,10 @@ function Home({ buttonPopup, setButtonPopup }) {
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [circleRadius, setCircleRadius] = useState(0);
-  const [PTvalue, setPTvalue] = useState(true);
+  const [PTvalue, setPTvalue] = useState(false);
   const [Walkvalue, setWalkvalue] = useState(true);
-  const [Carvalue, setCarvalue] = useState(true);
-  const [MBvalue, setMBvalue] = useState(true);
+  const [Carvalue, setCarvalue] = useState(false);
+  const [MBvalue, setMBvalue] = useState(false);
 
   const filterToggle = () => {
     if (address === "Your Location1") {
@@ -134,24 +133,25 @@ function Home({ buttonPopup, setButtonPopup }) {
     */
     }
   });
-  const modes = (() => {
-    const transportModes = [];
+  const mode = (() => {
+    let transportModes = null;
     if (isLoaded) {
       if (PTvalue) {
-        transportModes.push(google.maps.TravelMode.TRANSIT);
+        transportModes= google.maps.TravelMode.TRANSIT;
       }
       if (Walkvalue) {
-        transportModes.push(google.maps.TravelMode.WALKING);
+        transportModes = google.maps.TravelMode.WALKING;
       }
       if (Carvalue) {
-        transportModes.push(google.maps.TravelMode.DRIVING);
+        transportModes = google.maps.TravelMode.DRIVING;
       }
       if (MBvalue) {
-        transportModes.push(google.maps.TravelMode.BICYCLING);
+        transportModes = google.maps.TravelMode.BICYCLING;
       }
       return transportModes;
     }
   })();
+  // console.log(modes)
   {
     /* Use to check if filtering locations is working
     useEffect(() => {
@@ -169,11 +169,8 @@ function Home({ buttonPopup, setButtonPopup }) {
         {/* lazy initialization */}
         {isLoaded ? (
           <SearchBar
-            PTvalue={PTvalue}
-            Carvalue={Carvalue}
-            Walkvalue={Walkvalue}
-            MBvalue={MBvalue}
             address={address}
+            filteredData={filteredData}
             showFilter={showFilter}
             setAddress={setAddress}
             setCenter={setCenter}
@@ -185,7 +182,7 @@ function Home({ buttonPopup, setButtonPopup }) {
                 navigate("/SearchResults", {
                   state: {
                     displayData: filteredData,
-                    travelModes: modes,
+                    travelModes: mode,
                     ori: center,
                   },
                 });

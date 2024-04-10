@@ -29,27 +29,25 @@ class APICaller {
     // console.log("Formatted Current Date:", currentDateFormatted);
   }
 
-  async fetchDistance(ori, dest, modes) {
+  async fetchDistance(ori, dest, mode) {
     const google = window.google;
     const directionService = new google.maps.DirectionsService();
-    const distances = [];
+    let distance = 0;
     try {
-      for (let i = 0; i < modes.length; i++) {
-        let mode = modes[i];
-        try {
-          const results = await directionService.route({
-            origin: ori,
-            destination: dest,
-            travelMode: google.maps.TravelMode.DRIVING,
-          });
-          const distance = parseInt(results.routes[0].legs[0].distance.value);
-          distances.push(distance);
-        } catch (error) { }
-      }
-      if (distances.length == 0) {
-        return Infinity
+      try {
+        const results = await directionService.route({
+          origin: ori,
+          destination: dest,
+          travelMode: mode,
+        });
+        distance = parseInt(results.routes[0].legs[0].distance.value);
+      } catch (error) {}
+
+      if (!distance) {
+        return Infinity;
       } else {
-      return Math.min(...distances);}
+        return distance;
+      }
       // return distances
     } catch (error) {
       console.error("Error fetching API readings from GoogleMaps: ", error);
@@ -142,7 +140,7 @@ class APICaller {
   //readings in degC
   async fetchAirReadings() {
     try {
-      console.log(this.currentDateTimeFormatted);
+      // console.log(this.currentDateTimeFormatted);
       this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.AIR_ENDPOINT,

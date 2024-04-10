@@ -16,11 +16,8 @@ import SearchIcon from "../../assets/search.svg";
 import FilterIcon from "../../assets/filter-.svg";
 
 const SearchBar = ({
-  PTvalue,
-  Carvalue,
-  Walkvalue,
-  MBvalue,
   address,
+  filteredData,
   showFilter,
   setAddress,
   setCenter,
@@ -37,8 +34,6 @@ const SearchBar = ({
 
     return () => clearTimeout(timeout);
   }, []);
-
-
 
   function userLocationClick() {
     setValue("");
@@ -88,6 +83,7 @@ const SearchBar = ({
   const [issueStyle, setIssueStyle] = useState(false);
   const [warning, setWarning] = useState("");
   function handleIssue() {
+    console.log(filteredData)
     if (!address) {
       setIssueStyle(true);
       setWarning("Please enter the location first!");
@@ -95,9 +91,10 @@ const SearchBar = ({
       setIssueStyle(true);
       setWarning("Please set the filter first!");
       setShowFilter(true);
-    } else if (!(PTvalue || Carvalue || Walkvalue || MBvalue)) {
+    } else if (filteredData.length === 0) {
       setIssueStyle(true);
-      setWarning("Please choose at least one mode of transport!");
+      setWarning("No result!");
+      setShowFilter(true);
     }
   }
   // gradually show warning
@@ -119,10 +116,13 @@ const SearchBar = ({
   function handleClick() {
     setIssueStyle(false);
   }
-
   return (
     <>
-      <div className={`${issueStyle ? `${styles.searchWarning}`: ""} ${styles.search} gradual ${isVisible ? "visible" : ""}`}>
+      <div
+        className={`${issueStyle ? `${styles.searchWarning}` : ""} ${
+          styles.search
+        } gradual ${isVisible ? "visible" : ""}`}
+      >
         <Combobox onSelect={handleSelect} className={styles.combobox}>
           <ComboboxInput
             placeholder={"Search for address"}
@@ -175,14 +175,16 @@ const SearchBar = ({
         </div>
         <div
           className={styles.button}
-          onClick={address && showFilter && (PTvalue || Carvalue || Walkvalue || MBvalue) ? searchAction : handleIssue}
+          onClick={(address && showFilter && filteredData.length !== 0) ? searchAction : handleIssue}
         >
           <img src={SearchIcon} alt="search"></img>
         </div>
       </div>
       {issueStyle && (
         <div
-          className={`${styles.warning} gradual ${isVisibleWarning ? "visible" : ""}`}
+          className={`${styles.warning} gradual ${
+            isVisibleWarning ? "visible" : ""
+          }`}
         >
           {warning}
         </div>
