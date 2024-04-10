@@ -44,7 +44,7 @@ const CalculateWeatherScore = async (element)=>{
 const CalCulateDistanceScore = (distances,minDistance)=>{
     const scores ={};
     for (let placeID in distances){
-        scores[placeID] = 100 - ((distances[placeID] - minDistance)/minDistance) * 100;
+        scores[placeID] = Math.exp((minDistance - distances[placeID]) / minDistance / 50) * 100
     }
     return scores;
 }

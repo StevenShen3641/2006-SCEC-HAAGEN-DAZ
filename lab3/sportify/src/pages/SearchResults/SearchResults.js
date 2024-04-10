@@ -10,7 +10,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const ori = useLocation().state.ori;
   const mode = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
-  const [overallScores, setOverallScores] = useState(0);
+  const [overallScores, setOverallScores] = useState({});
 
   // for Google Maps
   useEffect(() => {
@@ -21,14 +21,24 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
     }
   });
 
+  
+  function sortByScore(a, b) {
+    return b.score - a.score;
+  }
+
+  useEffect(() => {
+    for (let i = 0; i < displayData.length; i++) {
+      displayData[i]["score"] = overallScores[displayData[i]["index"]];
+    }
+    displayData.sort(sortByScore)
+  }, [overallScores]);
+
+
   useEffect(() => {
     CalculateScores(displayData, ori, mode).then((result) => {
       setOverallScores(result);
     });
   }, []);
-
-
-
 
   return (
     <>
@@ -36,21 +46,25 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
       </header>
       <body>
-        
-        {/* {distance != null && Object.keys(distances).length == displayData.length && */}
-        {displayData.map((location) => {
-          return (
-            <SearchEntry
-              locationKey={location.index}
-              imageLink={location.Images}
-              nameOfLocation={location.Name}
-              addressGetter={() => addressGetter(location.Y, location.X)}
-              sports={location.Sports}
-              distanceFromCenter={location.distanceFromCenter}
-              overallScores={parseInt(overallScores[location.index])}
-            ></SearchEntry>
-          );
-        })}
+        <>
+          {/* {distance != null && Object.keys(distances).length == displayData.length && */}
+          {displayData.map((location) => {
+            return (
+              Object.keys(overallScores).length !== 0 && (
+                <SearchEntry
+                  locationKey={location.index}
+                  imageLink={location.Images}
+                  nameOfLocation={location.Name}
+                  addressGetter={() => addressGetter(location.Y, location.X)}
+                  sports={location.Sports}
+                  distanceFromCenter={location.distanceFromCenter}
+                  overallScores={parseInt(overallScores[location.index])}
+                ></SearchEntry>
+              )
+            );
+          })}
+          {Object.keys(overallScores).length === 0 && <div>Loading...</div>}
+        </>
       </body>
     </>
   );

@@ -119,6 +119,7 @@ function Home({ buttonPopup, setButtonPopup }) {
     fetchUVIScore();
   });*/
     }
+    console.log(filteredData)
     {
       /*
     const fetchAirTempScore = async () => {
