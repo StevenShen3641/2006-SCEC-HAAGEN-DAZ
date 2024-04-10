@@ -7,6 +7,25 @@ import {
   CircleF,
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
+import axios, * as others from "axios";
+
+async function getAddressForCoords(lat, lng) {
+  try {
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg`
+    );
+
+    const data = response.data;
+    if (!data || data.status !== "OK") {
+      return null;
+    } else {
+      const address = data.results[0]["formatted_address"];
+      return address;
+    }
+  } catch (error) {
+    console.error("Fail to fetch address for geocode:", error);
+  }
+}
 
 const Map = ({
   filteredData,
@@ -22,6 +41,7 @@ const Map = ({
   setZoom,
   setCenter,
   setCircleRadius,
+  setFilteredData,
   setSliderValue,
 }) => {
   // set map style object
@@ -55,6 +75,18 @@ const Map = ({
 
   const [activeMarker, setActiveMarker] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [indexAddress, setIndexAddress] = useState({});
+  // set address
+  useEffect(() => {
+    for (const data of filteredData) {
+      getAddressForCoords(data.Y, data.X).then((result) => {
+        setIndexAddress((prevDistance) => ({
+          ...prevDistance,
+          [data.index]: result,
+        }));
+      });
+    }
+  }, [filteredData]);
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
     const timeout = setTimeout(() => {
@@ -168,6 +200,7 @@ const Map = ({
                     }}
                     onClick={() =>
                       setActiveMarker({
+                        index: index,
                         name: Name,
                         X: X,
                         Y: Y,
@@ -177,7 +210,7 @@ const Map = ({
                 );
               }
             })}
-          {activeMarker && (
+          {activeMarker && showFilter && (
             <InfoWindowF
               position={{
                 lat: parseFloat(activeMarker.Y),
@@ -185,7 +218,10 @@ const Map = ({
               }}
               onCloseClick={() => setActiveMarker(null)}
             >
-              <div>{activeMarker.name}</div>
+              <>
+                <div>{activeMarker.name}</div>
+                <div>Address: {indexAddress[activeMarker.index]}</div>
+              </>
             </InfoWindowF>
           )}
 

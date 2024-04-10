@@ -169,7 +169,12 @@ function Home({ buttonPopup, setButtonPopup }) {
         {/* lazy initialization */}
         {isLoaded ? (
           <SearchBar
+            PTvalue={PTvalue}
+            Carvalue={Carvalue}
+            Walkvalue={Walkvalue}
+            MBvalue={MBvalue}
             address={address}
+            showFilter={showFilter}
             setAddress={setAddress}
             setCenter={setCenter}
             setShowFilter={setShowFilter}
@@ -218,6 +223,7 @@ function Home({ buttonPopup, setButtonPopup }) {
             setZoom={setZoom}
             setCenter={setCenter}
             setCircleRadius={setCircleRadius}
+            setFilteredData={setFilteredData}
             setSliderValue={setSliderValue}
           />
         ) : null}

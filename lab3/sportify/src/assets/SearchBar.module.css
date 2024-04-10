@@ -1,3 +1,12 @@
+.gradual {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.gradual.visible {
+  opacity: 1;
+}
+
 [data-reach-combobox-popover] {
   /* position: relative; */
   padding: 15px;
@@ -19,10 +28,11 @@
 }
 
 .search {
+  border: hsl(214, 16%, 92%) solid 1.5px;
   height: 60px;
   width: 50%;
   margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
   margin-left: auto;
   margin-right: auto;
   /* Center the search bar horizontally and provide top and bottom margin */
@@ -55,6 +65,11 @@
   margin: 0 0.5rem;
 }
 
+.searchWarning {
+  border: red solid 1.5px;
+  transition: border 0.5s ease
+}
+
 .button {
   cursor: pointer;
   display: flex;
@@ -74,8 +89,21 @@
   width: 100%;
 }
 
+.warning {
+  margin-left: auto;
+  margin-right: auto;
+  width: 46%;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+  text-align: left;
+}
+
 @media (max-width: 900px) {
   .search {
     width: 90%;
+  }
+  .warning {
+    width: 83%;
   }
 }

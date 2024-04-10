@@ -90,3 +90,10 @@ const CalculateUVScore = (UVI) =>{
 
 
 export default CalculateScores;
+const CalculateScores = async (displayData, ori, modes) => {
+  const scores = [];
+  displayData.array.forEach((element) => {
+    scores.push(calculateAirTemp(element) + calculatePSI);
+  });
+};
+export default CalculateScores;
