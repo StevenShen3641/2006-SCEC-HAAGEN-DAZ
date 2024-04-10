@@ -3,28 +3,25 @@ import calculatePSI from "./CalculatePSI";
 import calculateRainfallAmount from "./CalculateRainfall";
 import calculateUVI from "./CalculateUV";
 import CalculateDistance from "./CalculateDistance";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const CalculateScores = async (displayData,ori,modes)=>{
     // const [scores, setScores] = useState([])
+    const scores = []
 
     const WEATHER_WEIGHTAGE = 0.4;
     const DISTANCE_WEIGHTAGE = 1 - WEATHER_WEIGHTAGE;
-    const [distances, minDistance] = await CalculateDistance(displayData,ori,modes);
+    const [distances, minDistance] = CalculateDistance(displayData,ori,modes);
     const distanceScores = CalCulateDistanceScore(distances,minDistance);
-    displayData.forEach(element => {
-        
-    const weatherScore = CalculateWeatherScore(element)
-    console.log(weatherScore)
-    // scores.push(weatherScore)
-
-});
-    // return scores
-
-}
+    for (let element of displayData) {
+        const weatherScore = await CalculateWeatherScore(element);
+        scores.push(weatherScore);
+    };
+    return scores;
+};
 
 
-const CalculateWeatherScore = async (element)=>{
+const CalculateWeatherScore =async (element)=>{
 
     const EACH_API_WEIGHTAGE = 0.25;
 
@@ -33,6 +30,7 @@ const CalculateWeatherScore = async (element)=>{
     const rainFall = await calculateRainfallAmount(element);
     const UVI = await calculateUVI(element);
     console.log((CalculateAirTempScore(air_temp) + CalculatePSIScore(PSI) + CalculateRainfallScore(rainFall) + CalculateUVScore(UVI)) * EACH_API_WEIGHTAGE)    
+    
     return (CalculateAirTempScore(air_temp) + CalculatePSIScore(PSI) + CalculateRainfallScore(rainFall) + CalculateUVScore(UVI)) * EACH_API_WEIGHTAGE;
 }
 
@@ -50,7 +48,7 @@ const between = (x, min, max) => {
     return x >= min && x <= max;
 }
 
-const CalculateAirTempScore = (air_temp)=>{
+const CalculateAirTempScore = async (air_temp)=>{
         // based on SAF work rest cycle
         if(air_temp < 24) return 100;
         if(between(air_temp,24.0,24.9)) return 90;
@@ -65,7 +63,7 @@ const CalculateAirTempScore = (air_temp)=>{
         if(air_temp > 33 ) return 0;
 }
 
-const CalculatePSIScore = (PSI)=>{
+const CalculatePSIScore = async (PSI)=>{
     //based on PSI scale in Singapore
     if (PSI < 50) return 100;
     if(between(PSI,50,75)) return 80;
@@ -75,7 +73,7 @@ const CalculatePSIScore = (PSI)=>{
     if (PSI > 200) return 0;
 }
 
-const CalculateRainfallScore = (rainFall) =>{
+const CalculateRainfallScore = async (rainFall) =>{
     //rainfall in mm
     if(rainFall < 0.5) return 100;
     if(between(rainFall,0.6,1)) return 80;
@@ -87,7 +85,7 @@ const CalculateRainfallScore = (rainFall) =>{
 
 }
 
-const CalculateUVScore = (UVI) =>{
+const CalculateUVScore = async (UVI) =>{
     //based on UV index SG
     if(between(UVI,0,2)) return 100;
     if(between(UVI,3,5)) return 80;
