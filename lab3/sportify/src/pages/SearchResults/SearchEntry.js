@@ -7,7 +7,7 @@ import {
     Link,
   } from "react-router-dom";
 
-const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter}) {
+const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter,overallScores}) {
     const [address, setAddress] = useState("");
     useEffect(()=>{
         (async function(){
@@ -28,7 +28,7 @@ const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressG
                 <div className={styles.scorebox}>
                     <span>
                         <Link className={styles.button} to={`/SportsLocation/${locationKey}`}>Find out more</Link>
-                        <h3>Score: 90/100</h3>
+                        <h3>Score: {overallScores}</h3>
                     </span>
                 </div>
             </div>

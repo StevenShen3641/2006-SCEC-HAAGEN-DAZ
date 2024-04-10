@@ -20,7 +20,7 @@ async function calculatePSI(location) {
     if (!PSIcoordinates || Array.isArray(PSIcoordinates)) {
       console.log("PSIcoordinates not ready.");
     }
-    for (let i = 0; i < PSIcoordinates.length; i++) {
+    for (let i = 0; i < Object.keys(PSIcoordinates).length; i++) {
       const coordinates = PSIcoordinates[i];
       const distance = calculateMapDistance(
         coordinates.latitude,
@@ -28,7 +28,7 @@ async function calculatePSI(location) {
         location.y,
         location.x
       );
-      console.log(distance);
+      //console.log(distance);
       if (distance < shortestDistance) {
         shortestDistance = distance;
         closestIndex = i;

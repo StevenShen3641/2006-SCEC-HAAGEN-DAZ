@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 
 const CalculateDistance = (displayData, ori,modes) => {
     const apiCaller = new APICaller();
-    const [distances, setDistances] = useState({});
-    // const distances;
-    useEffect(() => {
+    // const [distances, setDistances] = useState({});
+    let distances;
         displayData.forEach((value) => {
             apiCaller
                 .fetchDistance(
@@ -19,10 +18,9 @@ const CalculateDistance = (displayData, ori,modes) => {
                 .then((result) => {
                     console.log(result);
 
-                    setDistances((prevDistance) => ({ ...prevDistance, [value.index]: result }));
+                    ((prevDistance) => ({ ...prevDistance, [value.index]: result }))();
                 });
         });
-    }, []);
     console.log(distances);
     return distances;
     // please ignore, testing

@@ -33,11 +33,9 @@ async function calculateAirTemp(location) {
         location.y,
         location.x
       );
-      //console.log(distance);
       if (distance < shortestDistance) {
         shortestDistance = distance;
         closestIndex = i;
-        //console.log(closestIndex);
       }
     }
     const valuesArray = Object.values(Airvalue);

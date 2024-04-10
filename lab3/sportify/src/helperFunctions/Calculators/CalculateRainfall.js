@@ -31,15 +31,13 @@ async function calculateRainfallAmount(location) {
         location.x,
         location.y
       );
-      console.log(distance);
+      //console.log(distance);
       if (distance < shortestDistance) {
         shortestDistance = distance;
         closestIndex = i;
       }
     }
     const valuesArray = Object.values(Rainfallvalue);
-    console.log(closestIndex);
-    console.log(valuesArray[closestIndex]);
     return valuesArray[closestIndex];
   } catch (error) {
     console.error("Error calculating Rainfall score:", error);
