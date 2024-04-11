@@ -28,7 +28,7 @@ return overallScores;
 
 
 const CalculateWeatherScore = async (element)=>{
-
+    if(!element) throw new Error("Invalid location data!");
     const EACH_API_WEIGHTAGE = 0.25;
 
     const air_temp = await calculateAirTemp(element);

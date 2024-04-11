@@ -50,6 +50,7 @@ import APICaller from "../../helperFunctions/APICaller";
 const apiCaller = new APICaller();
 
 function calculateUVI(location) {
+  if(!location) throw new Error("Invalid location data!");
   return (async ()=>{
   const UVIData = await apiCaller.fetchUVIReadings();
   return UVIData;

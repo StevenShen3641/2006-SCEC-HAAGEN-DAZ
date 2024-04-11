@@ -12,6 +12,7 @@ const fetchAirValues = async () => {
   fetchAirValues();
 };
 async function calculateAirTemp(location) {
+  if(!location) throw new Error("Invalid location data!");
   try {
     const AirData = await fetchAirValues();
     const Airvalue = AirData.value;
@@ -30,8 +31,8 @@ async function calculateAirTemp(location) {
       const distance = calculateDistance(
         coordinates.latitude,
         coordinates.longitude,
-        location.y,
-        location.x
+        location.Y,
+        location.X
       );
       if (distance < shortestDistance) {
         shortestDistance = distance;

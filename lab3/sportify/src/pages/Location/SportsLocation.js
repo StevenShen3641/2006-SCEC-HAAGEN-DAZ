@@ -31,13 +31,13 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
     },[csvData])
 
     //If the locationData has been loaded, use it to get the locationData's Name
-    const[locationName,setLocationName] = useState();
-    useEffect(() => {
-        if (locationData) {
-            // Check if locationData is defined before accessing its properties
-            if (locationData.Name) setLocationName(locationData.Name);
-        }
-    }, [locationData]);
+    // const[locationName,setLocationName] = useState();
+    // useEffect(() => {
+    //     if (locationData) {
+    //         // Check if locationData is defined before accessing its properties
+    //         if (locationData.Name) setLocationName(locationData.Name);
+    //     }
+    // }, [locationData]);
 
 
     const apiCaller = new APICaller();
@@ -65,8 +65,9 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
     const[PSIValue, setPSIValue] = useState();
     const[UVIvalue, setUVIValue] = useState();
 
-    useEffect(() => {
-        calculateRainfallAmount(locationName)
+
+    useEffect(() => {if(locationData){
+        calculateRainfallAmount(locationData)
             .then(result => {
                 setRainFallState(result);
             })
@@ -75,7 +76,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
                 setRainFallState();
             });
         
-        calculateAirTemp(locationName)
+        calculateAirTemp(locationData)
             .then(result => {
                 setAirTemp(result);
             })
@@ -84,7 +85,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
                 setAirTemp();
             });
 
-        calculatePSI(locationName)
+        calculatePSI(locationData)
             .then(result => {
                 setPSIValue(result);
             })
@@ -93,7 +94,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
                 setPSIValue();
             });
 
-        calculateUVI(locationName)
+        calculateUVI(locationData)
             .then(result => {
                 setUVIValue(result);
             })
@@ -103,11 +104,12 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
             });
         
         
-    }, [locationName]);
+    }
+}, [locationData]);
 
 
     //Debug to see if the values are extracted from the promise 
-    console.log(locationName);
+    console.log(locationData);
     console.log("Rain: ",rainFallState)
     console.log("AirTemp: ", airTemp);
     console.log("PSI: ", PSIValue);
@@ -148,11 +150,12 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
     }
 
 
-    return(
-        <>
+    return(locationData?
+        (<>
         <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
         </header>
+        <body>
         <div className={styles.Details}>
         <div className={styles.sideLeft} style={{backgroundImage: `url(${locationData.Images})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
         <div className={styles.sideRight}>
@@ -196,8 +199,17 @@ const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
         zoom = {15}
         >   
         </GoogleMap>
+        </body>
 
-      </>
+      </>):(
+        <>
+        <header><TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} /></header>
+        <body>
+            <h3>loading...</h3>
+        </body>
+        
+        </>
+      )
     )
 }
 

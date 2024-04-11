@@ -11,6 +11,7 @@ const fetchPSIValues = async () => {
   fetchPSIValues();
 };
 async function calculatePSI(location) {
+  if(!location) throw new Error("Invalid location data!");
   try {
     const psiData = await fetchPSIValues();
     const PSIvalue = psiData.value;
@@ -25,8 +26,8 @@ async function calculatePSI(location) {
       const distance = calculateMapDistance(
         coordinates.latitude,
         coordinates.longitude,
-        location.y,
-        location.x
+        location.Y,
+        location.X
       );
       //console.log(distance);
       if (distance < shortestDistance) {

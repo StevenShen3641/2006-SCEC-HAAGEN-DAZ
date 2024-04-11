@@ -11,6 +11,7 @@ const fetchRainfallValues = async () => {
   fetchRainfallValues();
 };
 async function calculateRainfallAmount(location) {
+  if(!location) throw new Error("Invalid location data!");
   try {
     const RainfallData = await fetchRainfallValues();
     const Rainfallvalue = RainfallData.values;
@@ -28,8 +29,8 @@ async function calculateRainfallAmount(location) {
       const distance = calculateDistance(
         coordinates.latitude,
         coordinates.longitude,
-        location.x,
-        location.y
+        location.Y,
+        location.X
       );
       //console.log(distance);
       if (distance < shortestDistance) {
