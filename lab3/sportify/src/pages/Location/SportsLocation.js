@@ -17,14 +17,6 @@ import { ActivityRings } from "@jonasdoesthings/react-activity-rings";
 const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
-  const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    // set the visibility to true after a delay to trigger the transition
-    const timeout = setTimeout(() => {
-      setIsVisible(true);
-    });
-    return () => clearTimeout(timeout);
-  }, []);
 
   const { id } = useParams();
   const { csvData, setCsvData } = useContext(CSVDataContext);
@@ -70,6 +62,8 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const [PSIRatio, setPSIRatio] = useState(-1);
   const [UVIRatio, setUVIRatio] = useState(-1);
 
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
     if (locationData && airData && psiData && rainfallData && UVIData !== -1) {
       setAirTemp(calculateAirTemp(locationData, airData));
@@ -80,6 +74,13 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setAirTempRatio(airTemp / 33);
       setPSIRatio(PSIValue / 200);
       setUVIRatio(UVIvalue / 11);
+
+      console.log(isVisible);
+      // set the visibility to true after a delay to trigger the transition
+      const timeout = setTimeout(() => {
+        setIsVisible(true);
+      });
+      return () => clearTimeout(timeout);
     }
   });
 
