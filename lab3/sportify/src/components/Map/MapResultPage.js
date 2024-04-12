@@ -1,17 +1,14 @@
-import "../../assets/App.css";
-import {
-  GoogleMap,
-  MarkerF,
-  InfoWindowF,
-  CircleF,
-} from "@react-google-maps/api";
+// import "../../assets/App.css";
+import styles from "../../assets/SportsLocation.module.css";
+import { GoogleMap, DirectionsRenderer, infoWindowF } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
-const MapResultPage = ({
-}) => {
+const MapResultPage = ({ ori, dest, modes }) => {
+  const google = window.google;
+  const directionsService = new google.maps.DirectionsService();
   // set map style object
   const mapContainerStyle = {
-    width: "50vw",
+    width: "85vw",
     height: "500px",
   };
 
@@ -39,8 +36,6 @@ const MapResultPage = ({
   }, []);
 
   const [isVisible, setIsVisible] = useState(false);
-  // set address
-
   useEffect(() => {
     // set the visibility to true after a delay to trigger the transition
     const timeout = setTimeout(() => {
@@ -50,22 +45,54 @@ const MapResultPage = ({
     return () => clearTimeout(timeout);
   }, []);
 
+  // directions
+  const [directionsWalk, setDirectionsWalk] = useState(null);
+  const [directionsPT, setDirectionsPT] = useState(null);
+  const [directionsCar, setDirectionsCar] = useState(null);
+  const [directionsMB, setDirectionsMB] = useState(null);
+
+  useEffect(() => {
+    const _ = (async () => {
+      for (let transport of modes) {
+        if (transport === google.maps.TravelMode.WALKING) {
+          const results = await directionsService.route({
+            origin: ori,
+            destination: dest,
+            // eslint-disable-next-line no-undef
+            travelMode: google.maps.TravelMode.WALKING,
+          });
+          setDirectionsWalk(results);
+        }
+      }
+    })();
+  }, []);
 
   return (
-    <div className={`map gradual ${isVisible ? "visible" : ""}`}>
-      
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          zoom={14}
-          // cen
-          clickableIcons={false}
-          options={{
-            disableDefaultUI: true,
-            scrollwheel: true,
-          }}
-        >
-        </GoogleMap>
-      
+    <div className={`${styles.map} gradual ${isVisible ? "visible" : ""}`}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        zoom={14}
+        // cen
+        center={{
+          lat: (ori.lat + dest.lat) / 2,
+          lng: (ori.lng + dest.lng) / 2,
+        }}
+        clickableIcons={false}
+        options={{
+          disableDefaultUI: true,
+          scrollwheel: true,
+        }}
+      >
+        {directionsWalk && (
+          <DirectionsRenderer
+            directions={directionsWalk}
+            // panel={<div>123</div>}
+            options={{
+              infoWindow: (<infoWindowF></infoWindowF>),
+            }}
+          />
+        )}
+      </GoogleMap>
     </div>
   );
 };

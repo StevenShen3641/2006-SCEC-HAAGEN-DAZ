@@ -26,7 +26,7 @@ const CalculateScores = async (displayData,ori)=>{
             overallScores[element.index] = (distanceScores[element.index] * DISTANCE_WEIGHTAGE) + (weatherScore* WEATHER_WEIGHTAGE)
         }
         else{
-            console.log("cannot calculate overall scores!;")
+            console.log("cannot calculate overall scores!")
         }
     }
 
@@ -50,7 +50,7 @@ const CalculateWeatherScore = async (element, airData, psiData, rainfallData, UV
 const CalCulateDistanceScore = (distances,minDistance)=>{
     const scores ={};
     for (let placeID in distances){
-        scores[placeID] = Math.exp((minDistance - distances[placeID])/50000) * 100
+        scores[placeID] = Math.exp((minDistance - distances[placeID])/minDistance/300) * 100
     }
     return scores;
 }

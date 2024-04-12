@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, createMemoryRouter, useLocation } from "react-router-dom";
+import { Link, createMemoryRouter, useLocation, useNavigate } from "react-router-dom";
 import SearchEntry from "./SearchEntry";
 import addressGetter from "../../helperFunctions/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import CalculateScores from "../../helperFunctions/Calculators/CalculateScores.js";
 
 const SearchResults = ({ buttonPopup, setButtonPopup }) => {
+  const navigate = useNavigate();
   const displayData = useLocation().state.displayData;
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
@@ -59,6 +60,15 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
                   sports={location.Sports}
                   distanceFromCenter={location.distanceFromCenter}
                   overallScores={parseInt(overallScores[location.index])}
+                  findOutMore={(id) => {
+                    console.log(id)
+                    navigate(`/SportsLocation/${id}`, {
+                      state: {
+                        travelModes: modes,
+                        ori: ori,
+                      },
+                    });
+                  }}
                 ></SearchEntry>
               )
             );

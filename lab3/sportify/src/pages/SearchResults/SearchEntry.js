@@ -7,7 +7,7 @@ import {
     Link,
   } from "react-router-dom";
 
-const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter,overallScores}) {
+const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressGetter, sports, distanceFromCenter,overallScores, findOutMore}) {
     
     
     // add gradual effect
@@ -41,7 +41,7 @@ const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressG
                 </div>
                 <div className={styles.scorebox}>
                     <span>
-                        <Link className={styles.button} to={`/SportsLocation/${locationKey}`}>Find out more</Link>
+                        <button className={styles.button} onClick={() => findOutMore(locationKey)}>Find out more</button>
                         <h3>Score: {overallScores}</h3>
                     </span>
                 </div>

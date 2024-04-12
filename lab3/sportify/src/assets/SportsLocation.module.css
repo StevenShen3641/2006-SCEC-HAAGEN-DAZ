@@ -1,10 +1,8 @@
-
 .Details {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 0.5rem;
-    width: 95%;
-    height : 100% ;
+    margin-top: 1rem;
+    width: 85%;
     display: flex;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -14,18 +12,32 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
+.content {
+    display: flex;
+}
+
+.ring{
+    display: flex;
+}
+
+.ringBox {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 
 .sideRight {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    height: auto;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0px;
     background-color: #EAE4DF;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 .sideLeft {
@@ -34,13 +46,12 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     min-height: 300px;
-    width: 50%;
-    height : 100%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0px;
     background-color: #EAE4DF;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 .infoBox p {
@@ -53,33 +64,64 @@
 
 }
 
-.cross{
-    position: absolute;
-    width:20px;
-    height:20px;
-    margin-top: -32px;
-    margin-left:-410px;
+.icon{
+    vertical-align: middle;
+    width:18px;
+    height:18px;
+    margin-bottom: 4px;
+}
+
+.button {
+    width: 125px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #9a9284;
+    border: 1px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #716b60;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.buttonBox {
+    margin-top: 15px;
+    margin-left: 18px;
+    text-align: left;
+}
+
+.map {
+    user-select: none;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
     
-}
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  
+    /* outline: 3px solid black; */
+  }
+  
+  .map:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  }
 
-.check{
-    position: absolute;
-    width:35px;
-    height:35px;
-    margin-top: -40px;
-    margin-left:-420px;
-}
 
-.PreCheckIn{
-    position: relative;
-    margin-top : 10px;
-    margin-left: -810px;
-}
 
-.activityRings{
-    position: absolute ;
-    margin-left: -100px;
-}
+
+
 
 @media (max-width: 900px) {
     .Details {
@@ -98,5 +140,17 @@
         border-bottom-right-radius: 0;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
+    }
+    .content {
+        flex-direction: column;
+    }
+    .info {
+        display: flex;
+    }
+    .infoEntry {
+        width: 50%
+    }
+    .map {
+        width: 90%;
     }
 }

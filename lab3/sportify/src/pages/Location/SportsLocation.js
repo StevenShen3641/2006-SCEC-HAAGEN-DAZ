@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams} from "react-router-dom";
-import {CSVDataContext} from "../../contextProviders/CSVDataContext.js";
-import styles from '../../assets/SportsLocation.module.css';
+import { useParams, useLocation } from "react-router-dom";
+import { CSVDataContext } from "../../contextProviders/CSVDataContext.js";
+import styles from "../../assets/SportsLocation.module.css";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
-import { useLoadScript, GoogleMap, MarkerF } from "@react-google-maps/api";
 import APICaller from "../../helperFunctions/APICaller.js";
-import Map from "../../components/Map/Map.js";
+import MapResultPage from "../../components/Map/MapResultPage.js";
 import cross from "../../assets/images/cross.png";
 import check from "../../assets/images/check.png";
 import calculateRainfallAmount from "../../helperFunctions/Calculators/CalculateRainfall.js";
@@ -13,204 +12,191 @@ import calculateAirTemp from "../../helperFunctions/Calculators/CalculateAirTemp
 import calculateUVI from "../../helperFunctions/Calculators/CalculateUV.js";
 import calculatePSI from "../../helperFunctions/Calculators/CalculatePSI.js";
 
-import {ActivityRings} from "@jonasdoesthings/react-activity-rings";
+import { ActivityRings } from "@jonasdoesthings/react-activity-rings";
 
-const libraries = ["places"];
-
-const SportsLocation = ({ buttonPopup, setButtonPopup })=>{
-
-    const {id} = useParams();
-    const {csvData, setCsvData} = useContext(CSVDataContext);
-    
-    //Load the locationData 
-    const [locationData,setLocationData] = useState();
-    useEffect(()=>{
-        if(csvData){
-            setLocationData(csvData.find((item)=>{return item.index === id}));
-        }
-    },[csvData])
-
-    //If the locationData has been loaded, use it to get the locationData's Name
-    // const[locationName,setLocationName] = useState();
-    // useEffect(() => {
-    //     if (locationData) {
-    //         // Check if locationData is defined before accessing its properties
-    //         if (locationData.Name) setLocationName(locationData.Name);
-    //     }
-    // }, [locationData]);
-
-
-    const apiCaller = new APICaller();
-    const read = apiCaller.fetchWeatherReadings();
-    console.log(read);
-     
-    const [infoWindow, setInfoWindow] = useState(true);
-    //const [address, setAddress] = useState("");
-    const [zoom, setZoom] = useState(11);
-    // const [location, setCenter] = useState({
-    //     // set map center
-    //     lat: locationlat,
-    //     lng: locationlng,
-    //   });
-    const { isLoaded, loadError } = useLoadScript({
-      id: "google-map-script",
-      googleMapsApiKey: "AIzaSyARlWZy2P7eQPaegBck6jLcxTMHDr-VuAg",
-      libraries: libraries,
+const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
+  const ori = useLocation().state.ori;
+  const modes = useLocation().state.travelModes;
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    // set the visibility to true after a delay to trigger the transition
+    const timeout = setTimeout(() => {
+      setIsVisible(true);
     });
+    return () => clearTimeout(timeout);
+  }, []);
 
+  const { id } = useParams();
+  const { csvData, setCsvData } = useContext(CSVDataContext);
+  const [locationData, setLocationData] = useState();
 
-//Extracting the result from the calculators
-    const [rainFallState, setRainFallState] = useState();
-    const [airTemp, setAirTemp] = useState();
-    const[PSIValue, setPSIValue] = useState();
-    const[UVIvalue, setUVIValue] = useState();
+  const [airData, setAirData] = useState();
+  const [psiData, setpsiData] = useState();
+  const [rainfallData, setRainfallData] = useState();
+  const [UVIData, setUVIData] = useState(-1);
 
-
-    useEffect(() => {if(locationData){
-        calculateRainfallAmount(locationData)
-            .then(result => {
-                setRainFallState(result);
-            })
-            .catch(error => {
-                console.error("Error fetching rainfall amount:", error);
-                setRainFallState();
-            });
-        
-        calculateAirTemp(locationData)
-            .then(result => {
-                setAirTemp(result);
-            })
-            .catch(error => {
-                console.error("Error fetching Air Temperature:", error);
-                setAirTemp();
-            });
-
-        calculatePSI(locationData)
-            .then(result => {
-                setPSIValue(result);
-            })
-            .catch(error => {
-                console.error("Error fetching PSI Temperature:", error);
-                setPSIValue();
-            });
-
-        calculateUVI(locationData)
-            .then(result => {
-                setUVIValue(result);
-            })
-            .catch(error => {
-                console.error("Error fetching PSI Temperature:", error);
-                setUVIValue();
-            });
-        
-        
+  useEffect(() => {
+    if (csvData) {
+      setLocationData(
+        csvData.find((item) => {
+          return item.index === id;
+        })
+      );
     }
-}, [locationData]);
+  }, [csvData]);
 
+  // load all data from api
+  const apiCaller = new APICaller();
+  useEffect(() => {
+    apiCaller.fetchAirReadings().then((result) => {
+      setAirData(result);
+    });
+    apiCaller.fetchPSIReadings().then((result) => {
+      setpsiData(result);
+    });
+    apiCaller.fetchRainfallReadings().then((result) => {
+      setRainfallData(result);
+    });
+    apiCaller.fetchUVIReadings().then((result) => {
+      setUVIData(result);
+    });
+  }, []);
 
-    //Debug to see if the values are extracted from the promise 
-    console.log(locationData);
-    console.log("Rain: ",rainFallState)
-    console.log("AirTemp: ", airTemp);
-    console.log("PSI: ", PSIValue);
-    console.log("UVI: ", UVIvalue);
+  const [airTemp, setAirTemp] = useState(null);
+  const [PSIValue, setPSIValue] = useState(null);
+  const [rainFallState, setRainfallState] = useState(null);
+  const [UVIvalue, setUVIvalue] = useState(null);
+  const [airTempRatio, setAirTempRatio] = useState(-1);
+  const [PSIRatio, setPSIRatio] = useState(-1);
+  const [UVIRatio, setUVIRatio] = useState(-1);
 
+  useEffect(() => {
+    if (locationData && airData && psiData && rainfallData && UVIData !== -1) {
+      setAirTemp(calculateAirTemp(locationData, airData));
+      setPSIValue(calculatePSI(locationData, psiData));
+      setRainfallState(calculateRainfallAmount(locationData, rainfallData));
+      setUVIvalue(calculateUVI(locationData, UVIData));
 
-    //Maximum value is determined using the values used in CalculateScore
-    const airTempRatio = airTemp/33;
-    const PSIRatio = PSIValue/200;
-    const UVIRatio = UVIvalue/11;
-
-    const ratioVerifier = (element)=>{
-        //Ensure ratio is not over 1
-        if (element > 1){
-            return 1;
-        }
-
-        if (element < 0){
-            return -element;
-        }
-
-        return element;
+      setAirTempRatio(airTemp / 33);
+      setPSIRatio(PSIValue / 200);
+      setUVIRatio(UVIvalue / 11);
     }
+  });
 
-    console.log("AirTemp ratio: ", airTempRatio);
-    console.log("PSI ratio: ", PSIRatio);
-    console.log("UVI ratio: ", UVIRatio);
-
-    
-
-
-    if (loadError) {
-        return <div>Error loading Google Maps API</div>;
-      }
-    
-    if (!isLoaded) {
-        return <div>Loading...</div>;
+  const ratioVerifier = (element) => {
+    if (element > 1) {
+      return 1;
+    } else if (element < 0) {
+      return -element;
     }
+    return element;
+  };
 
-
-    return(locationData?
-        (<>
-        <header>
+  return locationData &&
+    airTempRatio !== -1 &&
+    PSIRatio !== -1 &&
+    UVIRatio !== -1 ? (
+    <>
+      <header>
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
-        </header>
-        <body>
-        <div className={styles.Details}>
-        <div className={styles.sideLeft} style={{backgroundImage: `url(${locationData.Images})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-        <div className={styles.sideRight}>
+      </header>
+      <body>
+        <div
+          className={`${styles.Details} gradual ${isVisible ? "visible" : ""}`}
+        >
+          <div
+            className={styles.sideLeft}
+            style={{
+              backgroundImage: `url(${locationData.Images})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          ></div>
+          <div className={styles.sideRight}>
             <div className={styles.infoBox}>
-            <p><span>Location: {locationData.Name}</span></p>
-                <p><span>Activities: {locationData.Sports}</span></p>
+              <p>Location: {locationData.Name}</p>
+              <p>Activities: {locationData.Sports}</p>
+              <div className={styles.content}>
                 <div>
-                <p><span>Rain: </span></p>{(rainFallState) ? 
-                <img className={styles.check} src={check} /> : 
-                <img className={styles.cross} src={cross} />}
+                  <div className={styles.info}>
+                    <div className={styles.infoEntry}>
+                      <p style={{ marginTop: "0px" }}>
+                        Rain:&nbsp;&nbsp;&nbsp;
+                        <span>
+                          {rainFallState ? (
+                            <img className={styles.icon} src={check} />
+                          ) : (
+                            <img className={styles.icon} src={cross} />
+                          )}
+                        </span>
+                      </p>
+                      <p>Weather:</p>
+                    </div>
+                    <div>
+                      <p>Pre-Check-In: 10</p>
+                      <p>Check-In: 12</p>
+                    </div>
+                  </div>
+                  <div className={styles.buttonBox}>
+                    <button className={styles.button}>Pre-Check-In</button>
+                  </div>
                 </div>
-                <p><span>Weather: </span></p>
-                <p><span>Pre-Check-In: 10</span></p>
-                <p><span>Check-In: 12</span></p>
-                <button className={styles.PreCheckIn}>Pre-Check-In</button>
-                <div style={{ marginRight : '-600px', marginTop: '-300px'}}>
-                <ActivityRings rings={[
-                    {filledPercentage: ratioVerifier(airTempRatio), color: '#7492b9',},
-                    {filledPercentage: ratioVerifier(PSIRatio), color: '#4d6b53',},
-                    {filledPercentage: ratioVerifier(UVIRatio), color: '#dc3b00',},
+                <div className={styles.ring}>
+                  <ActivityRings
+                    rings={[
+                      {
+                        filledPercentage: ratioVerifier(UVIRatio),
+                        color: "#5DC9D2",
+                      },
+                      {
+                        filledPercentage: ratioVerifier(PSIRatio),
+                        color: "#606C38",
+                      },
+
+                      {
+                        filledPercentage: ratioVerifier(airTempRatio),
+                        color: "#EB5E28",
+                      },
                     ]}
                     options={{
-                        // animationDurationMillis: 1500,
-                        containerHeight: '50vh',
-                      }}
-
-                />
+                      containerWidth: "200px",
+                      containerHeight: "200px",
+                    }}
+                  />
+                  <div className={styles.ringBox}>
+                    <p style={{ color: "#EB5E28" }}>
+                      Air Temparature: {airTemp} &deg;C
+                    </p>
+                    <p style={{ color: "#606C38" }}>
+                      Pollutant Standards Index: {PSIValue}
+                    </p>
+                    <p style={{ color: "#5DC9D2" }}>
+                      Ultraviolet index: {UVIvalue}
+                    </p>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div > 
-        <div style = {{marginTop : "10px"} }></div>
-        <GoogleMap
-        mapContainerStyle={{
-            height : "500px"
-        }}
-        center = {{
+        <div style={{ marginTop: "10px" }}></div>
+        <MapResultPage
+          ori={ori}
+          dest={{
             lat: parseFloat(locationData.Y),
             lng: parseFloat(locationData.X),
-        }}
-        zoom = {15}
-        >   
-        </GoogleMap>
-        </body>
-
-      </>):(
-        <>
-        <header><TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} /></header>
-        <body>
-            <h3>loading...</h3>
-        </body>
-        
-        </>
-      )
-    )
-}
+          }}
+          modes={modes}
+        />
+      </body>
+    </>
+  ) : (
+    <>
+      <header>
+        <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
+      </header>
+    </>
+  );
+};
 
 export default SportsLocation;
