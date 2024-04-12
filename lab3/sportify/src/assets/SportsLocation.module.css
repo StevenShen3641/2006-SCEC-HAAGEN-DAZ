@@ -2,6 +2,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 1rem;
+    margin-bottom: 1.4rem;
     width: 85%;
     display: flex;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
@@ -101,27 +102,210 @@
     border-radius: 10px;
     overflow: hidden;
     margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     margin-left: auto;
     margin-right: auto;
     width: 85%;
-    
     display: flex;
     align-items: center;
     padding: 0px;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   
     /* outline: 3px solid black; */
-  }
+}
   
-  .map:hover {
+.map:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  }
+}
 
+.checkbox {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    
+}
 
+.buttonWalk {
+    appearance: none;
+    background-color: #ff8080;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 6px;
+    display: flex;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 
+}
 
+.buttonWalk:hover {
+    background-color: #ff1010;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
 
+.buttonWalk:checked:hover {
+    background-color: #ff1010;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.buttonWalk:after {
+    content: "\002714";
+    display: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+}
+
+.buttonWalk:checked {
+    background-color: #ff4545;
+    content: "\002714";
+    font-weight: 100;
+    font-size: 10px;
+}
+
+.buttonWalk:checked:after {
+    display: block;
+}
+
+.buttonCar {
+    appearance: none;
+    background-color: #6cbeee;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 6px;
+    display: flex;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.buttonCar:hover {
+    background-color: #005fff;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+
+}
+
+.buttonCar:checked:hover {
+    background-color: #005fff;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.buttonCar:after {
+    content: "\002714";
+    display: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+
+}
+
+.buttonCar:checked {
+    background-color: #0080ff;
+    content: "\002714";
+    font-weight: 100;
+    font-size: 10px;
+}
+
+.buttonCar:checked:after {
+    display: block;
+}
+
+.buttonMB {
+    appearance: none;
+    background-color: #ff9d65;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 6px;
+    display: flex;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.buttonMB:hover {
+    background-color: #ff5f00;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+
+}
+
+.buttonMB:checked:hover {
+    background-color: #ff5f00;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.buttonMB:after {
+    content: "\002714";
+    display: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+
+}
+
+.buttonMB:checked {
+    background-color: #ff792b;
+    content: "\002714";
+    font-weight: 100;
+    font-size: 10px;
+}
+
+.buttonMB:checked:after {
+    display: block;
+}
+
+.buttonPT {
+    appearance: none;
+    background-color: #e675e6;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 6px;
+    display: flex;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.buttonPT:hover {
+    background-color: #bf00bf;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+
+}
+
+.buttonPT:checked:hover {
+    background-color: #bf00bf;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+.buttonPT:after {
+    content: "\002714";
+    display: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+
+}
+
+.buttonPT:checked {
+    background-color: #d319d3;
+    content: "\002714";
+    font-weight: 100;
+    font-size: 10px;
+}
+
+.buttonPT:checked:after {
+    display: block;
+}
 
 @media (max-width: 900px) {
     .Details {
@@ -152,5 +336,11 @@
     }
     .map {
         width: 90%;
+    }
+    .checkbox {
+        width: 90%;
+    }
+    .checkboxTitle {
+        display: none;
     }
 }

@@ -179,7 +179,6 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
             </div>
           </div>
         </div>
-        <div style={{ marginTop: "10px" }}></div>
         <MapResultPage
           ori={ori}
           dest={{

@@ -61,7 +61,6 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
                   distanceFromCenter={location.distanceFromCenter}
                   overallScores={parseInt(overallScores[location.index])}
                   findOutMore={(id) => {
-                    console.log(id)
                     navigate(`/SportsLocation/${id}`, {
                       state: {
                         travelModes: modes,

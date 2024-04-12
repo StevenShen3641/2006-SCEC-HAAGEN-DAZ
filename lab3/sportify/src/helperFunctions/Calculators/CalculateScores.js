@@ -19,7 +19,6 @@ const CalculateScores = async (displayData,ori)=>{
     const psiData = await apiCaller.fetchPSIReadings()
     const rainfallData = await apiCaller.fetchRainfallReadings()
     const UVIData = await apiCaller.fetchUVIReadings()
-
     for(let element of displayData) {
         const weatherScore = await CalculateWeatherScore(element, airData, psiData, rainfallData, UVIData);
         if (element && distanceScoresIndex.length !== 0 && distanceScoresIndex.includes(element.index)){
@@ -50,7 +49,7 @@ const CalculateWeatherScore = async (element, airData, psiData, rainfallData, UV
 const CalCulateDistanceScore = (distances,minDistance)=>{
     const scores ={};
     for (let placeID in distances){
-        scores[placeID] = Math.exp((minDistance - distances[placeID])/minDistance/300) * 100
+        scores[placeID] = Math.exp((minDistance - distances[placeID])/12000) * 100
     }
     return scores;
 }
