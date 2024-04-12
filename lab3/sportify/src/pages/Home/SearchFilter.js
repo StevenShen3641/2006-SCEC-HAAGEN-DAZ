@@ -45,11 +45,9 @@ function SearchFilter(props) {
           <div>
             <input
               className={styles.filterButton}
-              value="walk"
-              type="radio"
-              name="transport"
-              defaultChecked
-              onChange={(e) => props.setMode(e.target.value)}
+              type="checkbox"
+              checked={props.Walkvalue}
+              onChange={(e) => props.setWalkvalue(e.target.checked)}
             />
           </div>
           <label>Walk</label>
@@ -57,22 +55,19 @@ function SearchFilter(props) {
           <div>
             <input
               className={styles.filterButton}
-              value="car"
-              type="radio"
-              name="transport"
-              onChange={(e) => props.setMode(e.target.value)}
+              type="checkbox"
+              checked={props.Carvalue}
+              onChange={(e) => props.setCarvalue(e.target.checked)}
             />
           </div>
           <label className={styles.Buttonlabel}>Car</label>
 
           <div>
             <input
-              id=""
               className={styles.filterButton}
-              value="motor"
-              type="radio"
-              name="transport"
-              onChange={(e) => props.setMode(e.target.value)}
+              type="checkbox"
+              checked={props.MBvalue}
+              onChange={(e) => props.setMBvalue(e.target.checked)}
             />
           </div>
           <label>Motorbike</label>
@@ -80,10 +75,9 @@ function SearchFilter(props) {
             <div>
               <input
                 className={styles.filterButton}
-                value="public"
-                type="radio"
-                name="transport"
-                onChange={(e) => props.setMode(e.target.value)}
+                type="checkbox"
+                checked={props.PTvalue}
+                onChange={(e) => props.setPTvalue(e.target.checked)}
               />
             </div>
           )}
@@ -94,10 +88,9 @@ function SearchFilter(props) {
             <div>
               <input
                 className={styles.filterButton}
-                value="public"
-                type="radio"
-                name="transport"
-                onChange={(e) => props.setMode(e.target.value)}
+                type="checkbox"
+                checked={props.PTvalue}
+                onChange={(e) => props.setPTvalue(e.target.checked)}
               />
             </div>
           )}

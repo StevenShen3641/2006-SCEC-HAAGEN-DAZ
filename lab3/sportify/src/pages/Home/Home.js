@@ -37,7 +37,10 @@ function Home({ buttonPopup, setButtonPopup }) {
   const [showFilter, setShowFilter] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [circleRadius, setCircleRadius] = useState(0);
-  const [mode, setMode] = useState("walk");
+  const [PTvalue, setPTvalue] = useState(true);
+  const [Walkvalue, setWalkvalue] = useState(true);
+  const [Carvalue, setCarvalue] = useState(true);
+  const [MBvalue, setMBvalue] = useState(true);
 
   const filterToggle = () => {
     if (address === "Your Location1") {
@@ -131,22 +134,24 @@ function Home({ buttonPopup, setButtonPopup }) {
     */
     }
   });
-  useEffect(() => {
+  const modes = (() => {
+    const transportModes = [];
     if (isLoaded) {
-      if (mode === "public") {
-        setMode(google.maps.TravelMode.TRANSIT);
+      if (PTvalue) {
+        transportModes.push(google.maps.TravelMode.TRANSIT);
       }
-      if (mode === "walk") {
-        setMode(google.maps.TravelMode.WALKING);
+      if (Walkvalue) {
+        transportModes.push(google.maps.TravelMode.WALKING);
       }
-      if (mode === "car") {
-        setMode(google.maps.TravelMode.DRIVING);
+      if (Carvalue) {
+        transportModes.push(google.maps.TravelMode.DRIVING);
       }
-      if (mode === "motor") {
-        setMode(google.maps.TravelMode.BICYCLING);
+      if (MBvalue) {
+        transportModes.push(google.maps.TravelMode.BICYCLING);
       }
+      return transportModes;
     }
-  }, [mode, isLoaded]);
+  })();
   {
     /* Use to check if filtering locations is working
     useEffect(() => {
@@ -164,6 +169,10 @@ function Home({ buttonPopup, setButtonPopup }) {
         {/* lazy initialization */}
         {isLoaded ? (
           <SearchBar
+            PTvalue={PTvalue}
+            Carvalue={Carvalue}
+            Walkvalue={Walkvalue}
+            MBvalue={MBvalue}
             address={address}
             filteredData={filteredData}
             showFilter={showFilter}
@@ -177,7 +186,7 @@ function Home({ buttonPopup, setButtonPopup }) {
                 navigate("/SearchResults", {
                   state: {
                     displayData: filteredData,
-                    travelModes: mode,
+                    travelModes: modes,
                     ori: center,
                   },
                 });
@@ -189,9 +198,14 @@ function Home({ buttonPopup, setButtonPopup }) {
           setSliderValue={setSliderValue}
           showFilter={showFilter}
           setShowFilter={setShowFilter}
-          mode={mode}
-          setMode={setMode}
-
+          PTvalue={PTvalue}
+          setPTvalue={setPTvalue}
+          Walkvalue={Walkvalue}
+          setWalkvalue={setWalkvalue}
+          Carvalue={Carvalue}
+          setCarvalue={setCarvalue}
+          MBvalue={MBvalue}
+          setMBvalue={setMBvalue}
         />
       </header>
       <body>

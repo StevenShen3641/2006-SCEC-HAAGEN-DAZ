@@ -1,4 +1,5 @@
 import axios from "axios"; //for making HTTP request in JS
+import calculateMapDistance from "./calculateMapDistance";
 
 /* e.g. To call API from another file:
     const apiCaller = new APICaller();
@@ -29,30 +30,9 @@ class APICaller {
     // console.log("Formatted Current Date:", currentDateFormatted);
   }
 
-  async fetchDistance(ori, dest, mode) {
-    const google = window.google;
-    const directionService = new google.maps.DirectionsService();
-    let distance = 0;
-    try {
-      try {
-        const results = await directionService.route({
-          origin: ori,
-          destination: dest,
-          travelMode: mode,
-        });
-        distance = parseInt(results.routes[0].legs[0].distance.value);
-      } catch (error) {}
-
-      if (!distance) {
-        return Infinity;
-      } else {
-        return distance;
-      }
-      // return distances
-    } catch (error) {
-      console.error("Error fetching API readings from GoogleMaps: ", error);
-      throw error;
-    }
+  fetchDistance(ori, dest) {
+    const distance = calculateMapDistance(ori.lat, ori.lng, dest.lat, dest.lng)
+    return distance * 1000
   }
 
   //asynchronous function for fetch API data
