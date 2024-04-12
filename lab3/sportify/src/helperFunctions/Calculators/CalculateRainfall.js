@@ -1,31 +1,19 @@
 import calculateDistance from "../calculateMapDistance";
-import APICaller from "../../helperFunctions/APICaller";
-const apiCaller = new APICaller();
-const fetchRainfallValues = async () => {
-  try {
-    const RainfallData = await apiCaller.fetchRainfallReadings();
-    return RainfallData;
-  } catch (error) {
-    console.error("Error fetching Rainfall values:", error);
-  }
-  fetchRainfallValues();
-};
-async function calculateRainfallAmount(location) {
+function calculateRainfallAmount(location, rainfallData) {
   if(!location) throw new Error("Invalid location data!");
   try {
-    const RainfallData = await fetchRainfallValues();
-    const Rainfallvalue = RainfallData.values;
-    const Rainfallcoordinates = RainfallData.coordinates;
+    const rainfallvalue = rainfallData.values;
+    const rainfallcoordinates = rainfallData.coordinates;
     //console.log(RainfallData);
     //console.log(Rainfallcoordinates);
     //console.log(Rainfallvalue);
     let shortestDistance = Infinity;
     let closestIndex = -1;
-    if (!Rainfallcoordinates || Array.isArray(Rainfallcoordinates)) {
+    if (!rainfallcoordinates || Array.isArray(rainfallcoordinates)) {
       console.log("Rainfallcoordinates not ready.");
     }
     for (let i = 0; i < 60; i++) {
-      const coordinates = Rainfallcoordinates[i];
+      const coordinates = rainfallcoordinates[i];
       const distance = calculateDistance(
         coordinates.latitude,
         coordinates.longitude,
@@ -38,7 +26,7 @@ async function calculateRainfallAmount(location) {
         closestIndex = i;
       }
     }
-    const valuesArray = Object.values(Rainfallvalue);
+    const valuesArray = Object.values(rainfallvalue);
     return valuesArray[closestIndex];
   } catch (error) {
     console.error("Error calculating Rainfall score:", error);

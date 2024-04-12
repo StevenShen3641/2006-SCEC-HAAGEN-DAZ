@@ -3,6 +3,7 @@ import calculatePSI from "./CalculatePSI";
 import calculateRainfallAmount from "./CalculateRainfall";
 import calculateUVI from "./CalculateUV";
 import CalculateDistance from "./CalculateDistance";
+import APICaller from "../APICaller";
 
 const CalculateScores = async (displayData,ori)=>{
     const overallScores = {};
@@ -13,8 +14,14 @@ const CalculateScores = async (displayData,ori)=>{
     const distanceScores = CalCulateDistanceScore(distances,minDistance);
     const distanceScoresIndex = Object.keys(distanceScores);
 
+    const apiCaller = new APICaller()
+    const airData = await apiCaller.fetchAirReadings()
+    const psiData = await apiCaller.fetchPSIReadings()
+    const rainfallData = await apiCaller.fetchRainfallReadings()
+    const UVIData = await apiCaller.fetchUVIReadings()
+
     for(let element of displayData) {
-        const weatherScore = await CalculateWeatherScore(element);
+        const weatherScore = await CalculateWeatherScore(element, airData, psiData, rainfallData, UVIData);
         if (element && distanceScoresIndex.length !== 0 && distanceScoresIndex.includes(element.index)){
             overallScores[element.index] = (distanceScores[element.index] * DISTANCE_WEIGHTAGE) + (weatherScore* WEATHER_WEIGHTAGE)
         }
@@ -23,19 +30,18 @@ const CalculateScores = async (displayData,ori)=>{
         }
     }
 
-return overallScores;
+return distanceScores;
 }
 
 
-const CalculateWeatherScore = async (element)=>{
+const CalculateWeatherScore = async (element, airData, psiData, rainfallData, UVIData)=>{
     if(!element) throw new Error("Invalid location data!");
     const EACH_API_WEIGHTAGE = 0.25;
 
-    const air_temp = await calculateAirTemp(element);
-    const PSI = await calculatePSI(element);
-    const rainFall = await calculateRainfallAmount(element);
-    const UVI = await calculateUVI(element);
-    
+    const air_temp = calculateAirTemp(element,airData);
+    const PSI = calculatePSI(element, psiData);
+    const rainFall = calculateRainfallAmount(element, rainfallData);
+    const UVI = calculateUVI(element, UVIData);
     return (CalculateAirTempScore(air_temp) + CalculatePSIScore(PSI) + CalculateRainfallScore(rainFall) + CalculateUVScore(UVI)) * EACH_API_WEIGHTAGE;
 }
 

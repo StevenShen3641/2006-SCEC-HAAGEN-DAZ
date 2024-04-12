@@ -1,22 +1,9 @@
 import calculateDistance from "../calculateMapDistance";
-import APICaller from "../../helperFunctions/APICaller";
-const apiCaller = new APICaller();
-const fetchAirValues = async () => {
-  try {
-    const AirData = await apiCaller.fetchAirReadings();
-    //console.log(AirData);
-    return AirData;
-  } catch (error) {
-    console.error("Error fetching Air values:", error);
-  }
-  fetchAirValues();
-};
-async function calculateAirTemp(location) {
+function calculateAirTemp(location, airData) {
   if(!location) throw new Error("Invalid location data!");
   try {
-    const AirData = await fetchAirValues();
-    const Airvalue = AirData.value;
-    const Aircoordinates = AirData.coordinates;
+    const Airvalue = airData.value;
+    const Aircoordinates = airData.coordinates;
     //console.log(AirData);
     //console.log(Aircoordinates);
     //console.log(Airvalue);

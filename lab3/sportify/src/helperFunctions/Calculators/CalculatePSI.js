@@ -1,19 +1,7 @@
 import calculateMapDistance from "../calculateMapDistance";
-import APICaller from "../../helperFunctions/APICaller";
-const apiCaller = new APICaller();
-const fetchPSIValues = async () => {
-  try {
-    const psiData = await apiCaller.fetchPSIReadings();
-    return psiData;
-  } catch (error) {
-    console.error("Error fetching PSI values:", error);
-  }
-  fetchPSIValues();
-};
-async function calculatePSI(location) {
+function calculatePSI(location, psiData) {
   if(!location) throw new Error("Invalid location data!");
   try {
-    const psiData = await fetchPSIValues();
     const PSIvalue = psiData.value;
     const PSIcoordinates = psiData.coordinates;
     let shortestDistance = Infinity;
