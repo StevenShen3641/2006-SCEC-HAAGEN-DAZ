@@ -1,7 +1,7 @@
 import APICaller from "../APICaller";
 import React, { useState, useEffect } from "react";
 
-async function CalculateDistance(displayData, ori, modes) {
+async function CalculateDistance(displayData, ori) {
   const apiCaller = new APICaller();
   const distances = {}
   let minDistance = Infinity;

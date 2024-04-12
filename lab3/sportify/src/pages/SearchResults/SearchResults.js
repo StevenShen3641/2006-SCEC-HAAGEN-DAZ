@@ -63,7 +63,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
               )
             );
           })}
-          {Object.keys(overallScores).length === 0 && <div>Loading...</div>}
+          {/* {Object.keys(overallScores).length === 0 && <div>Loading...</div>} */}
         </>
       </body>
     </>

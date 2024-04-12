@@ -30,7 +30,7 @@ const CalculateScores = async (displayData,ori)=>{
         }
     }
 
-return distanceScores;
+return overallScores;
 }
 
 
@@ -50,7 +50,7 @@ const CalculateWeatherScore = async (element, airData, psiData, rainfallData, UV
 const CalCulateDistanceScore = (distances,minDistance)=>{
     const scores ={};
     for (let placeID in distances){
-        scores[placeID] = Math.exp((minDistance - distances[placeID]) / minDistance / 50) * 100
+        scores[placeID] = Math.exp((minDistance - distances[placeID])/50000) * 100
     }
     return scores;
 }

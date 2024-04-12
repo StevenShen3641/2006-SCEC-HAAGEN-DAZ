@@ -31,8 +31,8 @@ class APICaller {
   }
 
   fetchDistance(ori, dest) {
-    const distance = calculateMapDistance(ori.lat, ori.lng, dest.lat, dest.lng)
-    return distance * 1000
+    const distance = calculateMapDistance(ori.lat, ori.lng, dest.lat, dest.lng) * 1000
+    return distance
   }
 
   //asynchronous function for fetch API data
