@@ -117,7 +117,7 @@ const MapResultPage = ({ ori, dest, modes }) => {
         className={`${styles.checkbox} gradual ${isVisible ? "visible" : ""}`}
       >
         <div className={styles.checkboxTitle}>
-          Route Display:&nbsp;&nbsp;&nbsp;&nbsp;
+          Route Display:&nbsp;&nbsp;&nbsp;
         </div>
         {walk && (
           <>
@@ -127,7 +127,7 @@ const MapResultPage = ({ ori, dest, modes }) => {
               checked={walkVisible}
               onChange={(e) => setWalkVisible(e.target.checked)}
             />
-            Walk&nbsp;&nbsp;
+            Walk&nbsp;&nbsp;<div className={styles.checkboxTitle}>&nbsp;</div>
           </>
         )}
         {car && (
@@ -138,7 +138,7 @@ const MapResultPage = ({ ori, dest, modes }) => {
               checked={carVisible}
               onChange={(e) => setCarVisible(e.target.checked)}
             />
-            Car&nbsp;&nbsp;
+            Car&nbsp;&nbsp;<div className={styles.checkboxTitle}>&nbsp;</div>
           </>
         )}
         {MB && (
@@ -149,7 +149,7 @@ const MapResultPage = ({ ori, dest, modes }) => {
               checked={MBVisible}
               onChange={(e) => setMBVisible(e.target.checked)}
             />
-            Motorbike&nbsp;&nbsp;
+            Motorbike&nbsp;&nbsp;<div className={styles.checkboxTitle}>&nbsp;</div>
           </>
         )}
         {PT && (

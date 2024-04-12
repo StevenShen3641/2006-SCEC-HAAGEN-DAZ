@@ -40,6 +40,7 @@
   justify-content: space-between;
   /* Centers items vertically */
   align-items: center;
+  margin-bottom: 1.7rem;
 }
 
 .menu {
@@ -105,7 +106,7 @@
   border-radius: 10px;
   overflow: hidden;
   margin-top: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.7rem;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
