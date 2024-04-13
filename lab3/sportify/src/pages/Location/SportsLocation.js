@@ -180,6 +180,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const setWeatherImage = (weatherForecast) => {
     switch(weatherForecast){
       case 'Partly Cloudy (Day)': return partlyCloudy;
+      case 'Partly Cloudy (Night)': return partlyCloudy;
       case 'Light Showers' : return lightShower;
       case 'Thundery Showers' : return thunderyShower;
       case 'Clear (Day)' : return clear;
@@ -280,8 +281,8 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                       },
                     ]}
                     options={{
-                      containerWidth: "200px",
-                      containerHeight: "200px",
+                      containerWidth: "300px",
+                      containerHeight: "300px",
                     }}
                   />
                   <div className={styles.ringBox}>

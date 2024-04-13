@@ -45,7 +45,7 @@
     border-bottom-right-radius: 0;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    min-height: 300px;
+    min-height: 400px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -99,7 +99,8 @@
     border: 1px;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     cursor: pointer;
-    margin-right: 10px;
+    /* margin-right: 10px; */
+    margin-bottom: 15px;
 }
 
 .button:hover {
@@ -108,7 +109,7 @@
 }
 
 .buttonBox {
-    display: flex;
+    /* display: flex; */
     margin-top: 10px;
     margin-left: 18px;
     text-align: left;
