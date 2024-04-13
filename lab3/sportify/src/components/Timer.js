@@ -7,7 +7,7 @@ function Timer ({timerDone}) {
     const [timerRunning, setTimerRunning] = useState(false);
 
         useEffect(()=>{
-            let timeLeft = 30; // 2 hours in seconds
+            let timeLeft = 7200; // 2 hours in seconds
 
             let timerInterval;
 
