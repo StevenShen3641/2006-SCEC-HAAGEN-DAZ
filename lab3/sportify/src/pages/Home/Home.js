@@ -1,15 +1,13 @@
 import "../../assets/App.css";
 import Data from "../../data/data2.csv";
 import React, { useState, useEffect, useContext } from "react";
-import { Link, createMemoryRouter, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchFilter from "./SearchFilter";
 import Map from "../../components/Map/Map";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import { CSVDataContext } from "../../contextProviders/CSVDataContext.js";
 import calculateDistance from "../../helperFunctions/calculateMapDistance.js";
-import { useLoadScript } from "@react-google-maps/api";
-import APICaller from "../../helperFunctions/APICaller.js";
 const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
