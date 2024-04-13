@@ -230,10 +230,10 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                         </span>
                       </p>
                       <p style={{ marginTop: "0px" }}>
-                        Weather:&nbsp;&nbsp;&nbsp;
-                        <span>
+                        Weather:&nbsp;
+                        {/* <span>{weatherForecast} &nbsp;&nbsp; */}
                           <img className={styles.weather} src={setWeatherImage(weatherForecast)} />
-                        </span>
+                        {/* </span> */}
                       </p>
                     </div>
                     <div>
@@ -244,14 +244,12 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                   </div>
                   <div className={styles.buttonBox}>
                     <Timer timerDone={handleTimerDone} ref = {timerRef} />
-                    <button className={styles.button} onClick={handleInClick}>{inButtonText}</button>
-                    <span>
+                    <button className={styles.button} style={{marginBottom: "15px"}} onClick={handleInClick}>{inButtonText}</button>
                           {(inButtonText != "Pre-Check-In")? (
-                            <button className={styles.button} onClick={handleOutClick}>{outButtonText}</button>
+                            <button className={styles.button} style={{marginBottom: "15px"}} onClick={handleOutClick}>{outButtonText}</button>
                           ) : (
                             <button className={styles.buttonCover} onClick={handleOutClick}>{}</button>
                           )}
-                    </span>
                   </div>
                 </div>
                 <div className={styles.ring}>
