@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { CSVDataContext } from "../../contextProviders/CSVDataContext.js";
 import styles from "../../assets/SportsLocation.module.css";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
@@ -28,11 +28,13 @@ import Timer from "../../components/Timer.js";
 import { ActivityRings } from "@jonasdoesthings/react-activity-rings";
 
 const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
+  const displayData = useLocation().state.displayData;
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
 
   const { id } = useParams();
   const { csvData, setCsvData } = useContext(CSVDataContext);
+  const navigate = useNavigate();
   const [locationData, setLocationData] = useState();
 
   const [airData, setAirData] = useState();
@@ -97,7 +99,6 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setPSIRatio(PSIValue / 200);
       setUVIRatio(UVIvalue / 11);
 
-      console.log(isVisible);
       // set the visibility to true after a delay to trigger the transition
       const timeout = setTimeout(() => {
         setIsVisible(true);
@@ -117,10 +118,8 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   };
 
   //Set User State Buttons
-  let initialValue = "Pre-Check-In";
-  let outText = "Pre-Check-Out";
-  const [inButtonText, setInButtonText] = useState(initialValue);
-  const [outButtonText, setOutButtonText] = useState(outText);
+  const [inButtonText, setInButtonText] = useState("Pre-Check-In");
+  const [outButtonText, setOutButtonText] = useState("Pre-Check-Out");
 
   const timerRef = useRef(null);
   const [timerStarted, setTimerStarted] = useState(false);
@@ -153,8 +152,22 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     }
   };
 
+  const handleReturn = () => {
+    navigate("/SearchResults", {
+      state: {
+        displayData: displayData,
+        travelModes: modes,
+        ori: ori,
+      },
+    });
+  };
+
   const handleOutClick = () => {
-    setInButtonText("Pre-Check-In");
+    if (inButtonText == "Check-In") {
+      setInButtonText("Pre-Check-In");
+    } else {
+      navigate("/");
+    }
   };
 
   const handleTimerDone = (result) => {
@@ -183,6 +196,15 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
         <TopNavBar buttonPopup={buttonPopup} setButtonPopup={setButtonPopup} />
       </header>
       <body>
+        <div className={styles.returnRow}>
+          <button
+            className={styles.button}
+            style={{ width: "100px" }}
+            onClick={handleReturn}
+          >
+            Return
+          </button>
+        </div>
         <div
           className={`${styles.Details} gradual ${isVisible ? "visible" : ""}`}
         >

@@ -79,6 +79,14 @@
     margin-bottom: 4px;
 }
 
+.returnRow {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.7rem;
+    text-align: left;
+}
+
 
 .button {
     width: 150px;
@@ -358,5 +366,8 @@
     }
     .checkboxTitle {
         display: none;
+    }
+    .returnRow {
+        width: 90%;
     }
 }

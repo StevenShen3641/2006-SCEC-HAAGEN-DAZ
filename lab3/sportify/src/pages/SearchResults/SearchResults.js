@@ -70,6 +70,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
                       state: {
                         travelModes: modes,
                         ori: ori,
+                        displayData: displayData,
                       },
                     });
                   }}
