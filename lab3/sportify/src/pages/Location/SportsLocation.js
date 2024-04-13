@@ -94,48 +94,44 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     return element;
   };
 
-
-
   //Set User State Buttons
   let initialValue = "Pre-Check-In";
-  let outText = "Pre-Check-Out"
-  const[inButtonText, setInButtonText] = useState(initialValue);
-  const[outButtonText,setOutButtonText] = useState(outText);
+  let outText = "Pre-Check-Out";
+  const [inButtonText, setInButtonText] = useState(initialValue);
+  const [outButtonText, setOutButtonText] = useState(outText);
 
   const timerRef = useRef(null);
   const [timerStarted, setTimerStarted] = useState(false);
 
-  const handleInClick =() =>{
-
-    if (!timerStarted){
-      if (timerRef.current){
+  const handleInClick = () => {
+    if (!timerStarted) {
+      if (timerRef.current) {
         timerRef.current.startTimer();
         setTimerStarted(true);
       }
     }
 
-    if (inButtonText == "Pre-Check-In"){
+    if (inButtonText == "Pre-Check-In") {
       setInButtonText("Check-In");
       setOutButtonText("Pre-Check-Out");
     }
 
-    if (inButtonText == "Check-In"){
+    if (inButtonText == "Check-In") {
       setInButtonText("Checked-In");
       setOutButtonText("Check-Out");
     }
+  };
 
-  }
-
-  const handleOutClick =() =>{
+  const handleOutClick = () => {
     setInButtonText("Pre-Check-In");
-  }
+  };
 
   const handTimerDone = (result) => {
-    if (result === 0){
+    if (result === 0) {
       setInButtonText("Pre-Check-In");
       setTimerStarted(false);
     }
-  }
+  };
 
   return locationData &&
     airTempRatio !== -1 &&
@@ -160,7 +156,13 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
           <div className={styles.sideRight}>
             <div className={styles.infoBox}>
               <p>Location: {locationData.Name}</p>
-              <p>Activities: {locationData.Sports}</p>
+              <p>
+                Activities:{" "}
+                {locationData.Sports.toLowerCase()
+                  .replace(/\(o\)/g, "(outdoor)")
+                  .replace(/\(i\)/g, "(indoor)")
+                  .replace("soccer", "football")}
+              </p>
               <div className={styles.content}>
                 <div>
                   <div className={styles.info}>
@@ -183,15 +185,25 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                     </div>
                   </div>
                   <div className={styles.buttonBox}>
-                    <Timer timerDone={handTimerDone} ref = {timerRef} />
-                    <button className={styles.button} onClick={handleInClick}>{inButtonText}</button>
-                    <span>
-                          {(inButtonText != "Pre-Check-In")? (
-                            <button className={styles.button} onClick={handleOutClick}>{outButtonText}</button>
-                          ) : (
-                            <button className={styles.buttonCover} onClick={handleOutClick}>{}</button>
-                          )}
-                    </span>
+                    <Timer timerDone={handTimerDone} ref={timerRef} />
+                    <button className={styles.button} onClick={handleInClick}>
+                      {inButtonText}
+                    </button>
+                    {inButtonText != "Pre-Check-In" ? (
+                      <button
+                        className={styles.button}
+                        onClick={handleOutClick}
+                      >
+                        {outButtonText}
+                      </button>
+                    ) : (
+                      <button
+                        className={styles.buttonCover}
+                        onClick={handleOutClick}
+                      >
+                        {}
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className={styles.ring}>

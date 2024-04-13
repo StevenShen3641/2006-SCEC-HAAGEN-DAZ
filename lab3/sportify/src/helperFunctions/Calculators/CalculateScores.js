@@ -42,7 +42,7 @@ const CalculateWeatherScore = async (element, airData, psiData, rainfallData, UV
     const rainFall = calculateRainfallAmount(element, rainfallData);
     const UVI = calculateUVI(element, UVIData);
     const sports = element["Sports"].toLowerCase()
-    if (sports.includes("(i)")) {
+    if (sports.includes("(indoor)")) {
         // no UVI and Rainfall
         return (CalculateAirTempScore(air_temp) * 0.15 + CalculatePSIScore(PSI) * 0.15 + 100 * 0.35 + 90 * 0.35)
     } else {

@@ -92,8 +92,7 @@
 
 .buttonBox {
     display: flex;
-    flex-direction: row;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-left: 18px;
     text-align: left;
 }

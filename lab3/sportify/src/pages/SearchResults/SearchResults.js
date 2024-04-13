@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, createMemoryRouter, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  createMemoryRouter,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import SearchEntry from "./SearchEntry";
 import addressGetter from "../../helperFunctions/addressGetter.js";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
@@ -22,18 +27,18 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
     }
   });
 
-  
   function sortByScore(a, b) {
     return b.score - a.score;
   }
+
+
 
   useEffect(() => {
     for (let i = 0; i < displayData.length; i++) {
       displayData[i]["score"] = overallScores[displayData[i]["index"]];
     }
-    displayData.sort(sortByScore)
+    displayData.sort(sortByScore);
   }, [overallScores]);
-
 
   useEffect(() => {
     CalculateScores(displayData, ori).then((result) => {

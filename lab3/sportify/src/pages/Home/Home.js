@@ -75,7 +75,13 @@ function Home({ buttonPopup, setButtonPopup }) {
         item["distanceFromCenter"] = distanceFromCenter;
         return distanceFromCenter <= sliderValue;
       });
-      // console.log(filtered);
+      for (let data of filtered) {
+        data["Sports"] = data["Sports"]
+          .toLowerCase()
+          .replace(/\(o\)/g, "(outdoor)")
+          .replace(/\(i\)/g, "(indoor)").replace("soccer", "football");
+      }
+      console.log(filtered);
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
