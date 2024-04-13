@@ -72,7 +72,7 @@
 }
 
 .button {
-    width: 125px;
+    width: 150px;
     font-size: 15px;
     font-weight: bold;
     text-align: center;
@@ -82,6 +82,7 @@
     border: 1px;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .button:hover {
@@ -90,9 +91,17 @@
 }
 
 .buttonBox {
+    display: flex;
+    flex-direction: row;
     margin-top: 15px;
     margin-left: 18px;
     text-align: left;
+}
+
+.buttonCover {
+    color: #EAE4DF;
+    background-color: #EAE4DF;
+    border : 0px;
 }
 
 .map {
