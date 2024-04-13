@@ -12,6 +12,7 @@ import calculateAirTemp from "../../helperFunctions/Calculators/CalculateAirTemp
 import calculateUVI from "../../helperFunctions/Calculators/CalculateUV.js";
 import calculatePSI from "../../helperFunctions/Calculators/CalculatePSI.js";
 
+
 import { ActivityRings } from "@jonasdoesthings/react-activity-rings";
 
 const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
@@ -93,6 +94,31 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     return element;
   };
 
+
+
+  //Set User State Buttons
+  let initialValue = "Pre-Check-In";
+  let outText = "Pre-Check-Out"
+  const[inButtonText, setInButtonText] = useState(initialValue);
+  const[outButtonText,setOutButtonText] = useState(outText);
+
+  const handleInClick =() =>{
+    if (inButtonText == "Pre-Check-In"){
+      setInButtonText("Check-In");
+      setOutButtonText("Pre-Check-Out");
+    }
+
+    if (inButtonText == "Check-In"){
+      setInButtonText("Checked-In");
+      setOutButtonText("Check-Out");
+    }
+  }
+
+
+  const handleOutClick =() =>{
+    setInButtonText("Pre-Check-In");
+  }
+
   return locationData &&
     airTempRatio !== -1 &&
     PSIRatio !== -1 &&
@@ -139,7 +165,14 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                     </div>
                   </div>
                   <div className={styles.buttonBox}>
-                    <button className={styles.button}>Pre-Check-In</button>
+                    <button className={styles.button} onClick={handleInClick}>{inButtonText}</button>
+                    <span>
+                          {(inButtonText != "Pre-Check-In")? (
+                            <button className={styles.button} onClick={handleOutClick}>{outButtonText}</button>
+                          ) : (
+                            <button className={styles.buttonCover} onClick={handleOutClick}>{}</button>
+                          )}
+                    </span>
                   </div>
                 </div>
                 <div className={styles.ring}>
