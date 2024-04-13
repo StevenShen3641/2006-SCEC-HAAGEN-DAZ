@@ -9,14 +9,13 @@ import MapResultPage from "../../components/Map/MapResultPage.js";
 import cross from "../../assets/images/cross.png";
 import check from "../../assets/images/check.png";
 
-//Import images for the weather 
+//Import images for the weather
 import clear from "../../assets/images/weather/clear.png";
-import partlyCloudy from "../../assets/images/weather/partlyCloudy.png"
-import lightShower from "../../assets/images/weather/lightShower.png"
-import thunderyShower from "../../assets/images/weather/thunderyShower.png"
-import Cloudy from "../../assets/images/weather/cloudy.png"
-import heavyThunderyShower from "../../assets/images/weather/heavyThunderyShower.png"
-
+import partlyCloudy from "../../assets/images/weather/partlyCloudy.png";
+import lightShower from "../../assets/images/weather/lightShower.png";
+import thunderyShower from "../../assets/images/weather/thunderyShower.png";
+import Cloudy from "../../assets/images/weather/cloudy.png";
+import heavyThunderyShower from "../../assets/images/weather/heavyThunderyShower.png";
 
 import calculateRainfallAmount from "../../helperFunctions/Calculators/CalculateRainfall.js";
 import calculateAirTemp from "../../helperFunctions/Calculators/CalculateAirTemp.js";
@@ -41,7 +40,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const [psiData, setpsiData] = useState();
   const [rainfallData, setRainfallData] = useState();
   const [UVIData, setUVIData] = useState(-1);
-  const[weatherData,setWeatherData] = useState();
+  const [weatherData, setWeatherData] = useState();
 
   useEffect(() => {
     if (csvData) {
@@ -68,12 +67,10 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     apiCaller.fetchUVIReadings().then((result) => {
       setUVIData(result);
     });
-    apiCaller.fetchWeatherReadings().then((result) =>{
+    apiCaller.fetchWeatherReadings().then((result) => {
       setWeatherData(result);
-    })
+    });
   }, []);
-
-
 
   const [airTemp, setAirTemp] = useState(null);
   const [PSIValue, setPSIValue] = useState(null);
@@ -93,7 +90,6 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setRainfallState(calculateRainfallAmount(locationData, rainfallData));
       setUVIvalue(calculateUVI(locationData, UVIData));
       setWeatherForecast(getWeatherReading(locationData, weatherData));
-      
 
       setAirTempRatio(airTemp / 33);
       setPSIRatio(PSIValue / 200);
@@ -107,7 +103,6 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     }
   });
 
-
   const ratioVerifier = (element) => {
     if (element > 1) {
       return 1;
@@ -116,18 +111,17 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     }
     return element;
   };
-
-  //Set User State Buttons
+  // set status
+  const [status, setStatus] = useState("Not Pre-Checked-In")
+  // set User State Buttons
   const [inButtonText, setInButtonText] = useState("Pre-Check-In");
   const [outButtonText, setOutButtonText] = useState("Pre-Check-Out");
-
   const timerRef = useRef(null);
   const [timerStarted, setTimerStarted] = useState(false);
 
-  const handleInClick =() =>{
-
-    if (!timerStarted){
-      if (timerRef.current){
+  const handleInClick = () => {
+    if (!timerStarted) {
+      if (timerRef.current) {
         timerRef.current.startTimer();
         setTimerStarted(true);
       }
@@ -136,12 +130,26 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     if (inButtonText == "Pre-Check-In") {
       setInButtonText("Check-In");
       setOutButtonText("Pre-Check-Out");
+      setStatus("Pre-Checked-In")
     }
 
-    if (inButtonText == "Check-In") {
+    else if (inButtonText == "Check-In") {
       setInButtonText("Playing");
       setOutButtonText("Check-Out");
+      setStatus("Checked-In")
     }
+
+    else if (inButtonText == "Playing") {
+      setInButtonText("Check-Out");
+      setOutButtonText("");
+      setStatus("Playing")
+    }
+
+    else if (inButtonText == "Check-Out") {
+      setInButtonText("Pre-Check-In");
+      setStatus("Not Pre-Checked-In")
+    }
+
   };
 
   const handleReturn = () => {
@@ -155,29 +163,34 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   };
 
   const handleOutClick = () => {
-    if (inButtonText == "Check-In") {
       setInButtonText("Pre-Check-In");
-    } else {
-      navigate("/");
-    }
+      setStatus("Not Pre-Checked-In")
   };
 
   const handleTimerDone = (result) => {
-    if (result === 0){
+    if (result === 0) {
       setInButtonText("Pre-Check-In");
+      setStatus("Not Pre-Checked-In")
       setTimerStarted(false);
     }
-  }
+  };
 
   const setWeatherImage = (weatherForecast) => {
-    switch(weatherForecast){
-      case 'Partly Cloudy (Day)': return partlyCloudy;
-      case 'Light Showers' : return lightShower;
-      case 'Thundery Showers' : return thunderyShower;
-      case 'Clear (Day)' : return clear;
-      default : return clear;
+    switch (weatherForecast) {
+      case "Partly Cloudy (Day)":
+        return partlyCloudy;
+      case "Partly Cloudy (Night)":
+        return partlyCloudy;
+      case "Light Showers":
+        return lightShower;
+      case "Thundery Showers":
+        return thunderyShower;
+      case "Clear (Day)":
+        return clear;
+      default:
+        return clear;
     }
-  }
+  };
 
   return locationData &&
     airTempRatio !== -1 &&
@@ -210,17 +223,14 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
           ></div>
           <div className={styles.sideRight}>
             <div className={styles.infoBox}>
-              <p>Location: {locationData.Name}</p>
-              <p>
-                Activities:{" "}
-                {locationData.Sports}
-              </p>
+              <p><span className="bold">Location:&nbsp; </span>{locationData.Name}</p>
+              <p><span className="bold">Activities:&nbsp; </span>{locationData.Sports}</p>
               <div className={styles.content}>
                 <div>
                   <div className={styles.info}>
                     <div className={styles.infoEntry}>
                       <p style={{ marginTop: "0px" }}>
-                        Rain:&nbsp;&nbsp;&nbsp;
+                      <span className="bold">Rain:&nbsp;&nbsp;</span>
                         <span>
                           {rainFallState ? (
                             <img className={styles.icon} src={check} />
@@ -230,26 +240,20 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                         </span>
                       </p>
                       <p style={{ marginTop: "0px" }}>
-                        Weather:&nbsp;
+                      <span className="bold">Weather:&nbsp;&nbsp;</span>
                         {/* <span>{weatherForecast} &nbsp;&nbsp; */}
-                          <img className={styles.weather} src={setWeatherImage(weatherForecast)} />
+                        <img
+                          className={styles.weather}
+                          src={setWeatherImage(weatherForecast)}
+                        />
                         {/* </span> */}
                       </p>
                     </div>
                     <div>
-                      <p>Pre-Check-In: 10</p>
-                      <p>Check-In: 12</p>
-                      <p>Playing: 15</p>
+                      <p><span className="bold">Pre-Check-In:&nbsp;&nbsp;</span>10</p>
+                      <p><span className="bold">Check-In:&nbsp;&nbsp;</span>12</p>
+                      <p><span className="bold">Playing:&nbsp;&nbsp;</span>15</p>
                     </div>
-                  </div>
-                  <div className={styles.buttonBox}>
-                    <Timer timerDone={handleTimerDone} ref = {timerRef} />
-                    <button className={styles.button} style={{marginBottom: "15px"}} onClick={handleInClick}>{inButtonText}</button>
-                          {(inButtonText != "Pre-Check-In")? (
-                            <button className={styles.button} style={{marginBottom: "15px"}} onClick={handleOutClick}>{outButtonText}</button>
-                          ) : (
-                            <button className={styles.buttonCover} onClick={handleOutClick}>{}</button>
-                          )}
                   </div>
                 </div>
                 <div className={styles.ring}>
@@ -287,6 +291,28 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className={styles.buttonStatus}>
+              <div className={styles.buttonBox}>
+                <Timer timerDone={handleTimerDone} ref={timerRef} />
+                {inButtonText && <button
+                  className={styles.button}
+                  style={{ marginBottom: "15px" }}
+                  onClick={handleInClick}
+                >
+                  {inButtonText}
+                </button>}
+                {inButtonText !== "Pre-Check-In" && outButtonText && (
+                  <button
+                    className={styles.button}
+                    style={{ marginBottom: "15px" }}
+                    onClick={handleOutClick}
+                  >
+                    {outButtonText}
+                  </button>
+                )}
+              </div>
+              <div className={styles.status}><u>Status:</u>&nbsp;&nbsp; {status}</div>
             </div>
           </div>
         </div>

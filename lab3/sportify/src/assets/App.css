@@ -18,6 +18,10 @@
 
 }
 
+.bold {
+  font-weight: 850;
+}
+
 .logo {
   /* Align the logo to the start (left) */
   align-self: flex-start;

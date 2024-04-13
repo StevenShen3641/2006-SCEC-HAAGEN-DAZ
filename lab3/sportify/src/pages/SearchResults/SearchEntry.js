@@ -27,16 +27,16 @@ const SearchEntry = function ({ locationKey, imageLink, nameOfLocation, addressG
             <div className={styles.sideLeft} style={{backgroundImage: `url(${imageLink})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
             <div className={styles.sideRight}>
                 <div className={styles.infoBox}>
-                    <p><span>Location: {nameOfLocation}</span></p>
-                    <p><span>Address: {address}</span></p>
-                    <p><span>Activities: {sports}</span></p>
-                    <p><span>Distance: {distanceFromCenter.toPrecision(4)}km from you</span></p>
-                    <p><span>Type: Free</span></p>
+                    <p><span><span className="bold">Location:&nbsp;&nbsp;</span>{nameOfLocation}</span></p>
+                    <p><span><span className="bold">Address:&nbsp;&nbsp;</span>{address}</span></p>
+                    <p><span><span className="bold">Activities:&nbsp;&nbsp;</span>{sports}</span></p>
+                    <p><span><span className="bold">Distance:&nbsp;&nbsp;</span>{distanceFromCenter.toPrecision(4)}km from you</span></p>
+                    <p></p>
                 </div>
                 <div className={styles.scorebox}>
                     <span>
                         <button className={styles.button} onClick={() => findOutMore(locationKey)}>Find out more</button>
-                        <h3>Score: {overallScores}</h3>
+                        <h3 style={{fontWeight: 700}}>Score:{overallScores}</h3>
                     </span>
                 </div>
             </div>

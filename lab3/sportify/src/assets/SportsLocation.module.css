@@ -18,6 +18,8 @@
 
 .ring{
     display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .ringBox {
@@ -54,6 +56,7 @@
     overflow: hidden;
 }
 
+
 .infoBox p {
     margin-left: 15px;
     margin-right: 15px;
@@ -61,14 +64,13 @@
     margin-bottom: 5px;
     padding: 5px;
     text-align: left;
-
 }
 
 
 .weather{
     vertical-align: middle;
-    width:30px;
-    height:30px;
+    width:25px;
+    height:25px;
     margin-bottom: 4px;
 }
 
@@ -76,7 +78,7 @@
     vertical-align: middle;
     width:18px;
     height:18px;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .returnRow {
@@ -112,6 +114,21 @@
     margin-top: 10px;
     margin-left: 18px;
     text-align: left;
+    flex-direction: column;
+}
+
+.buttonStatus {
+
+    display: flex;
+}
+
+.status {
+    margin-top: auto;
+    margin-bottom: auto;
+    
+    color: #EB5E28;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .buttonCover {

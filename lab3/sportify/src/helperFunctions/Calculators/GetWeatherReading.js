@@ -27,11 +27,8 @@ function getWeatherReading(location, weatherData) {
         }
       }
     //   const valuesArray = Object.reading(weatherValue);
-      console.log(weatherValue);
-      console.log(closestIndex);
       //console.log(valuesArray[closestIndex]);
       const weatherResult = weatherValue[closestIndex];
-      console.log(weatherResult);
       return weatherResult;
     } catch (error) {
       console.error("Error calculating Weather score:", error);
