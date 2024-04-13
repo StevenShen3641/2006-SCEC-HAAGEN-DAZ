@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { CSVDataContext } from "../../contextProviders/CSVDataContext.js";
 import styles from "../../assets/SportsLocation.module.css";
@@ -11,7 +11,7 @@ import calculateRainfallAmount from "../../helperFunctions/Calculators/Calculate
 import calculateAirTemp from "../../helperFunctions/Calculators/CalculateAirTemp.js";
 import calculateUVI from "../../helperFunctions/Calculators/CalculateUV.js";
 import calculatePSI from "../../helperFunctions/Calculators/CalculatePSI.js";
-
+import Timer from "../../components/Timer.js";
 
 import { ActivityRings } from "@jonasdoesthings/react-activity-rings";
 
@@ -102,7 +102,18 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const[inButtonText, setInButtonText] = useState(initialValue);
   const[outButtonText,setOutButtonText] = useState(outText);
 
+  const timerRef = useRef(null);
+  const [timerStarted, setTimerStarted] = useState(false);
+
   const handleInClick =() =>{
+
+    if (!timerStarted){
+      if (timerRef.current){
+        timerRef.current.startTimer();
+        setTimerStarted(true);
+      }
+    }
+
     if (inButtonText == "Pre-Check-In"){
       setInButtonText("Check-In");
       setOutButtonText("Pre-Check-Out");
@@ -112,11 +123,18 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setInButtonText("Checked-In");
       setOutButtonText("Check-Out");
     }
-  }
 
+  }
 
   const handleOutClick =() =>{
     setInButtonText("Pre-Check-In");
+  }
+
+  const handTimerDone = (result) => {
+    if (result === 0){
+      setInButtonText("Pre-Check-In");
+      setTimerStarted(false);
+    }
   }
 
   return locationData &&
@@ -165,6 +183,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                     </div>
                   </div>
                   <div className={styles.buttonBox}>
+                    <Timer timerDone={handTimerDone} ref = {timerRef} />
                     <button className={styles.button} onClick={handleInClick}>{inButtonText}</button>
                     <span>
                           {(inButtonText != "Pre-Check-In")? (
