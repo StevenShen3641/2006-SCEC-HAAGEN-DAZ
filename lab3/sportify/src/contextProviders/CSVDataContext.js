@@ -18,6 +18,12 @@ function CSVDataContextProvider({children}) {
         header: true,
         skipEmptyLines: true, 
       }).data;
+      for (let data of parsedData) {
+        data["Sports"] = data["Sports"]
+          .toLowerCase()
+          .replace(/\(o\)/g, "(outdoor)")
+          .replace(/\(i\)/g, "(indoor)").replace("soccer", "football");
+      }
       setCsvData(parsedData);
     };
     fetchData();

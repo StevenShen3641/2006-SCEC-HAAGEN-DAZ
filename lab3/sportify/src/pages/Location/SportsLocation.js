@@ -158,10 +158,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
               <p>Location: {locationData.Name}</p>
               <p>
                 Activities:{" "}
-                {locationData.Sports.toLowerCase()
-                  .replace(/\(o\)/g, "(outdoor)")
-                  .replace(/\(i\)/g, "(indoor)")
-                  .replace("soccer", "football")}
+                {locationData.Sports}
               </p>
               <div className={styles.content}>
                 <div>
