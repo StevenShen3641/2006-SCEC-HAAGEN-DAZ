@@ -143,6 +143,14 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setInButtonText("Playing");
       setOutButtonText("Check-Out");
     }
+
+    if (inButtonText== "Playing"){
+      setInButtonText("Check-Out");
+    }
+
+    if (inButtonText == "Check-Out"){
+      setInButtonText("Pre-Check-In");
+    }
   };
 
   const handleOutClick = () => {
@@ -224,7 +232,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                     <Timer timerDone={handleTimerDone} ref = {timerRef} />
                     <button className={styles.button} onClick={handleInClick}>{inButtonText}</button>
                     <span>
-                          {(inButtonText != "Pre-Check-In")? (
+                          {(inButtonText != "Pre-Check-In" && inButtonText != "Check-Out")? (
                             <button className={styles.button} onClick={handleOutClick}>{outButtonText}</button>
                           ) : (
                             <button className={styles.buttonCover} onClick={handleOutClick}>{}</button>
