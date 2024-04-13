@@ -91,7 +91,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setUVIvalue(calculateUVI(locationData, UVIData));
       setWeatherForecast(getWeatherReading(locationData, weatherData));
 
-      setAirTempRatio(airTemp / 33);
+      setAirTempRatio((airTemp - 5) / 35);
       setPSIRatio(PSIValue / 200);
       setUVIRatio(UVIvalue / 11);
 
@@ -286,7 +286,18 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                       Pollutant Standards Index: {PSIValue}
                     </p>
                     <p style={{ color: "#5DC9D2" }}>
-                      Ultraviolet index: {UVIvalue}
+                      Ultraviolet Index: {UVIvalue}
+                    </p>
+                  </div>
+                  <div className={styles.ringBoxReplace}>
+                    <p style={{ color: "#EB5E28" }}>
+                      Temp: {airTemp} &deg;C
+                    </p>
+                    <p style={{ color: "#606C38" }}>
+                      PSI: {PSIValue}
+                    </p>
+                    <p style={{ color: "#5DC9D2" }}>
+                      UVI: {UVIvalue}
                     </p>
                   </div>
                 </div>
