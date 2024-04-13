@@ -5,12 +5,24 @@ import styles from "../../assets/SportsLocation.module.css";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import APICaller from "../../helperFunctions/APICaller.js";
 import MapResultPage from "../../components/Map/MapResultPage.js";
+
 import cross from "../../assets/images/cross.png";
 import check from "../../assets/images/check.png";
+
+//Import images for the weather 
+import clear from "../../assets/images/weather/clear.png";
+import partlyCloudy from "../../assets/images/weather/partlyCloudy.png"
+import lightShower from "../../assets/images/weather/lightShower.png"
+import thunderyShower from "../../assets/images/weather/thunderyShower.png"
+import Cloudy from "../../assets/images/weather/cloudy.png"
+import heavyThunderyShower from "../../assets/images/weather/heavyThunderyShower.png"
+
+
 import calculateRainfallAmount from "../../helperFunctions/Calculators/CalculateRainfall.js";
 import calculateAirTemp from "../../helperFunctions/Calculators/CalculateAirTemp.js";
 import calculateUVI from "../../helperFunctions/Calculators/CalculateUV.js";
 import calculatePSI from "../../helperFunctions/Calculators/CalculatePSI.js";
+import getWeatherReading from "../../helperFunctions/Calculators/GetWeatherReading.js";
 import Timer from "../../components/Timer.js";
 
 import { ActivityRings } from "@jonasdoesthings/react-activity-rings";
@@ -27,6 +39,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const [psiData, setpsiData] = useState();
   const [rainfallData, setRainfallData] = useState();
   const [UVIData, setUVIData] = useState(-1);
+  const[weatherData,setWeatherData] = useState();
 
   useEffect(() => {
     if (csvData) {
@@ -53,7 +66,12 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     apiCaller.fetchUVIReadings().then((result) => {
       setUVIData(result);
     });
+    apiCaller.fetchWeatherReadings().then((result) =>{
+      setWeatherData(result);
+    })
   }, []);
+
+
 
   const [airTemp, setAirTemp] = useState(null);
   const [PSIValue, setPSIValue] = useState(null);
@@ -62,6 +80,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const [airTempRatio, setAirTempRatio] = useState(-1);
   const [PSIRatio, setPSIRatio] = useState(-1);
   const [UVIRatio, setUVIRatio] = useState(-1);
+  const [weatherForecast, setWeatherForecast] = useState(null);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -71,6 +90,8 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setPSIValue(calculatePSI(locationData, psiData));
       setRainfallState(calculateRainfallAmount(locationData, rainfallData));
       setUVIvalue(calculateUVI(locationData, UVIData));
+      setWeatherForecast(getWeatherReading(locationData, weatherData));
+      
 
       setAirTempRatio(airTemp / 33);
       setPSIRatio(PSIValue / 200);
@@ -84,6 +105,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       return () => clearTimeout(timeout);
     }
   });
+
 
   const ratioVerifier = (element) => {
     if (element > 1) {
@@ -103,9 +125,10 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const timerRef = useRef(null);
   const [timerStarted, setTimerStarted] = useState(false);
 
-  const handleInClick = () => {
-    if (!timerStarted) {
-      if (timerRef.current) {
+  const handleInClick =() =>{
+
+    if (!timerStarted){
+      if (timerRef.current){
         timerRef.current.startTimer();
         setTimerStarted(true);
       }
@@ -117,7 +140,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     }
 
     if (inButtonText == "Check-In") {
-      setInButtonText("Checked-In");
+      setInButtonText("Playing");
       setOutButtonText("Check-Out");
     }
   };
@@ -126,12 +149,22 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     setInButtonText("Pre-Check-In");
   };
 
-  const handTimerDone = (result) => {
-    if (result === 0) {
+  const handleTimerDone = (result) => {
+    if (result === 0){
       setInButtonText("Pre-Check-In");
       setTimerStarted(false);
     }
-  };
+  }
+
+  const setWeatherImage = (weatherForecast) => {
+    switch(weatherForecast){
+      case 'Partly Cloudy (Day)': return partlyCloudy;
+      case 'Light Showers' : return lightShower;
+      case 'Thundery Showers' : return thunderyShower;
+      case 'Clear (Day)' : return clear;
+      default : return clear;
+    }
+  }
 
   return locationData &&
     airTempRatio !== -1 &&
@@ -174,33 +207,29 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                           )}
                         </span>
                       </p>
-                      <p>Weather:</p>
+                      <p style={{ marginTop: "0px" }}>
+                        Weather:&nbsp;&nbsp;&nbsp;
+                        <span>
+                          <img className={styles.weather} src={setWeatherImage(weatherForecast)} />
+                        </span>
+                      </p>
                     </div>
                     <div>
                       <p>Pre-Check-In: 10</p>
                       <p>Check-In: 12</p>
+                      <p>Playing: 15</p>
                     </div>
                   </div>
                   <div className={styles.buttonBox}>
-                    <Timer timerDone={handTimerDone} ref={timerRef} />
-                    <button className={styles.button} onClick={handleInClick}>
-                      {inButtonText}
-                    </button>
-                    {inButtonText != "Pre-Check-In" ? (
-                      <button
-                        className={styles.button}
-                        onClick={handleOutClick}
-                      >
-                        {outButtonText}
-                      </button>
-                    ) : (
-                      <button
-                        className={styles.buttonCover}
-                        onClick={handleOutClick}
-                      >
-                        {}
-                      </button>
-                    )}
+                    <Timer timerDone={handleTimerDone} ref = {timerRef} />
+                    <button className={styles.button} onClick={handleInClick}>{inButtonText}</button>
+                    <span>
+                          {(inButtonText != "Pre-Check-In")? (
+                            <button className={styles.button} onClick={handleOutClick}>{outButtonText}</button>
+                          ) : (
+                            <button className={styles.buttonCover} onClick={handleOutClick}>{}</button>
+                          )}
+                    </span>
                   </div>
                 </div>
                 <div className={styles.ring}>
