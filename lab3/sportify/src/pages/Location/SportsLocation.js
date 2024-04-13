@@ -238,7 +238,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                         </span>
                       </p>
                       <p style={{ marginTop: "0px" }}>
-                        Weather:&nbsp;&nbsp;&nbsp;
+                        Weather: {weatherForecast} 
                         <span>
                           <img className={styles.weather} src={setWeatherImage(weatherForecast)} />
                         </span>
