@@ -2,7 +2,7 @@ import calculateDistance from "../calculateMapDistance";
 function getWeatherReading(location, weatherData) {
     if(!location) throw new Error("Invalid location data!");
     try {
-      const weatherValue = weatherData.reading;
+      const weatherValue = weatherData && weatherData.reading;
       const weatherCoordinates = weatherData.coordinates;
       //console.log(weatherData);
       //console.log(weatherCoordinates);
