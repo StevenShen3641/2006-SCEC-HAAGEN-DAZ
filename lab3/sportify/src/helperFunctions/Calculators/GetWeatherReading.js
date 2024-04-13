@@ -2,7 +2,7 @@ import calculateDistance from "../calculateMapDistance";
 function getWeatherReading(location, weatherData) {
     if(!location) throw new Error("Invalid location data!");
     try {
-      const weatherValue = weatherData.reading;
+      const weatherValue = weatherData && weatherData.reading;
       const weatherCoordinates = weatherData.coordinates;
       //console.log(weatherData);
       //console.log(weatherCoordinates);
@@ -27,11 +27,11 @@ function getWeatherReading(location, weatherData) {
         }
       }
     //   const valuesArray = Object.reading(weatherValue);
-      console.log(weatherValue);
-      console.log(closestIndex);
+    //   console.log(weatherValue);
+    //   console.log(closestIndex);
       //console.log(valuesArray[closestIndex]);
-      const weatherResult = weatherValue[closestIndex];
-      console.log(weatherResult);
+      const weatherResult = weatherValue && weatherValue[closestIndex];
+    //   console.log(weatherResult);
       return weatherResult;
     } catch (error) {
       console.error("Error calculating Weather score:", error);

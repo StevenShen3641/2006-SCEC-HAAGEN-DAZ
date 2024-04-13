@@ -1,8 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useImperativeHandle } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 
 
-function Timer ({timerDone}) {
+const Timer = forwardRef(({timerDone}, ref ) => {
 
     const [timerRunning, setTimerRunning] = useState(false);
 
@@ -11,7 +11,9 @@ function Timer ({timerDone}) {
 
             let timerInterval;
 
-            startTimer();
+            const startTimer = () => {
+                setTimerRunning(true);
+            };
 
             if (timerRunning){
                 timerInterval = setInterval(() => {
@@ -27,14 +29,17 @@ function Timer ({timerDone}) {
             }
 
             return () => clearInterval(timerInterval);
-        }, [timerDone]);
+        }, [timerDone, timerRunning]);
 
-        const startTimer = () => {
-            setTimerRunning(true);
-        };
+        useImperativeHandle(ref, () => ({
+
+            startTimer: () => {
+                setTimerRunning(true);
+            }
+        }));
 
         return null;
 
-}
+});
 
 export default Timer;
