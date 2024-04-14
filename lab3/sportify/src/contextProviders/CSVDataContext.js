@@ -18,28 +18,50 @@ function CSVDataContextProvider({ children }) {
         header: true,
         skipEmptyLines: true,
       }).data;
+      for (let data of parsedData) {
+        data["Sports"] = data["Sports"]
+          .toLowerCase()
+          .replace(/\(o\)/g, "(outdoor)")
+          .replace(/\(i\)/g, "(indoor)").replace("soccer", "football");
+        data["PreCheckIn"] = randomIntFromInterval(0,15);
+        data["CheckIn"] = randomIntFromInterval(0,15);
+        data["Playing"] = randomIntFromInterval(0,15);
+        
+      }
 
       setCsvData(parsedData);
     };
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (csvData) {
-      for (let data of csvData) {
-        if (data["Sports"]) {
-          data["Sports"] = data["Sports"]
-            .toLowerCase()
-            .replace(/\(o\)/g, " (outdoor)")
-            .replace(/\(i\)/g, " (indoor)")
-            .replace("soccer", "football");
-        }
-      }
-    }
-  }, [csvData]);
+
+const randomIntFromInterval= (min, max)=>{ // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+
+const incrementField = (locationID,field)=>{
+  const location = csvData[locationID];
+  location[field]++;
+  csvData[locationID] = location;
+  //csvData[locationID][field]++;     this also works!!
+  setCsvData(csvData);
+}
+
+const decrementField = (locationID,field)=>{
+  const location = csvData[locationID];
+  location[field]--;
+  csvData[locationID] = location;
+  //csvData[locationID][field]--;     this also works!!
+  setCsvData(csvData);
+}
+
 
   return (
-    <CSVDataContext.Provider value={{ csvData, setCsvData }}>
+    <CSVDataContext.Provider value={{ 
+      data: csvData,
+      incrementField: incrementField,
+      decrementField: decrementField}}>
       {children}
     </CSVDataContext.Provider>
   );

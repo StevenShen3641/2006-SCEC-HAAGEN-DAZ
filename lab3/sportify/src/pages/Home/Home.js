@@ -12,7 +12,8 @@ const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
-  const { csvData, setCsvData } = useContext(CSVDataContext);
+  const context = useContext(CSVDataContext);
+  const csvData = context.data;
   const navigate = useNavigate();
   const [infoWindow, setInfoWindow] = useState(true);
   const [address, setAddress] = useState("");
@@ -73,7 +74,7 @@ function Home({ buttonPopup, setButtonPopup }) {
         item["distanceFromCenter"] = distanceFromCenter;
         return distanceFromCenter <= sliderValue;
       });
-      console.log(filtered);
+      //console.log(filtered);
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
