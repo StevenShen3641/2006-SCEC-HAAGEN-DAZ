@@ -5,7 +5,6 @@ import styles from "../../assets/SportsLocation.module.css";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import APICaller from "../../helperFunctions/APICaller.js";
 import MapResultPage from "./MapResultPage.js";
-// import { useIncrementField,useDecrementField } from "../../contextProviders/DataManager.js";
 
 import cross from "../../assets/images/cross.png";
 import check from "../../assets/images/check.png";
