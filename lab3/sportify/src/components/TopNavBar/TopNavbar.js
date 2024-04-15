@@ -13,7 +13,10 @@ const TopNavBar = ({buttonPopup, setButtonPopup})=> {
             {" "}
             Home{" "}
           </Link>
-          <button className="contact-us" onClick={() => setButtonPopup(true)}>
+          <button className="help" onClick={() => setButtonPopup(1)}>
+            Help
+          </button>
+          <button className="contact-us" onClick={() => setButtonPopup(2)}>
             Contact Us
           </button>
           <PopupComponent
