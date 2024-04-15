@@ -31,8 +31,6 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
     return b.score - a.score;
   }
 
-
-
   useEffect(() => {
     for (let i = 0; i < displayData.length; i++) {
       displayData[i]["score"] = overallScores[displayData[i]["index"]];

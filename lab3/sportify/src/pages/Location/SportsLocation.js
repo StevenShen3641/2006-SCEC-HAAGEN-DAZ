@@ -5,7 +5,7 @@ import styles from "../../assets/SportsLocation.module.css";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import APICaller from "../../helperFunctions/APICaller.js";
 import MapResultPage from "./MapResultPage.js";
-import { useIncrementField,useDecrementField } from "../../contextProviders/DataManager.js";
+// import { useIncrementField,useDecrementField } from "../../contextProviders/DataManager.js";
 
 import cross from "../../assets/images/cross.png";
 import check from "../../assets/images/check.png";
@@ -33,7 +33,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const modes = useLocation().state.travelModes;
 
   const { id } = useParams();
-  const context= useContext(CSVDataContext);
+  const context = useContext(CSVDataContext);
   const csvData = context.data;
   const navigate = useNavigate();
   const [locationData, setLocationData] = useState();
@@ -44,14 +44,41 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const [UVIData, setUVIData] = useState(-1);
   const [weatherData, setWeatherData] = useState();
 
+  const statusObject = JSON.parse(localStorage.getItem("status"));
+
   useEffect(() => {
     if (csvData) {
-      setLocationData(
-        csvData[id]
-      );
+      setLocationData(csvData[id]);
     }
-  }, [csvData]);
+    if (locationData && statusObject) {
+      console.log(locationData)
+      const preCheckInFlag =
+        statusObject[locationData["index"]]["preCheckInFlag"];
+      const checkInFlag = statusObject[locationData["index"]]["checkInFlag"];
+      const playingFlag = statusObject[locationData["index"]]["playingFlag"];
+      // console.log(statusObject[locationData["index"]]);
+      if (preCheckInFlag) {
+        console.log(preCheckInFlag);
+        setStatus(userState.PRECHECKIN);
+        setInButtonText("Check-In");
+        setOutButtonText("Pre-Check-Out");
+      } else if (checkInFlag) {
+        setStatus(userState.CHECKIN);
+        setInButtonText("Playing");
+        setOutButtonText("Check-Out");
+      } else if (playingFlag) {
+        setStatus(userState.PLAYING);
+        setInButtonText(null);
+        setOutButtonText("Check-Out");
+      }
+    }
+  }, [csvData, statusObject, locationData]);
 
+  // useState(() => {
+  //   console.log(locationData);
+  //   if (locationData && statusObject) {
+  //   }
+  // }, [locationData]);
 
   // load all data from api
   const apiCaller = new APICaller();
@@ -113,16 +140,14 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     return element;
   };
 
-
-
   // set status
-  const userState = Object.freeze({ 
-    PRECHECKIN: 1, 
-    CHECKIN: 2, 
+  const userState = Object.freeze({
+    PRECHECKIN: 1,
+    CHECKIN: 2,
     PLAYING: 3,
-    DEFAULT: 0
-}); 
-  const [status, setStatus] = useState(userState.DEFAULT)
+    DEFAULT: 0,
+  });
+  const [status, setStatus] = useState(userState.DEFAULT);
   // set User State Buttons
   const [inButtonText, setInButtonText] = useState("Pre-Check-In");
   const [outButtonText, setOutButtonText] = useState(null);
@@ -138,36 +163,34 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
     }
 
     if (status === userState.DEFAULT) {
-
       setInButtonText("Check-In");
       setOutButtonText("Pre-Check-Out");
       setStatus(userState.PRECHECKIN);
-      context.incrementField(id,"PreCheckIn");
-      
-    }
-
-    else if (status === userState.PRECHECKIN) {
+      statusObject[locationData["index"]]["preCheckIn"] += 1;
+      statusObject[locationData["index"]]["preCheckInFlag"] = true;
+      localStorage.setItem("status", JSON.stringify(statusObject));
+    } else if (status === userState.PRECHECKIN) {
       setInButtonText("Playing");
       setOutButtonText("Check-Out");
       setStatus(userState.CHECKIN);
-      context.decrementField(id,"PreCheckIn");
-      context.incrementField(id,"CheckIn");
-      
-    }
-
-    else if (status === userState.CHECKIN) {
+      statusObject[locationData["index"]]["preCheckIn"] -= 1;
+      statusObject[locationData["index"]]["checkIn"] += 1;
+      statusObject[locationData["index"]]["preCheckInFlag"] = false;
+      statusObject[locationData["index"]]["checkInFlag"] = true;
+      localStorage.setItem("status", JSON.stringify(statusObject));
+    } else if (status === userState.CHECKIN) {
       setInButtonText(null);
       setOutButtonText("Check-Out");
       setStatus(userState.PLAYING);
-      context.decrementField(id,"CheckIn");
-      context.incrementField(id,"Playing");
-    }
+      statusObject[locationData["index"]]["checkIn"] -= 1;
+      statusObject[locationData["index"]]["playing"] += 1;
+      statusObject[locationData["index"]]["checkInFlag"] = false;
+      statusObject[locationData["index"]]["playingFlag"] = true;
 
-    else if (status === userState.PLAYING) {
+      localStorage.setItem("status", JSON.stringify(statusObject));
+    } else if (status === userState.PLAYING) {
       //technically not needed since user cannot press in button while at playing state
-      ;
     }
-
   };
 
   const handleReturn = () => {
@@ -183,37 +206,34 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   const handleOutClick = () => {
     if (status === userState.DEFAULT) {
       //technically not possible
-      ;
-    }
-
-    else if (status === userState.PRECHECKIN) {
+    } else if (status === userState.PRECHECKIN) {
       setInButtonText("Pre-Check-In");
       setOutButtonText(null);
       setStatus(userState.DEFAULT);
-      context.decrementField(id,"PreCheckIn");
-
-    }
-
-    else if (status === userState.CHECKIN) {
+      statusObject[locationData["index"]]["preCheckIn"] -= 1;
+      statusObject[locationData["index"]]["preCheckInFlag"] = false;
+      localStorage.setItem("status", JSON.stringify(statusObject));
+    } else if (status === userState.CHECKIN) {
       setInButtonText("Pre-Check-In");
       setOutButtonText(null);
       setStatus(userState.DEFAULT);
-      context.decrementField(id,"CheckIn");
-    }
-
-    else if (status === userState.PLAYING) {
+      statusObject[locationData["index"]]["checkIn"] -= 1;
+      statusObject[locationData["index"]]["checkInFlag"] = false;
+      localStorage.setItem("status", JSON.stringify(statusObject));
+    } else if (status === userState.PLAYING) {
       setInButtonText("Pre-Check-In");
       setOutButtonText(null);
       setStatus(userState.DEFAULT);
-      context.decrementField(id,"Playing");
+      statusObject[locationData["index"]]["playing"] -= 1;
+      statusObject[locationData["index"]]["playingFlag"] = false;
+      localStorage.setItem("status", JSON.stringify(statusObject));
     }
-
   };
 
   const handleTimerDone = (result) => {
     if (result === 0) {
       setInButtonText("Pre-Check-In");
-      setStatus("Not Pre-Checked-In")
+      setStatus("Not Pre-Checked-In");
       setTimerStarted(false);
     }
   };
@@ -236,6 +256,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
   };
 
   return locationData &&
+    statusObject &&
     airTempRatio !== -1 &&
     PSIRatio !== -1 &&
     UVIRatio !== -1 ? (
@@ -266,14 +287,20 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
           ></div>
           <div className={styles.sideRight}>
             <div className={styles.infoBox}>
-              <p><span className="bold">Location:&nbsp; </span>{locationData.Name}</p>
-              <p><span className="bold">Activities:&nbsp; </span>{locationData.Sports}</p>
+              <p>
+                <span className="bold">Location:&nbsp; </span>
+                {locationData.Name}
+              </p>
+              <p>
+                <span className="bold">Activities:&nbsp; </span>
+                {locationData.Sports}
+              </p>
               <div className={styles.content}>
                 <div>
                   <div className={styles.info}>
                     <div className={styles.infoEntry}>
                       <p style={{ marginTop: "0px" }}>
-                      <span className="bold">Rain:&nbsp;&nbsp;</span>
+                        <span className="bold">Rain:&nbsp;&nbsp;</span>
                         <span>
                           {rainFallState ? (
                             <img className={styles.icon} src={check} />
@@ -283,7 +310,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                         </span>
                       </p>
                       <p style={{ marginTop: "0px" }}>
-                      <span className="bold">Weather:&nbsp;&nbsp;</span>
+                        <span className="bold">Weather:&nbsp;&nbsp;</span>
                         {/* <span>{weatherForecast} &nbsp;&nbsp; */}
                         <img
                           className={styles.weather}
@@ -293,9 +320,18 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                       </p>
                     </div>
                     <div>
-                      <p><span className="bold">Pre-Check-In:&nbsp;&nbsp;</span>{locationData.PreCheckIn}</p>
-                      <p><span className="bold">Check-In:&nbsp;&nbsp;</span>{locationData.CheckIn}</p>
-                      <p><span className="bold">Playing:&nbsp;&nbsp;</span>{locationData.Playing}</p>
+                      <p>
+                        <span className="bold">Pre-Check-In:&nbsp;&nbsp;</span>
+                        {statusObject[locationData["index"]]["preCheckIn"]}
+                      </p>
+                      <p>
+                        <span className="bold">Check-In:&nbsp;&nbsp;</span>
+                        {statusObject[locationData["index"]]["checkIn"]}
+                      </p>
+                      <p>
+                        <span className="bold">Playing:&nbsp;&nbsp;</span>
+                        {statusObject[locationData["index"]]["playing"]}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -333,15 +369,9 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                     </p>
                   </div>
                   <div className={styles.ringBoxReplace}>
-                    <p style={{ color: "#EB5E28" }}>
-                      Temp: {airTemp} &deg;C
-                    </p>
-                    <p style={{ color: "#606C38" }}>
-                      PSI: {PSIValue}
-                    </p>
-                    <p style={{ color: "#5DC9D2" }}>
-                      UVI: {UVIvalue}
-                    </p>
+                    <p style={{ color: "#EB5E28" }}>Temp: {airTemp} &deg;C</p>
+                    <p style={{ color: "#606C38" }}>PSI: {PSIValue}</p>
+                    <p style={{ color: "#5DC9D2" }}>UVI: {UVIvalue}</p>
                   </div>
                 </div>
               </div>
@@ -349,13 +379,15 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
             <div className={styles.buttonStatus}>
               <div className={styles.buttonBox}>
                 <Timer timerDone={handleTimerDone} ref={timerRef} />
-                {inButtonText && <button
-                  className={styles.button}
-                  style={{ marginBottom: "15px" }}
-                  onClick={handleInClick}
-                >
-                  {inButtonText}
-                </button>}
+                {inButtonText && (
+                  <button
+                    className={styles.button}
+                    style={{ marginBottom: "15px" }}
+                    onClick={handleInClick}
+                  >
+                    {inButtonText}
+                  </button>
+                )}
                 {outButtonText && (
                   <button
                     className={styles.button}
@@ -366,18 +398,21 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                   </button>
                 )}
               </div>
-              <div className={styles.status}><u>Status:</u>&nbsp;&nbsp; {(()=>{
-                switch(status){
-                  case userState.DEFAULT:
-                    return "Not Pre-Checked In";
-                  case userState.PRECHECKIN:
-                    return "Pre-Checked In";
-                  case userState.CHECKIN:
-                    return "Checked In";
-                  case userState.PLAYING:
-                    return "Playing";
-                }})()
-              }</div>
+              <div className={styles.status}>
+                <u>Status:</u>&nbsp;&nbsp;{" "}
+                {(() => {
+                  switch (status) {
+                    case userState.DEFAULT:
+                      return "Not Pre-Checked In";
+                    case userState.PRECHECKIN:
+                      return "Pre-Checked In";
+                    case userState.CHECKIN:
+                      return "Checked In";
+                    case userState.PLAYING:
+                      return "Playing";
+                  }
+                })()}
+              </div>
             </div>
           </div>
         </div>

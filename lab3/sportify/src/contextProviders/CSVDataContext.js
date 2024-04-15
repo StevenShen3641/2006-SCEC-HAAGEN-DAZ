@@ -6,6 +6,57 @@ export const CSVDataContext = createContext();
 
 function CSVDataContextProvider({ children }) {
   const [csvData, setCsvData] = useState();
+  const userState = Object.freeze({
+    PRECHECKIN: 1,
+    CHECKIN: 2,
+    PLAYING: 3,
+    DEFAULT: 0,
+  });
+
+  let statusObject = localStorage.getItem("status")
+    ? JSON.parse(localStorage.getItem("status"))
+    : {};
+
+  function add(index) {
+    const status = {
+      preCheckIn: randomIntFromInterval(0, 15),
+      checkIn: randomIntFromInterval(0, 15),
+      playing: randomIntFromInterval(0, 15),
+      preCheckInFlag: false,
+      checkInFlag: false,
+      playingFlag: false,
+      status: userState.DEFAULT,
+    };
+    statusObject[index] = status;
+    localStorage.setItem("status", JSON.stringify(statusObject));
+  }
+
+  useEffect(() => {
+    // localStorage.setItem("status", "");
+    if (csvData) {
+      for (let i = 0; i < csvData.length; i++) {
+        if (!statusObject.hasOwnProperty(i)) {
+          add(i);
+        }
+      }
+      // console.log(statusObject);
+    }
+  }, [csvData]);
+
+  useEffect(() => {
+    if (csvData) {
+      for (let data of csvData) {
+        if (data["Sports"]) {
+          data["Sports"] = data["Sports"]
+            .toLowerCase()
+            .replace(/\(o\)/g, " (outdoor)")
+            .replace(/\(i\)/g, " (indoor)")
+            .replace("soccer", "football");
+        }
+      }
+      setCsvData(csvData);
+    }
+  }, [csvData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,50 +69,23 @@ function CSVDataContextProvider({ children }) {
         header: true,
         skipEmptyLines: true,
       }).data;
-      for (let data of parsedData) {
-        data["Sports"] = data["Sports"]
-          .toLowerCase()
-          .replace(/\(o\)/g, "(outdoor)")
-          .replace(/\(i\)/g, "(indoor)").replace("soccer", "football");
-        data["PreCheckIn"] = randomIntFromInterval(0,15);
-        data["CheckIn"] = randomIntFromInterval(0,15);
-        data["Playing"] = randomIntFromInterval(0,15);
-        
-      }
 
       setCsvData(parsedData);
     };
     fetchData();
   }, []);
 
-
-const randomIntFromInterval= (min, max)=>{ // min and max included 
+  const randomIntFromInterval = (min, max) => {
+    // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-
-const incrementField = (locationID,field)=>{
-  const location = csvData[locationID];
-  location[field]++;
-  csvData[locationID] = location;
-  //csvData[locationID][field]++;     this also works!!
-  setCsvData(csvData);
-}
-
-const decrementField = (locationID,field)=>{
-  const location = csvData[locationID];
-  location[field]--;
-  csvData[locationID] = location;
-  //csvData[locationID][field]--;     this also works!!
-  setCsvData(csvData);
-}
-
+  };
 
   return (
-    <CSVDataContext.Provider value={{ 
-      data: csvData,
-      incrementField: incrementField,
-      decrementField: decrementField}}>
+    <CSVDataContext.Provider
+      value={{
+        data: csvData,
+      }}
+    >
       {children}
     </CSVDataContext.Provider>
   );
