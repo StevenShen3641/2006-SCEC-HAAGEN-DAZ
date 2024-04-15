@@ -7,7 +7,7 @@ const Timer = forwardRef(({timerDone}, ref ) => {
     const [timerRunning, setTimerRunning] = useState(false);
 
         useEffect(()=>{
-            let timeLeft = 7200; // 2 hours in seconds
+            let timeLeft = 10; // 2 hours in seconds
 
             let timerInterval;
 

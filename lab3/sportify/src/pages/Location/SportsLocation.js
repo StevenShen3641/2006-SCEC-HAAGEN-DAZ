@@ -232,8 +232,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
 
   const handleTimerDone = (result) => {
     if (result === 0) {
-      setInButtonText("Pre-Check-In");
-      setStatus("Not Pre-Checked-In");
+      handleOutClick();
       setTimerStarted(false);
     }
   };
@@ -250,8 +249,10 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
         return thunderyShower;
       case "Clear (Day)":
         return clear;
+      case "Cloudy":
+        return Cloudy;
       default:
-        return clear;
+        return Cloudy;
     }
   };
 
