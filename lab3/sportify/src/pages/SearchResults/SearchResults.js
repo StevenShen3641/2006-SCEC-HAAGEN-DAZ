@@ -16,6 +16,7 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
+  const [sorted, setSorted] = useState(false);
   const [overallScores, setOverallScores] = useState({});
 
   // for Google Maps
@@ -26,17 +27,6 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       setIsLoaded(false);
     }
   });
-
-  function sortByScore(a, b) {
-    return b.score - a.score;
-  }
-
-  useEffect(() => {
-    for (let i = 0; i < displayData.length; i++) {
-      displayData[i]["score"] = overallScores[displayData[i]["index"]];
-    }
-    displayData.sort(sortByScore);
-  }, [overallScores]);
 
   useEffect(() => {
     CalculateScores(displayData, ori).then((result) => {
@@ -51,31 +41,39 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
       </header>
       <body>
         <>
-          {/* {distance != null && Object.keys(distances).length == displayData.length && */}
-          {displayData.map((location) => {
-            return (
-              Object.keys(overallScores).length !== 0 && (
-                <SearchEntry
-                  locationKey={location.index}
-                  imageLink={location.Images}
-                  nameOfLocation={location.Name}
-                  addressGetter={() => addressGetter(location.Y, location.X)}
-                  sports={location.Sports}
-                  distanceFromCenter={location.distanceFromCenter}
-                  overallScores={parseInt(overallScores[location.index])}
-                  findOutMore={(id) => {
-                    navigate(`/SportsLocation/${id}`, {
-                      state: {
-                        travelModes: modes,
-                        ori: ori,
-                        displayData: displayData,
-                      },
-                    });
-                  }}
-                ></SearchEntry>
-              )
-            );
-          })}
+          {displayData
+            .filter((location) =>
+              Object.keys(overallScores).includes(location.index)
+            )
+            .sort(
+              (a, b) =>
+                parseInt(overallScores[b.index]) -
+                parseInt(overallScores[a.index])
+            )
+            .map((location) => {
+              return (
+                Object.keys(overallScores).length !== 0 && (
+                  <SearchEntry
+                    locationKey={location.index}
+                    imageLink={location.Images}
+                    nameOfLocation={location.Name}
+                    addressGetter={() => addressGetter(location.Y, location.X)}
+                    sports={location.Sports}
+                    distanceFromCenter={location.distanceFromCenter}
+                    overallScores={parseInt(overallScores[location.index])}
+                    findOutMore={(id) => {
+                      navigate(`/SportsLocation/${id}`, {
+                        state: {
+                          travelModes: modes,
+                          ori: ori,
+                          displayData: displayData,
+                        },
+                      });
+                    }}
+                  ></SearchEntry>
+                )
+              );
+            })}
         </>
       </body>
     </>
