@@ -50,12 +50,11 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       setLocationData(csvData[id]);
     }
     if (locationData && statusObject) {
-      console.log(locationData)
+      console.log(locationData);
       const preCheckInFlag =
         statusObject[locationData["index"]]["preCheckInFlag"];
       const checkInFlag = statusObject[locationData["index"]]["checkInFlag"];
       const playingFlag = statusObject[locationData["index"]]["playingFlag"];
-      // console.log(statusObject[locationData["index"]]);
       if (preCheckInFlag) {
         console.log(preCheckInFlag);
         setStatus(userState.PRECHECKIN);
@@ -72,12 +71,6 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
       }
     }
   }, [csvData, statusObject, locationData]);
-
-  // useState(() => {
-  //   console.log(locationData);
-  //   if (locationData && statusObject) {
-  //   }
-  // }, [locationData]);
 
   // load all data from api
   const apiCaller = new APICaller();
@@ -188,7 +181,7 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
 
       localStorage.setItem("status", JSON.stringify(statusObject));
     } else if (status === userState.PLAYING) {
-      //technically not needed since user cannot press in button while at playing state
+      // technically not needed since user cannot press in button while at playing state
     }
   };
 
@@ -311,12 +304,10 @@ const SportsLocation = ({ buttonPopup, setButtonPopup }) => {
                       </p>
                       <p style={{ marginTop: "0px" }}>
                         <span className="bold">Weather:&nbsp;&nbsp;</span>
-                        {/* <span>{weatherForecast} &nbsp;&nbsp; */}
                         <img
                           className={styles.weather}
                           src={setWeatherImage(weatherForecast)}
                         />
-                        {/* </span> */}
                       </p>
                     </div>
                     <div>

@@ -1,5 +1,5 @@
 export function calculateMapDistance(lat1, lon1, lat2, lon2) {
-  if (!lat1 || !lat2 ||!lon1 ||!lon2) throw new Error("Invalid coordinates!")
+  if (!lat1 || !lat2 || !lon1 || !lon2) throw new Error("Invalid coordinates!");
   const R = 6371; // Radius of the Earth in km
   const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert degrees to radians
   const dLon = (lon2 - lon1) * (Math.PI / 180);

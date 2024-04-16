@@ -7,7 +7,7 @@ import calculateMapDistance from "./calculateMapDistance";
     console.log(read);
 */
 
-//public class
+// public class
 class APICaller {
   constructor() {
     // Base URL for the API
@@ -20,14 +20,11 @@ class APICaller {
     this.UVI_ENDPOINT = "/environment/uv-index";
     this.PSI_ENDPOINT = "/environment/psi";
 
-    //Date+Time in SGT
+    // Date+Time in SGT
     const currentDate = new Date();
     currentDate.setHours(currentDate.getHours() + 8);
     this.currentDateTimeFormatted = currentDate.toISOString().slice(0, 19);
     this.currentDateFormatted = currentDate.toISOString().slice(0, 10);
-    // console.log("Current Date-Time:", currentDate);
-    // console.log("Formatted Current Date-Time:", currentDateTimeFormatted);
-    // console.log("Formatted Current Date:", currentDateFormatted);
   }
 
   fetchDistance(ori, dest) {
@@ -35,14 +32,14 @@ class APICaller {
     return distance
   }
 
-  //asynchronous function for fetch API data
+  // asynchronous function for fetch API data
   async #fetchAPIReadings(url, endpoint, dateTime, date) {
-    //exception handling
+    // exception handling
     try {
       // pause function until completion/failure in fetching data
       // ${url}${endpoint}: construct the URL
       const response = await axios.get(`${url}${endpoint}`, {
-        //parameters
+        // parameters
         params: {
           date_time: dateTime,
           date: date,
@@ -55,11 +52,10 @@ class APICaller {
     }
   }
 
-  //readings in mm
+  // readings in mm
   async fetchRainfallReadings() {
     try {
-      //to check if time is constantly updating
-      // console.log("Time & Date:", this.currentDateTimeFormatted);
+      // to check if time is constantly updating
       this.data = await this.#fetchAPIReadings(
         this.BASE_URL,
         this.RAIN_ENDPOINT,
@@ -80,7 +76,6 @@ class APICaller {
         coordinates,
         values,
       };
-      // console.log("Rainfall readings:", raindata);
       return raindata;
     } catch (error) {
       console.error("Error fetching rainfall readings:", error);
@@ -109,7 +104,6 @@ class APICaller {
         coordinates,
         reading,
       };
-      // console.log("Weather Readings: ", weatherdata)
       return weatherdata;
     } catch (error) {
       console.error("Error fetching weather readings:", error);

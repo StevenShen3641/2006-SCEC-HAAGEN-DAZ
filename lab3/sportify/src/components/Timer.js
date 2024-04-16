@@ -1,45 +1,41 @@
-import React, { useImperativeHandle } from 'react';
-import { useState, useEffect, forwardRef } from 'react';
+import React, { useImperativeHandle } from "react";
+import { useState, useEffect, forwardRef } from "react";
 
+const Timer = forwardRef(({ timerDone }, ref) => {
+  const [timerRunning, setTimerRunning] = useState(false);
 
-const Timer = forwardRef(({timerDone}, ref ) => {
+  useEffect(() => {
+    let timeLeft = 10; // 2 hours in seconds
 
-    const [timerRunning, setTimerRunning] = useState(false);
+    let timerInterval;
 
-        useEffect(()=>{
-            let timeLeft = 10; // 2 hours in seconds
+    const startTimer = () => {
+      setTimerRunning(true);
+    };
 
-            let timerInterval;
+    if (timerRunning) {
+      timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        if (timeLeft === 0) {
+          clearInterval(timerInterval);
+          setTimerRunning(false);
+          timerDone(0);
+        }
+      }, 1000);
+    } else {
+      clearInterval(timerInterval);
+    }
 
-            const startTimer = () => {
-                setTimerRunning(true);
-            };
+    return () => clearInterval(timerInterval);
+  }, [timerDone, timerRunning]);
 
-            if (timerRunning){
-                timerInterval = setInterval(() => {
-                    timeLeft -= 1;
-                    if (timeLeft === 0){
-                        clearInterval(timerInterval);
-                        setTimerRunning(false);
-                        timerDone(0);
-                    }
-                }, 1000);
-            } else {
-                clearInterval(timerInterval);
-            }
+  useImperativeHandle(ref, () => ({
+    startTimer: () => {
+      setTimerRunning(true);
+    },
+  }));
 
-            return () => clearInterval(timerInterval);
-        }, [timerDone, timerRunning]);
-
-        useImperativeHandle(ref, () => ({
-
-            startTimer: () => {
-                setTimerRunning(true);
-            }
-        }));
-
-        return null;
-
+  return null;
 });
 
 export default Timer;

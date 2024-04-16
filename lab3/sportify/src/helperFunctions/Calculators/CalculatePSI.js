@@ -1,6 +1,6 @@
 import calculateMapDistance from "../calculateMapDistance";
 function calculatePSI(location, psiData) {
-  if(!location) throw new Error("Invalid location data!");
+  if (!location) throw new Error("Invalid location data!");
   try {
     const PSIvalue = psiData.value;
     const PSIcoordinates = psiData.coordinates;

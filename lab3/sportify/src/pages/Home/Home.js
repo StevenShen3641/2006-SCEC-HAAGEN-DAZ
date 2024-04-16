@@ -8,7 +8,6 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import TopNavBar from "../../components/TopNavBar/TopNavbar";
 import { CSVDataContext } from "../../contextProviders/CSVDataContext.js";
 import calculateDistance from "../../helperFunctions/calculateMapDistance.js";
-const libraries = ["places"];
 
 function Home({ buttonPopup, setButtonPopup }) {
   // initial value
@@ -78,61 +77,7 @@ function Home({ buttonPopup, setButtonPopup }) {
       setFilteredData(filtered);
     }
   }, [sliderValue, center, csvData]);
-  //console.log(center);
-  useEffect(() => {
-    //Here, to test calculators, to test using center, change location.y and location.x to location.lat and location.lng respectively in calculators
-    //Current implementation location.y and location.x is for filteredData/csvData iterations
-    {
-      /*const fetchPSIScore = async () => {
-      try {
-        const psiScore = calculatePSIScore(center);
-        console.log(psiScore);
-      } catch (error) {
-        console.error("Error fetching PSI score:", error);
-      }
-    };
-  fetchPSIScore();*/
-    }
-    {
-      /*const fetchRainfallScore = async () => {
-      try {
-        const RainfallScore = calculateRainfallScore(center);
-        console.log(RainfallScore);
-      } catch (error) {
-        console.error("Error fetching Rainfall score:", error);
-      }
-    };
-    fetchRainfallScore();
-  */
-    }
-    {
-      /*
-    const fetchUVIScore = async () => {
-      try {
-        const UVIScore = calculateUVIScore(center);
-        console.log(UVIScore);
-      } catch (error) {
-        console.error("Error fetching PSI score:", error);
-      }
-    };
-    fetchUVIScore();
-  });*/
-    }
-    // console.log([Walkvalue, Carvalue, PTvalue, MBvalue]);
-    {
-      /*
-    const fetchAirTempScore = async () => {
-      try {
-        const airTempScore = calculateAirScore(center);
-        console.log(airTempScore);
-      } catch (error) {
-        console.error("Error getting Air Temp Data:", error);
-      }
-    };
-    fetchAirTempScore();
-    */
-    }
-  });
+
   const modes = (() => {
     const transportModes = [];
     if (isLoaded) {
@@ -151,15 +96,6 @@ function Home({ buttonPopup, setButtonPopup }) {
       return transportModes;
     }
   })();
-  {
-    /* Use to check if filtering locations is working
-    useEffect(() => {
-      if (csvData && csvData.length > 0 && center && center.lat && center.lng) {
-        console.log(filteredData);
-      }
-    }, [filteredData, center, csvData]);
-  }*/
-  }
 
   return (
     <div className="App">

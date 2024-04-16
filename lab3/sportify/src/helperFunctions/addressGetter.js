@@ -20,8 +20,7 @@ async function addressGetter(lat, lng){
           return address;
         }
       } catch (error) {
-        // console.error('Error fetching API address ', error);
-        // throw error;
+        // console.log('Error fetching API address ', error);
       }
 }
 

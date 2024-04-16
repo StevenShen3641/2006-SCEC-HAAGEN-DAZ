@@ -87,7 +87,7 @@ const SearchBar = ({
   const [issueStyle, setIssueStyle] = useState(false);
   const [warning, setWarning] = useState("");
   function handleIssue() {
-    console.log(filteredData)
+    console.log(filteredData);
     if (!address) {
       setIssueStyle(true);
       setWarning("Please enter the location first!");
@@ -182,7 +182,14 @@ const SearchBar = ({
         </div>
         <div
           className={styles.button}
-          onClick={(address && showFilter && (PTvalue || Carvalue || Walkvalue || MBvalue) && filteredData.length !== 0) ? searchAction : handleIssue}
+          onClick={
+            address &&
+            showFilter &&
+            (PTvalue || Carvalue || Walkvalue || MBvalue) &&
+            filteredData.length !== 0
+              ? searchAction
+              : handleIssue
+          }
         >
           <img src={SearchIcon} alt="search"></img>
         </div>

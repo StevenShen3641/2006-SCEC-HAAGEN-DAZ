@@ -32,14 +32,12 @@ function CSVDataContextProvider({ children }) {
   }
 
   useEffect(() => {
-    // localStorage.setItem("status", "");
     if (csvData) {
       for (let i = 0; i < csvData.length; i++) {
         if (!statusObject.hasOwnProperty(i)) {
           add(i);
         }
       }
-      // console.log(statusObject);
     }
   }, [csvData]);
 
