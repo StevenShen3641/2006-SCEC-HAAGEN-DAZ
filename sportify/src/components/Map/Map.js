@@ -270,7 +270,7 @@ const Map = ({
 };
 
 //everything here is documentation
-Map.PropTypes = {
+Map.propTypes = {
   filteredData: PropTypes.array,
   /**
    * filteredData Array of Objects - containing the filtered list of locations
