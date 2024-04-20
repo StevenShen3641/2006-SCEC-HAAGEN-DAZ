@@ -8,6 +8,7 @@ import {
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import axios, * as others from "axios";
+import PropTypes from 'prop-types';
 
 async function getAddressForCoords(lat, lng) {
   try {
@@ -26,7 +27,12 @@ async function getAddressForCoords(lat, lng) {
     console.error("Fail to fetch address for geocode:", error);
   }
 }
-
+/***
+ * Component for showing google maps.
+ * 
+ * @component
+ * 
+ */
 const Map = ({
   filteredData,
   address,
@@ -262,5 +268,69 @@ const Map = ({
     </div>
   );
 };
+
+//everything here is documentation
+Map.PropTypes = {
+  filteredData: PropTypes.array,
+  /**
+   * filteredData Array of Objects - containing the filtered list of locations
+   */
+  address: PropTypes.string,
+  /**
+   * address String - the address in human readable form
+   */
+  center: PropTypes.object,
+  /**
+   * center object - containing 2 numbers which are the latitude and longitude coordinates
+   */
+  infoWindow:PropTypes.bool,
+  /**
+   * infoWindow Boolean - whether the info window is set or not
+   */
+  isLoaded:PropTypes.bool,
+  /**
+   * isLoaded Boolean - whether the map API is loaded or not
+   */
+  setInfoWindow:PropTypes.func,
+  /**
+   * setInfoWindow Function - react useState hook setter for infoWindow
+   */
+  sliderValue:PropTypes.number,
+  /**
+   * sliderValue Number - the value of the search radius to adjust the zoom
+   */
+  showFilter:PropTypes.bool,
+  /**
+   * showFilter Boolean - whether the search filter is showing or not
+   */
+  zoom:PropTypes.number,
+  /**
+   * zoom Function - the zoom value for the Map
+   */
+  circleRadius:PropTypes.number,
+  /**
+   * circleRadius number - the radius of the red circular overlay shape on top of the map
+   */
+  setZoom:PropTypes.func,
+  /**
+   * setZoom Function - react useState hook setter for zoom
+   */
+  setCenter:PropTypes.func,
+  /**
+   * setCenter Function - react useState hook setter for center
+   */
+  setCircleRadius:PropTypes.func,
+  /**
+   * setCircleRadius Function - react useState hook setter for circleRadius
+   */
+  setFilteredData:PropTypes.func,
+  /**
+   * setFilteredData Function - react useState hook setter for filteredData
+   */
+  setSliderValue:PropTypes.func,
+  /**
+   * setSliderValue Function - react useState hook setter for sliderValue
+   */
+}
 
 export default Map;
