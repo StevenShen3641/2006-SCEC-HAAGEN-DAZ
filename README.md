@@ -49,7 +49,10 @@ The project directory is under the [./sportify](./sportify) folder. In order to 
 
 ## Contributors
 
-<a href="https://github.com/softwarelab3/2006-SCEC-Haagen-Daz/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=softwarelab3/2006-SCEC-Haagen-Daz" />
-</a>
+
+- [@GeneralR3d](https://github.com/GeneralR3d)
+- [@EnderturtleOrz](https://github.com/randallctc)
+- [@StevenShen3641](https://github.com/StevenShen3641)
+- [@potatopotati](https://github.com/potatopotati)
+- [@nk714-sd](https://github.com/nk714-sd)
 
