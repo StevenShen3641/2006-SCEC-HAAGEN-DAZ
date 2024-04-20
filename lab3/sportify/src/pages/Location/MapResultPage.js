@@ -1,8 +1,5 @@
 import styles from "../../assets/SportsLocation.module.css";
-import {
-  GoogleMap,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
+import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
 const MapResultPage = ({ ori, dest, modes }) => {
@@ -149,7 +146,8 @@ const MapResultPage = ({ ori, dest, modes }) => {
               checked={MBVisible}
               onChange={(e) => setMBVisible(e.target.checked)}
             />
-            Motorbike&nbsp;&nbsp;<div className={styles.checkboxTitle}>&nbsp;</div>
+            Motorbike&nbsp;&nbsp;
+            <div className={styles.checkboxTitle}>&nbsp;</div>
           </>
         )}
         {PT && (

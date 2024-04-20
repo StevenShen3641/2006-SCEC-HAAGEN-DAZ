@@ -5,7 +5,7 @@ import styles from "../../assets/Popup.module.css";
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 
 const PopupComponent = ({ topNavState, buttonPopup, setButtonPopup }) => {
-  const fb = doc(db, "feedback", "feedback");
+  const fb = doc(db, "Sportify", "feedback");
   const [inputValue, setInputValue] = useState("");
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);

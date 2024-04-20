@@ -57,7 +57,7 @@
   border: 2px solid hsl(214, 16%, 92%);
   padding: 5px;
   background-color: hsl(214, 16%, 92%);
-  width: 300px;
+  width: 350px;
   margin-bottom: 10px;
   border-radius: 10px;
   font-size: 15px;
@@ -68,7 +68,7 @@
   padding: 7px;
   background-color: hsl(214, 16%, 92%);
   resize: none;
-  width: 300px;
+  width: 350px;
   height: 300px;
   border-radius: 10px;
   font-size: 15px;

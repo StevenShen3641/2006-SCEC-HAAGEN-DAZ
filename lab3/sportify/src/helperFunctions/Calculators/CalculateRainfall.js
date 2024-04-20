@@ -1,12 +1,9 @@
 import calculateDistance from "../calculateMapDistance";
 function calculateRainfallAmount(location, rainfallData) {
-  if(!location) throw new Error("Invalid location data!");
+  if (!location) throw new Error("Invalid location data!");
   try {
     const rainfallvalue = rainfallData.values;
     const rainfallcoordinates = rainfallData.coordinates;
-    //console.log(RainfallData);
-    //console.log(Rainfallcoordinates);
-    //console.log(Rainfallvalue);
     let shortestDistance = Infinity;
     let closestIndex = -1;
     if (!rainfallcoordinates || Array.isArray(rainfallcoordinates)) {
@@ -20,7 +17,6 @@ function calculateRainfallAmount(location, rainfallData) {
         location.Y,
         location.X
       );
-      //console.log(distance);
       if (distance < shortestDistance) {
         shortestDistance = distance;
         closestIndex = i;

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Link,
-  createMemoryRouter,
   useLocation,
   useNavigate,
 } from "react-router-dom";
@@ -16,7 +14,6 @@ const SearchResults = ({ buttonPopup, setButtonPopup }) => {
   const ori = useLocation().state.ori;
   const modes = useLocation().state.travelModes;
   const [isLoaded, setIsLoaded] = useState(false);
-  const [sorted, setSorted] = useState(false);
   const [overallScores, setOverallScores] = useState({});
 
   // for Google Maps
