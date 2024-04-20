@@ -1,5 +1,9 @@
 # Sportify
 
+<img src="./sportify/public/logo.png" align="left">
+
+## Screenshot
+
 ![](./sportify/public/post.png)
 
 ## Project Description
