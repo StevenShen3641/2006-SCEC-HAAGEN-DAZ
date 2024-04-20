@@ -1,2 +1,7 @@
-# 2006-SCEC-Haagen-Daz
-Kindly convert all your .doc, .png.etc to .pdf, .jpeg before submitting
+# Sportify
+
+![](.\sportify\public\post.png)
+
+## Project Description
+
+## Set Up Instruction
