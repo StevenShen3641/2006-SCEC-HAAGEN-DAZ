@@ -21,19 +21,27 @@ The project directory is under the [./sportify](./sportify) folder. In order to 
 
 1. Clone the repository:
 
-   `git clone https://github.com/keenlim/SC2006-Project.git`
+   ```powershell
+   git clone https://github.com/keenlim/SC2006-Project.git
+   ```
 
 2. Go to the project directory:
 
-   `cd sportify`
+   ```powershell
+   cd sportify
+   ```
 
 3. Install dependencies (need to force installation):
 
-   `npm install --force`
+   ```powershell
+   npm install --force
+   ```
 
 4. Start the app in the development mode:
 
-   `npm start`
+   ```powershell
+   npm start
+   ```
 
 ## Web App Demo
 
@@ -42,7 +50,7 @@ The project directory is under the [./sportify](./sportify) folder. In order to 
 ## Contributors
 
 ```html
-<a href="https://github.com/OWNER/REPO/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=OWNER/REPO" />
+<a href="https://github.com/softwarelab3/2006-SCEC-Haagen-Daz/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=softwarelab3/2006-SCEC-Haagen-Daz" />
 </a>
 ```
