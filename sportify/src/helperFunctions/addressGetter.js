@@ -3,7 +3,7 @@ import axios from 'axios'; //for making HTTP request in JS
 async function addressGetter(lat, lng){
 
     const URL_HEADER = 'https://maps.googleapis.com/maps/api/geocode/json'
-    const API_KEY = "AIzaSyBksScsByRu_iyIx4pJ9Xf9et3FjB_wBBs";
+    const API_KEY = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
     const RESULT_TYPES = ["park","establishment","point_of_interest","premise"]
 
     try {

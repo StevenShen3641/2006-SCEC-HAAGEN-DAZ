@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 async function getAddressForCoords(lat, lng) {
   try {
     const response = await axios.get(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBksScsByRu_iyIx4pJ9Xf9et3FjB_wBBs`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
     );
 
     const data = response.data;
