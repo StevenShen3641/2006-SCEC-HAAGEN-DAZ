@@ -1,6 +1,6 @@
 # Sportify
 
-<img src="./sportify/public/logo.png" align="left">
+![](./sportify/public/logo.png#pic_left)
 
 ## Screenshot
 
