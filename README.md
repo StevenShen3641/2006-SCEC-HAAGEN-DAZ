@@ -51,7 +51,7 @@ The project directory is under the [./sportify](./sportify) folder. In order to 
 
 
 - [@GeneralR3d](https://github.com/GeneralR3d)
-- [@EnderturtleOrz](https://github.com/randallctc)
+- [@randallctc](https://github.com/randallctc)
 - [@StevenShen3641](https://github.com/StevenShen3641)
 - [@potatopotati](https://github.com/potatopotati)
 - [@nk714-sd](https://github.com/nk714-sd)
