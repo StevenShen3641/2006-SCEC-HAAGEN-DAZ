@@ -59,7 +59,7 @@ In order to run the project, you need to run the following commands:
 1. Clone the repository:
 
    ```powershell
-   git clone https://github.com/keenlim/SC2006-Project.git
+   git clone https://github.com/StevenShen3641/2006-SCEC-HAAGEN-DAZ
    ```
 
 2. Go to the project directory:
